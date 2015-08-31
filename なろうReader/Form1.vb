@@ -26,7 +26,7 @@ Public Class Form1
 
         If startpage.Length = 0 Then startpage = homeUrl
         loadURL(startpage)
-
+        TextBox1.HideSelection = False
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
@@ -36,6 +36,7 @@ Public Class Form1
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
         ProgressBar1.Hide()
         Dim content As HtmlElement = Nothing
+        Dim wtitle As HtmlElement = Nothing
         Dim origHtml = ""
         title = ""
         chapter = ""
@@ -64,7 +65,21 @@ Public Class Form1
         stopbouyomi()
         'Try
         Dim Doc As HtmlDocument = WebBrowser1.Document
-        content = Doc.GetElementById("novel_honbun")
+        wtitle = Doc.GetElementById("writting_title")
+        If wtitle IsNot Nothing Then
+            title = wtitle.InnerText + ControlChars.NewLine
+            Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("div")
+            For Each el As HtmlElement In divs
+                If el.GetAttribute("className") = "writtingnovel novel" Then
+                    content = el
+                    Exit For
+                End If
+            Next
+
+        Else
+            content = Doc.GetElementById("novel_honbun")
+        End If
+        'content = Doc.GetElementById("novel_honbun")
         If content IsNot Nothing Then
             origHtml = content.InnerHtml
             Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
@@ -115,7 +130,7 @@ Public Class Form1
                     Dim rtcol As HtmlElementCollection = elem.GetElementsByTagName("RT")
                     For Each yomi As HtmlElement In rtcol
                         'ルビが傍点か読み仮名か調べる
-                        If Regex.IsMatch(yomi.InnerText, "[^,.、。．・]") Then
+                        If Regex.IsMatch(yomi.InnerText, "[^, .、。．・]") Then
                             isBouten = False
                         End If
                         yomiText = yomiText + yomi.InnerText
@@ -145,8 +160,6 @@ Public Class Form1
         'End Try
         TextBox1.Text = honbun
         If honbun.Length > 0 Then
-
-            TextBox1.Select()
             TextBox1.SelectionStart = 0
             TextBox1.SelectionLength = 0
             TextBox1.Select(start, 0)
