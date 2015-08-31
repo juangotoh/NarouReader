@@ -3,7 +3,9 @@ Imports System.Net.Sockets
 Imports System.Text.RegularExpressions
 
 Public Class Form1
+    Dim myTitle = Me.Text
     Dim reading As Boolean = False
+    Dim firstRead As Boolean = True
     Dim title As String = ""
     Dim chapter As String = ""
     Dim subtitle As String = ""
@@ -15,7 +17,9 @@ Public Class Form1
     Dim oldStart As Int32
     Dim bouyomiError As Boolean = False
     Dim homeUrl As String = "http://syosetu.com/"
+    Dim myDialogOK As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        myTitle = Me.Text
         bouyomicheck()
         Me.ClientSize = My.Settings.MyClientSize
         startpage = My.Settings.LastUrl
@@ -27,6 +31,7 @@ Public Class Form1
         If startpage.Length = 0 Then startpage = homeUrl
         loadURL(startpage)
         TextBox1.HideSelection = False
+        TextBox1.Font = My.Settings.myFont
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
@@ -35,9 +40,11 @@ Public Class Form1
 
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
         ProgressBar1.Hide()
+
         Dim content As HtmlElement = Nothing
         Dim wtitle As HtmlElement = Nothing
         Dim origHtml = ""
+        Dim pageTitle As String = ""
         title = ""
         chapter = ""
         subtitle = ""
@@ -65,6 +72,8 @@ Public Class Form1
         stopbouyomi()
         'Try
         Dim Doc As HtmlDocument = WebBrowser1.Document
+        pageTitle = Doc.Title
+        Me.Text = myTitle + " - " + pageTitle
         wtitle = Doc.GetElementById("writting_title")
         If wtitle IsNot Nothing Then
             title = wtitle.InnerText + ControlChars.NewLine
@@ -167,30 +176,55 @@ Public Class Form1
             'start = 0
             'length = 0
 
+            If My.Settings.autoRead Then
+                Timer1.Interval = 100
+                Timer1.Start()
+            Else
+                Timer1.Stop()
+            End If
 
-            Timer1.Interval = 100
-            Timer1.Start()
         End If
         ProgressBar1.Hide()
     End Sub
     Private Sub bouyomicheck()
-        Dim iCommand As Int16 = 288
-        Dim iResult As Byte = 0
-        Dim sHost As String = "127.0.0.1"
-        Dim port As Integer = 50001
-        Dim tc As TcpClient
-        Try
-            tc = New TcpClient(sHost, port)
-            Dim ns = tc.GetStream()
-            Dim bw As BinaryWriter = New BinaryWriter(ns)
-            Dim br As BinaryReader = New BinaryReader(bw.BaseStream)
-            bw.Write(iCommand)
+        If Not System.IO.File.Exists(My.Settings.bouyomiPath) Then
+            MessageBox.Show("棒読みちゃんの場所を設定してください", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            doSetting()
+        End If
+        Dim ps As System.Diagnostics.Process() = System.Diagnostics.Process.GetProcesses()
+        Dim bouyomiAlready As Boolean = False
+        For Each p As System.Diagnostics.Process In ps
+            Try
 
-            iResult = br.ReadByte()
-            tc.Close()
-        Catch ex As Exception
-            MessageBox.Show("棒読みちゃんが起動していないため、読み上げができません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+                If p.MainModule.FileName = My.Settings.bouyomiPath Then
+                    bouyomiAlready = True
+                    Exit For
+                End If
+            Catch ex As Exception
+
+            End Try
+        Next
+        If My.Settings.bouyomiPath.Length > 0 And Not bouyomiAlready Then
+            System.Diagnostics.Process.Start(My.Settings.bouyomiPath)
+        End If
+
+        'Dim iCommand As Int16 = 288
+        'Dim iResult As Byte = 0
+        'Dim sHost As String = "127.0.0.1"
+        'Dim port As Integer = 50001
+        'Dim tc As TcpClient
+        'Try
+        '    tc = New TcpClient(sHost, port)
+        '    Dim ns = tc.GetStream()
+        '    Dim bw As BinaryWriter = New BinaryWriter(ns)
+        '    Dim br As BinaryReader = New BinaryReader(bw.BaseStream)
+        '    bw.Write(iCommand)
+
+        '    iResult = br.ReadByte()
+        '    tc.Close()
+        'Catch ex As Exception
+        '    MessageBox.Show("棒読みちゃんが起動していないため、読み上げができません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        'End Try
 
     End Sub
     Private Sub bouyomi(str As String)
@@ -220,7 +254,12 @@ Public Class Form1
             bw.Write(bMessage)
             tc.Close()
         Catch ex As Exception
-            'MessageBox.Show("棒読みちゃんと通信できません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If firstRead Then
+                firstRead = False
+                MessageBox.Show("棒読みちゃんが起動していないため、読み上げ機能が使えません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                bouyomicheck()
+            End If
+
         End Try
     End Sub
     Private Sub stopbouyomi()
@@ -337,7 +376,7 @@ Public Class Form1
         If start >= TextBox1.Text.Length Then
             Timer1.Stop()
             Dim nexturl As String = nextStory
-            If nextStory.Length > 0 Then
+            If nextStory.Length > 0 And My.Settings.autoNext Then
                 loadURL(nextStory)
             Else
                 start = TextBox1.Text.Length
@@ -351,6 +390,7 @@ Public Class Form1
         My.Settings.MyClientSize = Me.ClientSize
         My.Settings.LastUrl = TextBox_url.Text
         My.Settings.LastSelection = start
+        My.Settings.myFont = TextBox1.Font
     End Sub
     Private Sub loadURL(url As String)
         TextBox_url.Text = url
@@ -393,6 +433,14 @@ Public Class Form1
     Private Sub Button_home_Click(sender As Object, e As EventArgs) Handles Button_home.Click
         WebBrowser1.Navigate(homeUrl)
     End Sub
-
-
+    Private Sub doSetting()
+        Form2.Show()
+        If myDialogOK Then
+            myDialogOK = False
+            TextBox1.Font = My.Settings.myFont
+        End If
+    End Sub
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button_Setting.Click
+        doSetting()
+    End Sub
 End Class

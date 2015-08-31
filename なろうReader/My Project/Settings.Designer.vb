@@ -101,6 +101,66 @@ Namespace My
                 Me("LastSelection") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property autoRead() As Boolean
+            Get
+                Return CType(Me("autoRead"),Boolean)
+            End Get
+            Set
+                Me("autoRead") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property autoNext() As Boolean
+            Get
+                Return CType(Me("autoNext"),Boolean)
+            End Get
+            Set
+                Me("autoNext") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("MS UI Gothic, 12pt")>  _
+        Public Property myFont() As Global.System.Drawing.Font
+            Get
+                Return CType(Me("myFont"),Global.System.Drawing.Font)
+            End Get
+            Set
+                Me("myFont") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property bouyomiPath() As String
+            Get
+                Return CType(Me("bouyomiPath"),String)
+            End Get
+            Set
+                Me("bouyomiPath") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0, 0")>  _
+        Public Property SettingLocation() As Global.System.Drawing.Point
+            Get
+                Return CType(Me("SettingLocation"),Global.System.Drawing.Point)
+            End Get
+            Set
+                Me("SettingLocation") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
