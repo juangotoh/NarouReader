@@ -1,9 +1,8 @@
 ﻿Imports System.IO
 Imports System.Net.Sockets
+Imports System.Text.RegularExpressions
 
 Public Class Form1
-    Private objSck As New System.Net.Sockets.TcpClient
-    Private objStm As System.Net.Sockets.NetworkStream
     Dim reading As Boolean = False
     Dim title As String = ""
     Dim chapter As String = ""
@@ -23,10 +22,8 @@ Public Class Form1
         start = My.Settings.LastSelection
         length = 0
         oldStart = 0
-        'objSck.Connect("127.0.0.1", 50001)
-        'objStm = objSck.GetStream()
         WebBrowser1.ScriptErrorsSuppressed = True
-        'WebBrowser1.Navigate("http://syosetu.com/")
+
         If startpage.Length = 0 Then startpage = homeUrl
         loadURL(startpage)
 
@@ -65,16 +62,16 @@ Public Class Form1
             Button_Forward.Enabled = False
         End If
         stopbouyomi()
-        'TextBox_url.Text = e.Url.ToString
-        Try
-            Dim Doc As HtmlDocument = WebBrowser1.Document
-
+        'Try
+        Dim Doc As HtmlDocument = WebBrowser1.Document
+        content = Doc.GetElementById("novel_honbun")
+        If content IsNot Nothing Then
+            origHtml = content.InnerHtml
             Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
             For Each el As HtmlElement In divs
                 Dim eclass As String = el.GetAttribute("className")
-                If eclass = "novel_view" Then
-                    content = el
-                ElseIf eclass = "novel_bn" Then
+
+                If eclass = "novel_bn" Then
 
                     Dim nextlink As HtmlElementCollection = el.GetElementsByTagName("A")
                     For Each l As HtmlElement In nextlink
@@ -101,56 +98,67 @@ Public Class Form1
                 End If
             Next
 
-            content = Doc.GetElementById("novel_honbun")
-            origHtml = content.InnerHtml
+
 
             Dim elems As HtmlElementCollection
-
+            Dim rubyChanged As Boolean = False
             elems = content.GetElementsByTagName("RUBY")
-            For Each elem As HtmlElement In elems
-                Dim yomiText As String = ""
+            If elems.Count > 0 Then
+                For Each elem As HtmlElement In elems
+                    Dim yomiText As String = ""
+                    Dim isBouten As Boolean = True
+                    Dim kakkoCol As HtmlElementCollection = elem.GetElementsByTagName("RP")
+                    For Each kakko As HtmlElement In kakkoCol
+                        '括弧は削除
+                        kakko.OuterHtml = ""
+                    Next
+                    Dim rtcol As HtmlElementCollection = elem.GetElementsByTagName("RT")
+                    For Each yomi As HtmlElement In rtcol
+                        'ルビが傍点か読み仮名か調べる
+                        If Regex.IsMatch(yomi.InnerText, "[^,.、。．・]") Then
+                            isBouten = False
+                        End If
+                        yomiText = yomiText + yomi.InnerText
+                    Next
+                    If isBouten Then
+                        For Each yomi As HtmlElement In rtcol
+                            yomi.InnerHtml = ""
+                        Next
+                    Else
+                        elem.OuterHtml = yomiText
+                    End If
 
-                Dim rtcol As HtmlElementCollection = elem.GetElementsByTagName("RT")
-                For Each yomi As HtmlElement In rtcol
-                    yomiText = yomiText + yomi.InnerText
+
                 Next
-                elem.OuterHtml = yomiText
+                honbun = content.InnerText
 
-            Next
-            honbun = content.InnerText
+                content.InnerHtml = origHtml
+            Else
+                honbun = content.InnerText
+            End If
             honbun = title + subtitle + honbun
-            content.InnerHtml = origHtml
-
-
-
-
-
-        Catch
+        Else
             honbun = ""
-        End Try
-
-
+        End If
+        'Catch
+        '    honbun = ""
+        'End Try
         TextBox1.Text = honbun
-        TextBox1.Select()
-        TextBox1.SelectionStart = 0
-        TextBox1.SelectionLength = 0
-        TextBox1.ScrollToCaret()
-        'start = 0
-        'length = 0
-        TextBox1.Select(start, 0)
+        If honbun.Length > 0 Then
 
-        Timer1.Interval = 100
-        Timer1.Start()
-    End Sub
-    Private Sub Talk()
-        Dim src As String = TextBox1.Text
+            TextBox1.Select()
+            TextBox1.SelectionStart = 0
+            TextBox1.SelectionLength = 0
+            TextBox1.Select(start, 0)
+            TextBox1.ScrollToCaret()
+            'start = 0
+            'length = 0
 
 
-        reading = True
-        While reading
-
-        End While
-
+            Timer1.Interval = 100
+            Timer1.Start()
+        End If
+        ProgressBar1.Hide()
     End Sub
     Private Sub bouyomicheck()
         Dim iCommand As Int16 = 288
@@ -246,10 +254,7 @@ Public Class Form1
 
     End Function
     Private Sub Form1_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
-        'objStm.Close()
-        'objSck.Close()
         Timer1.Stop()
-
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -288,7 +293,6 @@ Public Class Form1
             Timer1.Stop()
             Return
         End If
-        'start = TextBox1.SelectionStartdim lineend 
         Dim lineend As Int32
         Try
             lineend = TextBox1.Text.IndexOf(ControlChars.NewLine, start)
@@ -301,7 +305,6 @@ Public Class Form1
         length = lineend - start
         TextBox1.SelectionStart = start
         If length >= 0 Then
-            'TextBox1.SelectionLength = length
             Try
                 src = src.Substring(start, length)
             Catch
@@ -311,9 +314,10 @@ Public Class Form1
 
         If src.Length > 0 Then
             TextBox1.Select(start, length)
-            TextBox1.ScrollToCaret()
+
             bouyomi(src)
         End If
+        TextBox1.ScrollToCaret()
         oldStart = start
         start = start + length + 1
 
@@ -321,13 +325,12 @@ Public Class Form1
             Timer1.Stop()
             Dim nexturl As String = nextStory
             If nextStory.Length > 0 Then
-                'WebBrowser1.Navigate(nextStory)
                 loadURL(nextStory)
             Else
                 start = TextBox1.Text.Length
             End If
         End If
-        'selectRange()
+
     End Sub
 
 
@@ -346,15 +349,6 @@ Public Class Form1
             e.Handled = True
             loadURL(TextBox_url.Text)
         End If
-    End Sub
-
-    Private Sub TextBox_url_MouseClick(sender As Object, e As MouseEventArgs) Handles TextBox_url.MouseClick
-
-    End Sub
-
-    Private Sub WebBrowser1_Navigating(sender As Object, e As WebBrowserNavigatingEventArgs) Handles WebBrowser1.Navigating
-        'TextBox_url.Text = e.Url.ToString
-
     End Sub
 
     Private Sub WebBrowser1_ProgressChanged(sender As Object, e As WebBrowserProgressChangedEventArgs) Handles WebBrowser1.ProgressChanged
@@ -386,4 +380,6 @@ Public Class Form1
     Private Sub Button_home_Click(sender As Object, e As EventArgs) Handles Button_home.Click
         WebBrowser1.Navigate(homeUrl)
     End Sub
+
+
 End Class
