@@ -5,4 +5,4 @@
 読み上げるために「棒読みちゃん」が必要です。以下から入手してください。
 http://chi.usamimi.info/Program/Application/BouyomiChan/
 
-Vosual Studio 2015, VB.Netで作成
+Visual Studio 2015, VB.Netで作成
