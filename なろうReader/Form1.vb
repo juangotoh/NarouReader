@@ -426,27 +426,15 @@ Public Class Form1
         Timer1.Start()
         EnableButton(Button2)
         DisableButton(Button1)
-        'Button1.ImageIndex = 1
-        'Button2.ImageIndex = 0
-        'Button1.Enabled = False
-        'Button2.Enabled = True
     End Sub
     Private Sub StopTalk()
         Timer1.Stop()
         EnableButton(Button1)
         DisableButton(Button2)
-        'Button1.ImageIndex = 0
-        'Button2.ImageIndex = 1
-        'Button1.Enabled = True
-        'Button2.Enabled = False
     End Sub
     Private Sub NoTalk()
         DisableButton(Button1)
         DisableButton(Button2)
-        'Button1.ImageIndex = 1
-        'Button2.ImageIndex = 1
-        'Button1.Enabled = False
-        'Button2.Enabled = False
     End Sub
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         My.Settings.MyClientSize = Me.ClientSize
@@ -504,6 +492,7 @@ Public Class Form1
             TextBox1.Font = My.Settings.myFont
         End If
         Form2.Dispose()
+        bouyomicheck()
     End Sub
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button_Setting.Click
         doSetting()

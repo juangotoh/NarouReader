@@ -34,13 +34,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_98A253A823C682C548D67332E4DF8C67"
+        "OwnerKey" = "8:_81F7C9E19B7F464E8A9660A12C86328C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_81F7C9E19B7F464E8A9660A12C86328C"
+        "OwnerKey" = "8:_98A253A823C682C548D67332E4DF8C67"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -68,6 +68,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
         "Release"
@@ -92,6 +100,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
     }
@@ -236,7 +252,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:なろうReader"
         "ProductCode" = "8:{54898669-A909-47FA-A793-A520A8C51C94}"
-        "PackageCode" = "8:{EE730E1A-BF87-45CC-B90E-A4E0E623B775}"
+        "PackageCode" = "8:{004EBB5B-AA5C-4086-9C0A-3AD520CB9276}"
         "UpgradeCode" = "8:{405D40A6-347C-41DA-AAD9-AEB043F54CB8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -771,7 +787,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_81F7C9E19B7F464E8A9660A12C86328C"
             {
-            "SourcePath" = "8:..\\なろうReader\\obj\\Debug\\なろうReader.exe"
+            "SourcePath" = "8:..\\なろうReader\\obj\\Release\\なろうReader.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0BAE32CBD2624609B534636CD6A72E1C"
