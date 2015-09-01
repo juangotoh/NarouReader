@@ -22,9 +22,9 @@ Partial Class Form2
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.CheckBox_autoRead = New System.Windows.Forms.CheckBox()
         Me.CheckBox_autoNext = New System.Windows.Forms.CheckBox()
-        Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.Button_Font = New System.Windows.Forms.Button()
         Me.FontLabel = New System.Windows.Forms.Label()
         Me.OKButton = New System.Windows.Forms.Button()
@@ -32,6 +32,10 @@ Partial Class Form2
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TextBox_bPath = New System.Windows.Forms.TextBox()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
+        Me.FontDialog1 = New System.Windows.Forms.FontDialog()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SuspendLayout()
         '
         'CheckBox_autoRead
@@ -61,6 +65,7 @@ Partial Class Form2
         Me.Button_Font.Size = New System.Drawing.Size(92, 23)
         Me.Button_Font.TabIndex = 2
         Me.Button_Font.Text = "フォント設定…"
+        Me.ToolTip1.SetToolTip(Me.Button_Font, "画面下部の「読み上げ用テキストエリア」に表示する文字の書体を設定します。")
         Me.Button_Font.UseVisualStyleBackColor = True
         '
         'FontLabel
@@ -97,6 +102,7 @@ Partial Class Form2
         Me.Button1.Size = New System.Drawing.Size(64, 23)
         Me.Button1.TabIndex = 6
         Me.Button1.Text = "探す..."
+        Me.ToolTip1.SetToolTip(Me.Button1, "棒読みちゃんの実行ファイルがある場所を設定します。ファイル名はBouyuomiChan.exeです。")
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Label1
@@ -104,9 +110,9 @@ Partial Class Form2
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 114)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(101, 12)
+        Me.Label1.Size = New System.Drawing.Size(233, 12)
         Me.Label1.TabIndex = 7
-        Me.Label1.Text = "棒読みちゃんの場所"
+        Me.Label1.Text = "棒読みちゃんの実行ファイル(BouyomiChan.exe)"
         '
         'TextBox_bPath
         '
@@ -115,12 +121,32 @@ Partial Class Form2
         Me.TextBox_bPath.ReadOnly = True
         Me.TextBox_bPath.Size = New System.Drawing.Size(315, 19)
         Me.TextBox_bPath.TabIndex = 8
+        Me.ToolTip1.SetToolTip(Me.TextBox_bPath, "棒読みちゃんの実行ファイルがある場所を設定します。ファイル名はBouyuomiChan.exeです。")
+        '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.AutoSize = True
+        Me.LinkLabel1.Location = New System.Drawing.Point(10, 168)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(152, 12)
+        Me.LinkLabel1.TabIndex = 9
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "棒読みちゃん配布サイトへ移動"
+        '
+        'FontDialog1
+        '
+        Me.FontDialog1.AllowVerticalFonts = False
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(411, 202)
+        Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.TextBox_bPath)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button1)
@@ -131,6 +157,7 @@ Partial Class Form2
         Me.Controls.Add(Me.CheckBox_autoNext)
         Me.Controls.Add(Me.CheckBox_autoRead)
         Me.DataBindings.Add(New System.Windows.Forms.Binding("Location", Global.なろうReader.My.MySettings.Default, "SettingLocation", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Location = Global.なろうReader.My.MySettings.Default.SettingLocation
         Me.MaximizeBox = False
         Me.MaximumSize = New System.Drawing.Size(427, 241)
@@ -140,7 +167,6 @@ Partial Class Form2
         Me.ShowIcon = False
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.Text = "なろうReader 設定"
-        Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -148,7 +174,6 @@ Partial Class Form2
 
     Friend WithEvents CheckBox_autoRead As CheckBox
     Friend WithEvents CheckBox_autoNext As CheckBox
-    Friend WithEvents FontDialog1 As FontDialog
     Friend WithEvents Button_Font As Button
     Friend WithEvents FontLabel As Label
     Friend WithEvents OKButton As Button
@@ -156,4 +181,8 @@ Partial Class Form2
     Friend WithEvents Button1 As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents TextBox_bPath As TextBox
+    Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents LinkLabel1 As LinkLabel
+    Friend WithEvents FontDialog1 As FontDialog
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

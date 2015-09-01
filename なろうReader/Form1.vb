@@ -19,6 +19,7 @@ Public Class Form1
     Dim homeUrl As String = "http://syosetu.com/"
     Dim myDialogOK As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        NoTalk()
         myTitle = Me.Text
         bouyomicheck()
         Me.ClientSize = My.Settings.MyClientSize
@@ -40,9 +41,10 @@ Public Class Form1
 
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
         ProgressBar1.Hide()
-
+        EnableButton(Button_reload)
         Dim content As HtmlElement = Nothing
         Dim wtitle As HtmlElement = Nothing
+        Dim author As String = ""
         Dim origHtml = ""
         Dim pageTitle As String = ""
         title = ""
@@ -107,7 +109,11 @@ Public Class Form1
                     Next
                 ElseIf eclass = "contents1" Then
                     title = el.InnerText + ControlChars.NewLine
+                ElseIf eclass = "novel_writername" Then
+                    author = el.InnerText
                 End If
+
+
             Next
 
             Dim ps As HtmlElementCollection = Doc.GetElementsByTagName("P")
@@ -118,10 +124,15 @@ Public Class Form1
 
                 ElseIf eclass = "chapter_title" Then
                     chapter = el.InnerText + ControlChars.NewLine
-
+                ElseIf eclass = "series_title" Then
+                    title = el.InnerText + " "
+                ElseIf eclass = "novel_title" Then
+                    title = title + el.InnerText + " "
                 End If
             Next
-
+            If author <> "" Then
+                title = title + ControlChars.NewLine + author + ControlChars.NewLine
+            End If
 
 
             Dim elems As HtmlElementCollection
@@ -163,6 +174,7 @@ Public Class Form1
             honbun = title + subtitle + honbun
         Else
             honbun = ""
+            NoTalk()
         End If
         'Catch
         '    honbun = ""
@@ -177,12 +189,12 @@ Public Class Form1
             'length = 0
 
             If My.Settings.autoRead Then
-                Timer1.Interval = 100
-                Timer1.Start()
+                StartTalk()
             Else
-                Timer1.Stop()
+                StopTalk()
             End If
-
+        Else
+            NoTalk()
         End If
         ProgressBar1.Hide()
     End Sub
@@ -257,6 +269,7 @@ Public Class Form1
             If firstRead Then
                 firstRead = False
                 MessageBox.Show("棒読みちゃんが起動していないため、読み上げ機能が使えません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                StopTalk()
                 bouyomicheck()
             End If
 
@@ -306,15 +319,14 @@ Public Class Form1
 
     End Function
     Private Sub Form1_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
-        Timer1.Stop()
+        StopTalk()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         start = TextBox1.SelectionStart
         oldStart = start
         length = 0
-        Timer1.Interval = 100
-        Timer1.Start()
+        StartTalk()
     End Sub
 
     Private Sub WebBrowser1_NewWindow(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles WebBrowser1.NewWindow
@@ -328,7 +340,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Timer1.Stop()
+        StopTalk()
         stopbouyomi()
     End Sub
 
@@ -342,7 +354,7 @@ Public Class Form1
         Dim src As String = TextBox1.Text
         If (TextBox1.Text.Length < 1) Then
             reading = False
-            Timer1.Stop()
+            NoTalk()
             Return
         End If
         Dim lineend As Int32
@@ -374,7 +386,7 @@ Public Class Form1
         start = start + length + 1
 
         If start >= TextBox1.Text.Length Then
-            Timer1.Stop()
+            StopTalk()
             Dim nexturl As String = nextStory
             If nextStory.Length > 0 And My.Settings.autoNext Then
                 loadURL(nextStory)
@@ -384,8 +396,32 @@ Public Class Form1
         End If
 
     End Sub
-
-
+    Private Sub StartTalk()
+        Timer1.Start()
+        EnableButton(Button2)
+        DisableButton(Button1)
+        'Button1.ImageIndex = 1
+        'Button2.ImageIndex = 0
+        'Button1.Enabled = False
+        'Button2.Enabled = True
+    End Sub
+    Private Sub StopTalk()
+        Timer1.Stop()
+        EnableButton(Button1)
+        DisableButton(Button2)
+        'Button1.ImageIndex = 0
+        'Button2.ImageIndex = 1
+        'Button1.Enabled = True
+        'Button2.Enabled = False
+    End Sub
+    Private Sub NoTalk()
+        DisableButton(Button1)
+        DisableButton(Button2)
+        'Button1.ImageIndex = 1
+        'Button2.ImageIndex = 1
+        'Button1.Enabled = False
+        'Button2.Enabled = False
+    End Sub
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         My.Settings.MyClientSize = Me.ClientSize
         My.Settings.LastUrl = TextBox_url.Text
@@ -411,6 +447,7 @@ Public Class Form1
     Private Sub WebBrowser1_Navigated(sender As Object, e As WebBrowserNavigatedEventArgs) Handles WebBrowser1.Navigated
         TextBox_url.Text = WebBrowser1.Url.ToString
         ProgressBar1.Show()
+        DisableButton(Button_reload)
     End Sub
 
     Private Sub Button_Back_Click(sender As Object, e As EventArgs) Handles Button_Back.Click
@@ -434,13 +471,52 @@ Public Class Form1
         WebBrowser1.Navigate(homeUrl)
     End Sub
     Private Sub doSetting()
-        Form2.Show()
+        Form2.StartPosition = FormStartPosition.CenterParent
+        Form2.ShowDialog()
         If myDialogOK Then
             myDialogOK = False
             TextBox1.Font = My.Settings.myFont
         End If
+        Form2.Dispose()
     End Sub
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button_Setting.Click
         doSetting()
     End Sub
+
+    Private Sub Button_Setting_Enter(sender As Object, e As EventArgs) Handles Button_Setting.Enter
+        WebBrowser1.Select()
+    End Sub
+
+    Private Sub Button_Back_Enter(sender As Object, e As EventArgs) Handles Button_Back.Enter
+        WebBrowser1.Select()
+    End Sub
+
+    Private Sub Button_Forward_Enter(sender As Object, e As EventArgs) Handles Button_Forward.Enter
+        WebBrowser1.Select()
+    End Sub
+
+    Private Sub Button_reload_Enter(sender As Object, e As EventArgs) Handles Button_reload.Enter
+        WebBrowser1.Select()
+    End Sub
+
+    Private Sub Button_home_Enter(sender As Object, e As EventArgs) Handles Button_home.Enter
+        WebBrowser1.Select()
+    End Sub
+
+    Private Sub Button1_Enter(sender As Object, e As EventArgs) Handles Button1.Enter
+        WebBrowser1.Select()
+    End Sub
+
+    Private Sub Button2_Enter(sender As Object, e As EventArgs) Handles Button2.Enter
+        WebBrowser1.Select()
+    End Sub
+    Private Sub EnableButton(b As Button)
+        b.ImageIndex = 0
+        b.Enabled = True
+    End Sub
+    Private Sub DisableButton(bouyomi As Button)
+        bouyomi.ImageIndex = 1
+        bouyomi.Enabled = False
+    End Sub
+
 End Class
