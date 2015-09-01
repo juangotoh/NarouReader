@@ -36,6 +36,8 @@ Partial Class Form2
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.CheckBox_Maegaki = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Atogaki = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'CheckBox_autoRead
@@ -60,7 +62,7 @@ Partial Class Form2
         '
         'Button_Font
         '
-        Me.Button_Font.Location = New System.Drawing.Point(12, 72)
+        Me.Button_Font.Location = New System.Drawing.Point(13, 111)
         Me.Button_Font.Name = "Button_Font"
         Me.Button_Font.Size = New System.Drawing.Size(92, 23)
         Me.Button_Font.TabIndex = 2
@@ -71,7 +73,7 @@ Partial Class Form2
         'FontLabel
         '
         Me.FontLabel.AutoSize = True
-        Me.FontLabel.Location = New System.Drawing.Point(110, 77)
+        Me.FontLabel.Location = New System.Drawing.Point(109, 116)
         Me.FontLabel.Name = "FontLabel"
         Me.FontLabel.Size = New System.Drawing.Size(38, 12)
         Me.FontLabel.TabIndex = 3
@@ -79,7 +81,7 @@ Partial Class Form2
         '
         'OKButton
         '
-        Me.OKButton.Location = New System.Drawing.Point(235, 168)
+        Me.OKButton.Location = New System.Drawing.Point(234, 207)
         Me.OKButton.Name = "OKButton"
         Me.OKButton.Size = New System.Drawing.Size(75, 23)
         Me.OKButton.TabIndex = 4
@@ -88,7 +90,7 @@ Partial Class Form2
         '
         'Button_Cancel
         '
-        Me.Button_Cancel.Location = New System.Drawing.Point(324, 168)
+        Me.Button_Cancel.Location = New System.Drawing.Point(323, 207)
         Me.Button_Cancel.Name = "Button_Cancel"
         Me.Button_Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Button_Cancel.TabIndex = 5
@@ -97,7 +99,7 @@ Partial Class Form2
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(335, 128)
+        Me.Button1.Location = New System.Drawing.Point(334, 167)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(64, 23)
         Me.Button1.TabIndex = 6
@@ -108,7 +110,7 @@ Partial Class Form2
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 114)
+        Me.Label1.Location = New System.Drawing.Point(11, 153)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(233, 12)
         Me.Label1.TabIndex = 7
@@ -116,9 +118,8 @@ Partial Class Form2
         '
         'TextBox_bPath
         '
-        Me.TextBox_bPath.Location = New System.Drawing.Point(14, 130)
+        Me.TextBox_bPath.Location = New System.Drawing.Point(13, 169)
         Me.TextBox_bPath.Name = "TextBox_bPath"
-        Me.TextBox_bPath.ReadOnly = True
         Me.TextBox_bPath.Size = New System.Drawing.Size(315, 19)
         Me.TextBox_bPath.TabIndex = 8
         Me.ToolTip1.SetToolTip(Me.TextBox_bPath, "棒読みちゃんの実行ファイルがある場所を設定します。ファイル名はBouyuomiChan.exeです。")
@@ -126,7 +127,7 @@ Partial Class Form2
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(10, 168)
+        Me.LinkLabel1.Location = New System.Drawing.Point(9, 207)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(152, 12)
         Me.LinkLabel1.TabIndex = 9
@@ -141,11 +142,35 @@ Partial Class Form2
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'CheckBox_Maegaki
+        '
+        Me.CheckBox_Maegaki.AutoSize = True
+        Me.CheckBox_Maegaki.Location = New System.Drawing.Point(12, 56)
+        Me.CheckBox_Maegaki.Name = "CheckBox_Maegaki"
+        Me.CheckBox_Maegaki.Size = New System.Drawing.Size(88, 16)
+        Me.CheckBox_Maegaki.TabIndex = 10
+        Me.CheckBox_Maegaki.Text = "前書きを読む"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_Maegaki, "前書きがある場合、読み上げます。")
+        Me.CheckBox_Maegaki.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Atogaki
+        '
+        Me.CheckBox_Atogaki.AutoSize = True
+        Me.CheckBox_Atogaki.Location = New System.Drawing.Point(12, 78)
+        Me.CheckBox_Atogaki.Name = "CheckBox_Atogaki"
+        Me.CheckBox_Atogaki.Size = New System.Drawing.Size(88, 16)
+        Me.CheckBox_Atogaki.TabIndex = 11
+        Me.CheckBox_Atogaki.Text = "後書きを読む"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_Atogaki, "後書きがある場合、読み上げます。")
+        Me.CheckBox_Atogaki.UseVisualStyleBackColor = True
+        '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(411, 202)
+        Me.ClientSize = New System.Drawing.Size(411, 241)
+        Me.Controls.Add(Me.CheckBox_Atogaki)
+        Me.Controls.Add(Me.CheckBox_Maegaki)
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.TextBox_bPath)
         Me.Controls.Add(Me.Label1)
@@ -160,9 +185,9 @@ Partial Class Form2
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Location = Global.なろうReader.My.MySettings.Default.SettingLocation
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(427, 241)
+        Me.MaximumSize = New System.Drawing.Size(427, 280)
         Me.MinimizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(427, 241)
+        Me.MinimumSize = New System.Drawing.Size(427, 280)
         Me.Name = "Form2"
         Me.ShowIcon = False
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
@@ -185,4 +210,6 @@ Partial Class Form2
     Friend WithEvents LinkLabel1 As LinkLabel
     Friend WithEvents FontDialog1 As FontDialog
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents CheckBox_Maegaki As CheckBox
+    Friend WithEvents CheckBox_Atogaki As CheckBox
 End Class

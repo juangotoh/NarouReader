@@ -5,6 +5,8 @@
         showFont(Form1.TextBox1.Font)
         CheckBox_autoRead.Checked = My.Settings.autoRead
         CheckBox_autoNext.Checked = My.Settings.autoNext
+        CheckBox_Maegaki.Checked = My.Settings.readMaegaki
+        CheckBox_Atogaki.Checked = My.Settings.readAtogaki
         TextBox_bPath.Text = My.Settings.bouyomiPath
         myFont = Form1.TextBox1.Font
         Me.AcceptButton = OKButton
@@ -46,6 +48,8 @@
     Private Sub OKButton_Click(sender As Object, e As EventArgs) Handles OKButton.Click
         My.Settings.autoRead = CheckBox_autoRead.Checked
         My.Settings.autoNext = CheckBox_autoNext.Checked
+        My.Settings.readMaegaki = CheckBox_Maegaki.Checked
+        My.Settings.readAtogaki = CheckBox_Atogaki.Checked
         My.Settings.myFont = myFont
         Form1.TextBox1.Font = myFont
         My.Settings.bouyomiPath = TextBox_bPath.Text

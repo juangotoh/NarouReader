@@ -161,6 +161,30 @@ Namespace My
                 Me("SettingLocation") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property readMaegaki() As Boolean
+            Get
+                Return CType(Me("readMaegaki"),Boolean)
+            End Get
+            Set
+                Me("readMaegaki") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property readAtogaki() As Boolean
+            Get
+                Return CType(Me("readAtogaki"),Boolean)
+            End Get
+            Set
+                Me("readAtogaki") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

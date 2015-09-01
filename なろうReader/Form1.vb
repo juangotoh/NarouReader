@@ -12,6 +12,7 @@ Public Class Form1
     Dim honbun As String = ""
     Dim nextStory As String = ""
     Dim startpage As String = ""
+    Dim karagyou As String = vbCrLf + vbCrLf
     Dim start As Int32
     Dim length As Int32
     Dim oldStart As Int32
@@ -38,15 +39,68 @@ Public Class Form1
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
         WebBrowser1.GoBack()
     End Sub
+    Private Function RubyConvert(content As HtmlElement) As String
+        Dim elems As HtmlElementCollection
+        Dim rubyChanged As Boolean = False
+        Dim honbun As String = ""
+        Try
+            Dim origHtml = content.InnerHtml
 
+            elems = content.GetElementsByTagName("RUBY")
+            If elems.Count > 0 Then
+                For Each elem As HtmlElement In elems
+                    Dim yomiText As String = ""
+                    Dim isBouten As Boolean = True
+                    Dim kakkoCol As HtmlElementCollection = elem.GetElementsByTagName("RP")
+                    For Each kakko As HtmlElement In kakkoCol
+                        '括弧は削除
+                        kakko.OuterHtml = ""
+                    Next
+                    Dim rtcol As HtmlElementCollection = elem.GetElementsByTagName("RT")
+                    For Each yomi As HtmlElement In rtcol
+                        'ルビが傍点か読み仮名か調べる
+                        If Regex.IsMatch(yomi.InnerText, "[^, .、。．・]") Then
+                            isBouten = False
+                        End If
+                        yomiText = yomiText + yomi.InnerText
+                    Next
+                    If isBouten Then
+                        For Each yomi As HtmlElement In rtcol
+                            '傍点を削除
+                            yomi.InnerHtml = ""
+                        Next
+                    Else
+                        'ルビベースを読み仮名で置き換え
+                        elem.OuterHtml = yomiText
+                    End If
+
+
+                Next
+                honbun = content.InnerText
+
+                'Webブラウザ画面でルビをいじった部分を元に戻す
+                content.InnerHtml = origHtml
+            Else
+                honbun = content.InnerText
+            End If
+        Catch ex As Exception
+            honbun = ""
+        End Try
+        Return honbun
+    End Function
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
         ProgressBar1.Hide()
         EnableButton(Button_reload)
         Dim content As HtmlElement = Nothing
         Dim wtitle As HtmlElement = Nothing
+        Dim maegaki As HtmlElement = Nothing
+        Dim atogaki As HtmlElement = Nothing
+        Dim maeText As String = ""
+        Dim atoText As String = ""
         Dim author As String = ""
-        Dim origHtml = ""
+
         Dim pageTitle As String = ""
+
         title = ""
         chapter = ""
         subtitle = ""
@@ -77,8 +131,10 @@ Public Class Form1
         pageTitle = Doc.Title
         Me.Text = myTitle + " - " + pageTitle
         wtitle = Doc.GetElementById("writting_title")
+        maegaki = Doc.GetElementById("novel_p")
+        atogaki = Doc.GetElementById("novel_a")
         If wtitle IsNot Nothing Then
-            title = wtitle.InnerText + ControlChars.NewLine
+            title = wtitle.InnerText + karagyou
             Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("div")
             For Each el As HtmlElement In divs
                 If el.GetAttribute("className") = "writtingnovel novel" Then
@@ -92,7 +148,7 @@ Public Class Form1
         End If
         'content = Doc.GetElementById("novel_honbun")
         If content IsNot Nothing Then
-            origHtml = content.InnerHtml
+            'origHtml = content.InnerHtml
             Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
             For Each el As HtmlElement In divs
                 Dim eclass As String = el.GetAttribute("className")
@@ -108,7 +164,7 @@ Public Class Form1
                         End If
                     Next
                 ElseIf eclass = "contents1" Then
-                    title = el.InnerText + ControlChars.NewLine
+                    title = el.InnerText + karagyou
                 ElseIf eclass = "novel_writername" Then
                     author = el.InnerText
                 End If
@@ -120,10 +176,10 @@ Public Class Form1
             For Each el As HtmlElement In ps
                 Dim eclass As String = el.GetAttribute("className")
                 If eclass = "novel_subtitle" Then
-                    subtitle = el.InnerText + ControlChars.NewLine
+                    subtitle = el.InnerText + karagyou
 
                 ElseIf eclass = "chapter_title" Then
-                    chapter = el.InnerText + ControlChars.NewLine
+                    chapter = el.InnerText + karagyou
                 ElseIf eclass = "series_title" Then
                     title = el.InnerText + " "
                 ElseIf eclass = "novel_title" Then
@@ -131,47 +187,17 @@ Public Class Form1
                 End If
             Next
             If author <> "" Then
-                title = title + ControlChars.NewLine + author + ControlChars.NewLine
+                title = title + ControlChars.NewLine + author + karagyou
             End If
-
-
-            Dim elems As HtmlElementCollection
-            Dim rubyChanged As Boolean = False
-            elems = content.GetElementsByTagName("RUBY")
-            If elems.Count > 0 Then
-                For Each elem As HtmlElement In elems
-                    Dim yomiText As String = ""
-                    Dim isBouten As Boolean = True
-                    Dim kakkoCol As HtmlElementCollection = elem.GetElementsByTagName("RP")
-                    For Each kakko As HtmlElement In kakkoCol
-                        '括弧は削除
-                        kakko.OuterHtml = ""
-                    Next
-                    Dim rtcol As HtmlElementCollection = elem.GetElementsByTagName("RT")
-                    For Each yomi As HtmlElement In rtcol
-                        'ルビが傍点か読み仮名か調べる
-                        If Regex.IsMatch(yomi.InnerText, "[^, .、。．・]") Then
-                            isBouten = False
-                        End If
-                        yomiText = yomiText + yomi.InnerText
-                    Next
-                    If isBouten Then
-                        For Each yomi As HtmlElement In rtcol
-                            yomi.InnerHtml = ""
-                        Next
-                    Else
-                        elem.OuterHtml = yomiText
-                    End If
-
-
-                Next
-                honbun = content.InnerText
-
-                content.InnerHtml = origHtml
-            Else
-                honbun = content.InnerText
+            If My.Settings.readMaegaki Then
+                maeText = RubyConvert(maegaki) + karagyou
             End If
-            honbun = title + subtitle + honbun
+            If My.Settings.readAtogaki Then
+                atoText = RubyConvert(atogaki) + karagyou
+            End If
+            honbun = RubyConvert(content) + karagyou
+
+            honbun = title + subtitle + maeText + honbun + atoText
         Else
             honbun = ""
             NoTalk()
