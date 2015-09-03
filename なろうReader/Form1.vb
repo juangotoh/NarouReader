@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Net.Sockets
 Imports System.Text.RegularExpressions
-
+Imports System.Threading
 Public Class Form1
     Dim myTitle = Me.Text
     Dim reading As Boolean = False
@@ -19,6 +19,8 @@ Public Class Form1
     Dim bouyomiError As Boolean = False
     Dim homeUrl As String = "http://syosetu.com/"
     Dim myDialogOK As Boolean = False
+    Dim tThread As Thread
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
         myTitle = Me.Text
@@ -34,6 +36,9 @@ Public Class Form1
         loadURL(startpage)
         TextBox1.HideSelection = False
         TextBox1.Font = My.Settings.myFont
+        TextBox1.Text = ""
+
+
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
@@ -90,6 +95,10 @@ Public Class Form1
     End Function
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
         ProgressBar1.Hide()
+        If e.Url <> DirectCast(sender, WebBrowser).Url Then
+            Return
+        End If
+
         EnableButton(Button_reload)
         Dim content As HtmlElement = Nothing
         Dim wtitle As HtmlElement = Nothing
@@ -244,25 +253,9 @@ Public Class Form1
         Next
         If My.Settings.bouyomiPath.Length > 0 And Not bouyomiAlready Then
             System.Diagnostics.Process.Start(My.Settings.bouyomiPath)
+            Thread.Sleep(3000)
         End If
 
-        'Dim iCommand As Int16 = 288
-        'Dim iResult As Byte = 0
-        'Dim sHost As String = "127.0.0.1"
-        'Dim port As Integer = 50001
-        'Dim tc As TcpClient
-        'Try
-        '    tc = New TcpClient(sHost, port)
-        '    Dim ns = tc.GetStream()
-        '    Dim bw As BinaryWriter = New BinaryWriter(ns)
-        '    Dim br As BinaryReader = New BinaryReader(bw.BaseStream)
-        '    bw.Write(iCommand)
-
-        '    iResult = br.ReadByte()
-        '    tc.Close()
-        'Catch ex As Exception
-        '    MessageBox.Show("棒読みちゃんが起動していないため、読み上げができません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        'End Try
 
     End Sub
     Private Sub bouyomi(str As String)
@@ -295,8 +288,9 @@ Public Class Form1
             If firstRead Then
                 firstRead = False
                 MessageBox.Show("棒読みちゃんが起動していないため、読み上げ機能が使えません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                StopTalk()
                 bouyomicheck()
+                StopTalk()
+
             End If
 
         End Try
@@ -369,66 +363,118 @@ Public Class Form1
         StopTalk()
         stopbouyomi()
     End Sub
-
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        If isTalking() Then
-            TextBox1.Select(oldStart, start - oldStart + 1)
-            TextBox1.ScrollToCaret()
+    Private Delegate Sub dlgWriteText(ByVal text As String)
+    Public Sub SetURL(ByVal text As String)
+        If Me.TextBox_url.InvokeRequired Then ' Delete
+            Static Dim d As dlgWriteText = New dlgWriteText(AddressOf Me.SetURL)
+            Me.TextBox_url.Invoke(d, text)
             Return
         End If
+        Me.TextBox_url.Text = text
+    End Sub
 
-        Dim src As String = TextBox1.Text
-        If (TextBox1.Text.Length < 1) Then
-            reading = False
-            NoTalk()
+    Delegate Sub DoSelectDelegate(ByVal start As Integer, ByVal len As Integer)
+    Sub DoSelect(ByVal start As Integer, ByVal len As Integer)
+        If InvokeRequired Then
+            TextBox1.Invoke(New DoSelectDelegate(AddressOf TextBox1.Select), New Object() {start, len})
             Return
         End If
-        Dim lineend As Int32
-        Try
-            lineend = TextBox1.Text.IndexOf(ControlChars.NewLine, start)
-        Catch
-            lineend = start
-        End Try
-        If lineend = -1 Then
-            lineend = TextBox1.Text.Length
-        End If
-        length = lineend - start
-        TextBox1.SelectionStart = start
-        If length >= 0 Then
-            Try
-                src = src.Substring(start, length)
-            Catch
-                src = src.Substring(start - 1, 0)
-            End Try
-        End If
-
-        If src.Length > 0 Then
-            TextBox1.Select(start, length)
-
-            bouyomi(src)
+        TextBox1.Select(start, length)
+    End Sub
+    Delegate Sub DoScrollDelegate()
+    Sub DoScroll()
+        If InvokeRequired Then
+            Invoke(New DoScrollDelegate(AddressOf TextBox1.ScrollToCaret))
+            Return
         End If
         TextBox1.ScrollToCaret()
-        oldStart = start
-        start = start + length + 1
+    End Sub
 
-        If start >= TextBox1.Text.Length Then
-            StopTalk()
-            Dim nexturl As String = nextStory
-            If nextStory.Length > 0 And My.Settings.autoNext Then
-                loadURL(nextStory)
-            Else
-                start = TextBox1.Text.Length
+    Private Sub Talk()
+        Dim lStart As Integer = start
+        Dim llength As Integer = length
+        While True
+            'DoSelect(oldStart, start - oldStart + 1)
+            'DoScroll()
+
+            Dim src As String = TextBox1.Text
+            If (TextBox1.Text.Length < 1) Then
+                reading = False
+                NoTalk()
+                Return
             End If
+            Dim lineend As Int32
+            Try
+                lineend = TextBox1.Text.IndexOf(ControlChars.NewLine, lStart)
+            Catch
+                lineend = lStart
+            End Try
+            If lineend = -1 Then
+                lineend = TextBox1.Text.Length
+            End If
+            llength = lineend - lStart
+            'TextBox1.SelectionStart = start
+            If length >= 0 Then
+                Try
+                    src = src.Substring(lStart, llength)
+                    Console.WriteLine(src + vbCrLf)
+                Catch
+                    src = src.Substring(lStart - 1, 0)
+                End Try
+            End If
+
+            If src.Length > 0 Then
+                DoSelect(lStart, llength)
+                DoScroll()
+                'Thread.Yield()
+                bouyomi(src)
+                Thread.Sleep(50)
+                'TextBox1.Select(start, length)
+                While isTalking()
+
+                    'TextBox1.Select(oldStart, start - oldStart + 1)
+                    'TextBox1.ScrollToCaret()
+                    'Return
+                    Thread.Sleep(50)
+                End While
+
+            End If
+
+            'TextBox1.ScrollToCaret()
+            oldStart = lStart
+            lStart = lStart + llength + 1
+
+            If lStart >= TextBox1.Text.Length Then
+
+                Dim nexturl As String = nextStory
+                If nextStory.Length > 0 And My.Settings.autoNext Then
+                    loadURL(nextStory)
+                Else
+                    lStart = TextBox1.Text.Length
+                End If
+                Return
+            End If
+        End While
+    End Sub
+
+    Private Sub StartTalk()
+        'Timer1.Start()
+
+        If tThread IsNot Nothing Then
+            tThread.Abort()
+        End If
+        tThread = New Thread(New ThreadStart(AddressOf Talk))
+        tThread.IsBackground = True
+        If Not tThread.IsAlive Then
+            tThread.Start()
         End If
 
-    End Sub
-    Private Sub StartTalk()
-        Timer1.Start()
         EnableButton(Button2)
         DisableButton(Button1)
     End Sub
     Private Sub StopTalk()
-        Timer1.Stop()
+        'Timer1.Stop()
+        tThread.Abort()
         EnableButton(Button1)
         DisableButton(Button2)
     End Sub
@@ -439,11 +485,11 @@ Public Class Form1
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         My.Settings.MyClientSize = Me.ClientSize
         My.Settings.LastUrl = TextBox_url.Text
-        My.Settings.LastSelection = start
+        My.Settings.LastSelection = TextBox1.SelectionStart
         My.Settings.myFont = TextBox1.Font
     End Sub
     Private Sub loadURL(url As String)
-        TextBox_url.Text = url
+        SetURL(url)
         WebBrowser1.Navigate(url)
     End Sub
 
