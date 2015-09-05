@@ -20,6 +20,14 @@ Public Class Form1
     Dim homeUrl As String = "http://syosetu.com/"
     Dim myDialogOK As Boolean = False
     Dim tThread As Thread
+    Dim bList As New ArrayList
+    Dim fList As New ArrayList
+    Dim oldUrl As String = ""
+    Dim oldTitle As String = ""
+    Dim hIndex As Integer = 0
+    Dim talkStopped As Boolean = True
+    Dim talkStart As Boolean = False
+
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
@@ -37,6 +45,10 @@ Public Class Form1
         TextBox1.HideSelection = False
         TextBox1.Font = My.Settings.myFont
         TextBox1.Text = ""
+        tThread = New Thread(New ThreadStart(AddressOf Talk))
+        tThread.IsBackground = True
+        tThread.Name = "TalkThread"
+        tThread.Start()
 
 
     End Sub
@@ -95,11 +107,52 @@ Public Class Form1
     End Function
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
         ProgressBar1.Hide()
-        If e.Url <> DirectCast(sender, WebBrowser).Url Then
+        EnableButton(Button_reload)
+        If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
+            'StopTalk()
+
+            'TextBox1.Text = ""
+            'Thread.Sleep(1000)
+            'WebBrowser1.Stop()
             Return
         End If
 
-        EnableButton(Button_reload)
+        If oldUrl = WebBrowser1.Url.ToString Then
+            EnableButton(Button_reload)
+            ProgressBar1.Hide()
+
+            Thread.Yield()
+            Return
+
+        Else
+            TextBox1.Text = ""
+        End If
+
+
+        If oldUrl.Length > 0 Then
+            If hIndex = 0 Then
+                If bList.Count > 0 Then
+                    Dim bItem As Array = bList.Item(bList.Count - 1)
+                    If bItem(0) = oldUrl Then
+                        bList.RemoveAt(bList.Count - 1)
+                    End If
+
+                    fList.Clear()
+                End If
+                bList.Add({oldUrl, oldTitle})
+            End If
+            hIndex = 0
+        End If
+        Dim curURL As String = WebBrowser1.Url.ToString
+        Dim curTitle As String = WebBrowser1.DocumentTitle
+
+
+
+
+
+        oldUrl = curURL
+        oldTitle = curTitle
+
         Dim content As HtmlElement = Nothing
         Dim wtitle As HtmlElement = Nothing
         Dim maegaki As HtmlElement = Nothing
@@ -120,20 +173,17 @@ Public Class Form1
             oldStart = 0
             length = 0
         End If
-        If WebBrowser1.CanGoBack Then
-            Button_Back.ImageIndex = 0
-            Button_Back.Enabled = True
+        If bList.Count > 0 Then
+            EnableButton(Button_Back)
         Else
-            Button_Back.ImageIndex = 1
-            Button_Back.Enabled = False
+            DisableButton(Button_Back)
         End If
-        If WebBrowser1.CanGoForward Then
-            Button_Forward.ImageIndex = 0
-            Button_Forward.Enabled = True
+        If fList.Count > 0 Then
+            EnableButton(Button_Forward)
         Else
-            Button_Forward.ImageIndex = 1
-            Button_Forward.Enabled = False
+            DisableButton(Button_Forward)
         End If
+
         stopbouyomi()
         'Try
         Dim Doc As HtmlDocument = WebBrowser1.Document
@@ -157,6 +207,7 @@ Public Class Form1
         End If
         'content = Doc.GetElementById("novel_honbun")
         If content IsNot Nothing Then
+            WebBrowser1.Stop()
             'origHtml = content.InnerHtml
             Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
             For Each el As HtmlElement In divs
@@ -206,7 +257,9 @@ Public Class Form1
             End If
             honbun = RubyConvert(content) + karagyou
 
+
             honbun = title + subtitle + maeText + honbun + atoText
+
         Else
             honbun = ""
             NoTalk()
@@ -223,7 +276,7 @@ Public Class Form1
             'start = 0
             'length = 0
 
-            If My.Settings.autoRead Then
+            If My.Settings.autoRead Or (My.Settings.autoNext And reading) Then
                 StartTalk()
             Else
                 StopTalk()
@@ -231,7 +284,7 @@ Public Class Form1
         Else
             NoTalk()
         End If
-        ProgressBar1.Hide()
+        'ProgressBar1.Hide()
     End Sub
     Private Sub bouyomicheck()
         If Not System.IO.File.Exists(My.Settings.bouyomiPath) Then
@@ -344,6 +397,7 @@ Public Class Form1
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         start = TextBox1.SelectionStart
+        reading = True
         oldStart = start
         length = 0
         StartTalk()
@@ -360,9 +414,13 @@ Public Class Form1
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        reading = False
         StopTalk()
         stopbouyomi()
     End Sub
+
+
+
     Private Delegate Sub dlgWriteText(ByVal text As String)
     Public Sub SetURL(ByVal text As String)
         If Me.TextBox_url.InvokeRequired Then ' Delete
@@ -372,8 +430,40 @@ Public Class Form1
         End If
         Me.TextBox_url.Text = text
     End Sub
-
+    Private Delegate Sub dlgsetButtonImage(b As Button, ByVal i As Integer)
+    Public Sub SetButtonImage(b As Button, ByVal i As Integer)
+        If b.InvokeRequired Then
+            Static Dim d As dlgsetButtonImage = New dlgsetButtonImage(AddressOf Me.SetButtonImage)
+            b.Invoke(d, b, i)
+        End If
+        b.ImageIndex = i
+    End Sub
+    Private Delegate Sub dlgsetButtonInabled(b As Button, ByVal i As Boolean)
+    Public Sub SetButtonEnabld(b As Button, ByVal i As Boolean)
+        If b.InvokeRequired Then
+            Static Dim d As dlgsetButtonInabled = New dlgsetButtonInabled(AddressOf Me.SetButtonEnabld)
+            b.Invoke(d, b, i)
+        End If
+        b.Enabled = i
+    End Sub
+    Private Delegate Function dlgGetReaderText() As String
+    Public Function GetReaderText() As String
+        If Me.TextBox1.InvokeRequired Then
+            Static Dim d As dlgGetReaderText = New dlgGetReaderText(AddressOf Me.GetReaderText)
+            TextBox1.Invoke(d)
+        End If
+        Return TextBox1.Text
+    End Function
+    Private Delegate Function dlgGetReaderLength() As Integer
+    Public Function GetReaderLength() As Integer
+        If Me.TextBox1.InvokeRequired Then
+            Static Dim d As dlgGetReaderLength = New dlgGetReaderLength(AddressOf Me.GetReaderLength)
+            TextBox1.Invoke(d)
+        End If
+        Return TextBox1.Text.Length
+    End Function
     Delegate Sub DoSelectDelegate(ByVal start As Integer, ByVal len As Integer)
+
     Sub DoSelect(ByVal start As Integer, ByVal len As Integer)
         If InvokeRequired Then
             TextBox1.Invoke(New DoSelectDelegate(AddressOf TextBox1.Select), New Object() {start, len})
@@ -397,84 +487,103 @@ Public Class Form1
             'DoSelect(oldStart, start - oldStart + 1)
             'DoScroll()
 
-            Dim src As String = TextBox1.Text
-            If (TextBox1.Text.Length < 1) Then
+            Dim src As String = GetReaderText()
+            Dim textLength As Integer = src.Length
+            If (textLength < 1) Then
                 reading = False
                 NoTalk()
-                Return
-            End If
-            Dim lineend As Int32
-            Try
-                lineend = TextBox1.Text.IndexOf(ControlChars.NewLine, lStart)
-            Catch
-                lineend = lStart
-            End Try
-            If lineend = -1 Then
-                lineend = TextBox1.Text.Length
-            End If
-            llength = lineend - lStart
-            'TextBox1.SelectionStart = start
-            If length >= 0 Then
+                'Return
+            Else
+                Dim lineend As Int32
                 Try
-                    src = src.Substring(lStart, llength)
-                    Console.WriteLine(src + vbCrLf)
+                    lineend = src.IndexOf(ControlChars.NewLine, lStart)
                 Catch
-                    src = src.Substring(lStart - 1, 0)
+                    lineend = lStart
                 End Try
-            End If
-
-            If src.Length > 0 Then
-                DoSelect(lStart, llength)
-                DoScroll()
-                'Thread.Yield()
-                bouyomi(src)
-                Thread.Sleep(50)
-                'TextBox1.Select(start, length)
-                While isTalking()
-
-                    'TextBox1.Select(oldStart, start - oldStart + 1)
-                    'TextBox1.ScrollToCaret()
-                    'Return
-                    Thread.Sleep(50)
-                End While
-
-            End If
-
-            'TextBox1.ScrollToCaret()
-            oldStart = lStart
-            lStart = lStart + llength + 1
-
-            If lStart >= TextBox1.Text.Length Then
-
-                Dim nexturl As String = nextStory
-                If nextStory.Length > 0 And My.Settings.autoNext Then
-                    loadURL(nextStory)
-                Else
-                    lStart = TextBox1.Text.Length
+                If lineend = -1 Then
+                    lineend = textLength
                 End If
-                Return
+                llength = lineend - lStart
+                'TextBox1.SelectionStart = start
+                If llength >= 0 Then
+                    Try
+                        src = src.Substring(lStart, llength)
+                        'Console.WriteLine(src + vbCrLf)
+                    Catch
+                        'src = src.Substring(lStart, -1)
+
+                    End Try
+                End If
+
+                If src.Length > 0 Then
+                    EnableButton(Button2)
+                    DisableButton(Button1)
+                    DoSelect(lStart, llength)
+                    DoScroll()
+                    'Thread.Yield()
+                    bouyomi(src)
+                    Thread.Sleep(50)
+                    'TextBox1.Select(start, length)
+                    While isTalking()
+
+                        'TextBox1.Select(oldStart, start - oldStart + 1)
+                        'TextBox1.ScrollToCaret()
+                        'Return
+                        Thread.Sleep(50)
+                    End While
+
+                End If
+
+                'TextBox1.ScrollToCaret()
+                oldStart = lStart
+                lStart = lStart + llength + 1
+
+                If textLength > 0 And lStart >= textLength Then
+
+                    Dim nexturl As String = nextStory
+                    If nextStory.Length > 0 And My.Settings.autoNext Then
+                        loadURL(nextStory)
+                        start = 0
+                        length = 0
+                        lStart = start
+                        llength = 0
+                    Else
+                        lStart = textLength - 1
+
+                    End If
+                    'talkStopped = True
+                End If
+
+
             End If
+            While talkStopped
+                Thread.Sleep(100)
+                If talkStart Then
+                    lStart = start
+                    llength = 0
+                    talkStart = False
+                    talkStopped = False
+                    Thread.Sleep(100)
+                    Exit While
+                End If
+
+            End While
         End While
     End Sub
 
     Private Sub StartTalk()
         'Timer1.Start()
-
-        If tThread IsNot Nothing Then
-            tThread.Abort()
-        End If
-        tThread = New Thread(New ThreadStart(AddressOf Talk))
-        tThread.IsBackground = True
-        If Not tThread.IsAlive Then
-            tThread.Start()
-        End If
-
+        'tThread.Start()
+        talkStopped = True
+        talkStart = True
         EnableButton(Button2)
         DisableButton(Button1)
     End Sub
     Private Sub StopTalk()
-        'Timer1.Stop()
-        tThread.Abort()
+
+        talkStopped = True
+
+
         EnableButton(Button1)
         DisableButton(Button2)
     End Sub
@@ -508,18 +617,32 @@ Public Class Form1
         TextBox_url.Text = WebBrowser1.Url.ToString
         ProgressBar1.Show()
         DisableButton(Button_reload)
+        'StopTalk()
     End Sub
 
     Private Sub Button_Back_Click(sender As Object, e As EventArgs) Handles Button_Back.Click
-        If WebBrowser1.CanGoBack Then
-            WebBrowser1.GoBack()
+        Dim num As Integer = bList.Count - 1
+        If num >= 0 Then
+            Dim item As Array = bList.Item(num)
+            Dim curItem As Array = {oldUrl, oldTitle}
+            Dim url = item(0)
+            fList.Add(curItem)
+            hIndex = -1
+            bList.RemoveAt(num)
+            loadURL(url)
         End If
-
     End Sub
 
     Private Sub Button_Forward_Click(sender As Object, e As EventArgs) Handles Button_Forward.Click
-        If WebBrowser1.CanGoForward Then
-            WebBrowser1.GoForward()
+        Dim num As Integer = fList.Count - 1
+        If num >= 0 Then
+            Dim item As Array = fList.Item(num)
+            Dim curItem As Array = {oldUrl, oldTitle}
+            Dim url = item(0)
+            bList.Add(curItem)
+            hIndex = 1
+            fList.RemoveAt(num)
+            loadURL(url)
         End If
     End Sub
 
@@ -572,12 +695,133 @@ Public Class Form1
         WebBrowser1.Select()
     End Sub
     Private Sub EnableButton(b As Button)
-        b.ImageIndex = 0
-        b.Enabled = True
+        SetButtonImage(b, 0)
+        SetButtonEnabld(b, True)
+        'b.ImageIndex = 0
+        'b.Enabled = True
     End Sub
-    Private Sub DisableButton(bouyomi As Button)
-        bouyomi.ImageIndex = 1
-        bouyomi.Enabled = False
+    Private Sub DisableButton(b As Button)
+        SetButtonImage(b, 1)
+        SetButtonEnabld(b, False)
+        'b.ImageIndex = 1
+        'b.Enabled = False
     End Sub
 
+    Private Sub Button_Back_MouseDown(sender As Object, e As MouseEventArgs) Handles Button_Back.MouseDown
+        Select Case e.Button
+            Case MouseButtons.Right
+                showBackMenu()
+            Case MouseButtons.Left
+                Timer2.Interval = 500
+                Timer2.Start()
+        End Select
+    End Sub
+    Private Sub showBackMenu()
+        bMenu.Items.Clear()
+        Dim max = bList.Count - 1
+
+
+        For i = 0 To bList.Count - 1
+            Dim newItem As New ToolStripMenuItem
+            Dim item As Array = bList.Item(max - i)
+            newItem.Text = item(1)
+            newItem.Tag = i.ToString
+            bMenu.Items.Add(newItem)
+        Next
+
+        bMenu.Show(Cursor.Position)
+
+
+    End Sub
+
+    Private Sub bMenu_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles bMenu.ItemClicked
+        Dim strip As ContextMenuStrip = sender
+        Dim item As ToolStripItem
+        Dim num As Integer
+        Dim max As Integer
+        item = e.ClickedItem
+        num = Integer.Parse(item.Tag)
+        max = bList.Count - 1
+        Console.WriteLine("選択：" + item.Text)
+        Dim pItem As Array = {}
+        For i = 0 To num
+            pItem = bList.Item(max - i)
+            Console.WriteLine(pItem(0))
+            Console.WriteLine(pItem(1))
+            fList.Add(pItem)
+            bList.Remove(pItem)
+        Next
+        fList.RemoveAt(fList.Count - 1)
+        fList.Insert(0, {oldUrl, oldTitle})
+        hIndex = -num
+        loadURL(pItem(0))
+
+    End Sub
+    Private Sub Button_Forward_MouseDown(sender As Object, e As MouseEventArgs) Handles Button_Forward.MouseDown, Button_Forward.MouseDown
+        Select Case e.Button
+            Case MouseButtons.Right
+                showForwardMenu()
+            Case MouseButtons.Left
+                Timer3.Interval = 500
+                Timer3.Start()
+        End Select
+    End Sub
+    Private Sub showForwardMenu()
+        fMenu.Items.Clear()
+        Dim max = fList.Count - 1
+
+
+        For i = 0 To fList.Count - 1
+            Dim newItem As New ToolStripMenuItem
+            Dim item As Array = fList.Item(max - i)
+            newItem.Text = item(1)
+            newItem.Tag = i.ToString
+            fMenu.Items.Add(newItem)
+        Next
+
+        fMenu.Show(Cursor.Position)
+
+    End Sub
+
+    Private Sub fMenu_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles fMenu.ItemClicked
+        Dim strip As ContextMenuStrip = sender
+        Dim item As ToolStripItem
+        Dim num As Integer
+        Dim max As Integer
+        item = e.ClickedItem
+        num = Integer.Parse(item.Tag)
+        max = fList.Count - 1
+        Console.WriteLine("選択：" + item.Text)
+        Dim pItem As Array = {}
+        For i = 0 To num
+            pItem = fList.Item(max - i)
+            Console.WriteLine(pItem(0))
+            Console.WriteLine(pItem(1))
+            bList.Add(pItem)
+            fList.Remove(pItem)
+        Next
+        bList.RemoveAt(bList.Count - 1)
+        bList.Insert(0, {oldUrl, oldTitle})
+        hIndex = num
+        loadURL(pItem(0))
+
+    End Sub
+
+    Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
+        showBackMenu()
+        Timer2.Stop()
+    End Sub
+    Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
+        showForwardMenu()
+        Timer3.Stop()
+    End Sub
+
+    Private Sub Button_Back_MouseUp(sender As Object, e As MouseEventArgs) Handles Button_Back.MouseUp
+        Timer2.Stop()
+
+    End Sub
+    Private Sub Button_Forward_MouseUp(sender As Object, e As MouseEventArgs) Handles Button_Forward.MouseUp
+        Timer3.Stop()
+
+    End Sub
 End Class

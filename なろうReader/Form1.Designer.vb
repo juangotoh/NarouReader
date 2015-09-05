@@ -40,12 +40,16 @@ Partial Class Form1
         Me.Button_Forward = New System.Windows.Forms.Button()
         Me.RarrowList = New System.Windows.Forms.ImageList(Me.components)
         Me.Button_reload = New System.Windows.Forms.Button()
+        Me.ReloadImages = New System.Windows.Forms.ImageList(Me.components)
         Me.Button_home = New System.Windows.Forms.Button()
+        Me.HomeImages = New System.Windows.Forms.ImageList(Me.components)
         Me.Button_Setting = New System.Windows.Forms.Button()
         Me.SettingImages = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolTip_Read = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ReloadImages = New System.Windows.Forms.ImageList(Me.components)
-        Me.HomeImages = New System.Windows.Forms.ImageList(Me.components)
+        Me.bMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
+        Me.fMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -99,9 +103,6 @@ Partial Class Form1
         Me.StopImages.TransparentColor = System.Drawing.Color.Transparent
         Me.StopImages.Images.SetKeyName(0, "stop_s.png")
         Me.StopImages.Images.SetKeyName(1, "stop_s_gray.png")
-        '
-        'Timer1
-        '
         '
         'TextBox1
         '
@@ -214,6 +215,13 @@ Partial Class Form1
         Me.ToolTip_Read.SetToolTip(Me.Button_reload, "このページを再読み込みします")
         Me.Button_reload.UseVisualStyleBackColor = True
         '
+        'ReloadImages
+        '
+        Me.ReloadImages.ImageStream = CType(resources.GetObject("ReloadImages.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ReloadImages.TransparentColor = System.Drawing.Color.Transparent
+        Me.ReloadImages.Images.SetKeyName(0, "reload_s.png")
+        Me.ReloadImages.Images.SetKeyName(1, "stopLoad_s.png")
+        '
         'Button_home
         '
         Me.Button_home.ImageIndex = 0
@@ -224,6 +232,13 @@ Partial Class Form1
         Me.Button_home.TabIndex = 14
         Me.ToolTip_Read.SetToolTip(Me.Button_home, "小説家になろうホームページに移動します")
         Me.Button_home.UseVisualStyleBackColor = True
+        '
+        'HomeImages
+        '
+        Me.HomeImages.ImageStream = CType(resources.GetObject("HomeImages.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.HomeImages.TransparentColor = System.Drawing.Color.Transparent
+        Me.HomeImages.Images.SetKeyName(0, "home_s.png")
+        Me.HomeImages.Images.SetKeyName(1, "home_s_gray.png")
         '
         'Button_Setting
         '
@@ -245,19 +260,23 @@ Partial Class Form1
         Me.SettingImages.Images.SetKeyName(0, "setting.png")
         Me.SettingImages.Images.SetKeyName(1, "setting_gray.png")
         '
-        'ReloadImages
+        'bMenu
         '
-        Me.ReloadImages.ImageStream = CType(resources.GetObject("ReloadImages.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ReloadImages.TransparentColor = System.Drawing.Color.Transparent
-        Me.ReloadImages.Images.SetKeyName(0, "reload_s.png")
-        Me.ReloadImages.Images.SetKeyName(1, "stopLoad_s.png")
+        Me.bMenu.Name = "bMenu"
+        Me.bMenu.ShowImageMargin = False
+        Me.bMenu.Size = New System.Drawing.Size(36, 4)
         '
-        'HomeImages
+        'Timer2
         '
-        Me.HomeImages.ImageStream = CType(resources.GetObject("HomeImages.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.HomeImages.TransparentColor = System.Drawing.Color.Transparent
-        Me.HomeImages.Images.SetKeyName(0, "home_s.png")
-        Me.HomeImages.Images.SetKeyName(1, "home_s_gray.png")
+        '
+        'fMenu
+        '
+        Me.fMenu.Name = "fMenu"
+        Me.fMenu.ShowImageMargin = False
+        Me.fMenu.Size = New System.Drawing.Size(128, 26)
+        '
+        'Timer3
+        '
         '
         'Form1
         '
@@ -313,4 +332,8 @@ Partial Class Form1
     Friend WithEvents SettingImages As ImageList
     Friend WithEvents ReloadImages As ImageList
     Friend WithEvents HomeImages As ImageList
+    Friend WithEvents bMenu As ContextMenuStrip
+    Friend WithEvents Timer2 As Timer
+    Friend WithEvents fMenu As ContextMenuStrip
+    Friend WithEvents Timer3 As Timer
 End Class
