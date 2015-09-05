@@ -242,11 +242,16 @@ Public Class Form1
                 maeText = RubyConvert(maegaki) + karagyou
             End If
             If My.Settings.readAtogaki Then
-                atoText = RubyConvert(atogaki) + karagyou
+                atoText = karagyou + RubyConvert(atogaki)
             End If
-            honbun = RubyConvert(content) + karagyou
+            honbun = RubyConvert(content)
 
-
+            If Not My.Settings.readTitle Then
+                title = ""
+            End If
+            If Not My.Settings.readSubTitle Then
+                subtitle = ""
+            End If
             honbun = title + subtitle + maeText + honbun + atoText
 
         Else
@@ -472,6 +477,7 @@ Public Class Form1
     Private Sub Talk()
         Dim lStart As Integer = start
         Dim llength As Integer = length
+        Dim oldLength As Integer = length
         Dim text1 As String
         Dim text2 As String
         While True
@@ -504,27 +510,39 @@ Public Class Form1
                     End Try
                 End If
 
-                If src.Length > 0 Then
+                If src.Trim <> "" Then
                     EnableButton(Button2)
                     DisableButton(Button1)
+                    If Not (oldStart = lStart And oldLength = llength) Then
+                        DoSelect(lStart, llength)
+                        DoScroll()
+                        Thread.Yield()
+                        If src.Length > 0 Then
+                            bouyomi(src)
+                            Thread.Sleep(50)
+                            While isTalking()
 
-                    DoSelect(lStart, llength)
-                    DoScroll()
-                    'Thread.Yield()
+                                'TextBox1.Select(oldStart, start - oldStart + 1)
+                                'TextBox1.ScrollToCaret()
+                                'Return
+                                Thread.Sleep(50)
+                            End While
+                        End If
 
-                    bouyomi(src)
-                    Thread.Sleep(50)
-                    While isTalking()
+                    End If
 
-                        'TextBox1.Select(oldStart, start - oldStart + 1)
-                        'TextBox1.ScrollToCaret()
-                        'Return
-                        Thread.Sleep(50)
-                    End While
+                    'While isTalking()
+
+                    '    'TextBox1.Select(oldStart, start - oldStart + 1)
+                    '    'TextBox1.ScrollToCaret()
+                    '    'Return
+                    '    Thread.Sleep(50)
+                    'End While
 
                 End If
 
                 oldStart = lStart
+                oldLength = llength
                 lStart = lStart + llength + 1
 
                 If textLength > 0 And lStart >= textLength Then
@@ -536,6 +554,8 @@ Public Class Form1
                         length = 0
                         lStart = start
                         llength = 0
+                        StopTalk()
+                        Thread.Sleep(100)
                     Else
                         lStart = textLength - 1
 
@@ -560,10 +580,9 @@ Public Class Form1
             text2 = GetReaderText()
             If Not text1 = text2 Then
                 '不意のページ遷移対策
-                start = 0
-                length = 0
-                lStart = 0
+                lStart = start
                 llength = 0
+                Thread.Sleep(100)
                 Continue While
             End If
         End While

@@ -185,6 +185,30 @@ Namespace My
                 Me("readAtogaki") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property readTitle() As Boolean
+            Get
+                Return CType(Me("readTitle"),Boolean)
+            End Get
+            Set
+                Me("readTitle") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property readSubTitle() As Boolean
+            Get
+                Return CType(Me("readSubTitle"),Boolean)
+            End Get
+            Set
+                Me("readSubTitle") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

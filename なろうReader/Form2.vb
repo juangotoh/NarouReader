@@ -7,6 +7,8 @@
         CheckBox_autoNext.Checked = My.Settings.autoNext
         CheckBox_Maegaki.Checked = My.Settings.readMaegaki
         CheckBox_Atogaki.Checked = My.Settings.readAtogaki
+        CheckBox_readTitle.Checked = My.Settings.readTitle
+        CheckBox_readSubTitle.Checked = My.Settings.readSubTitle
         TextBox_bPath.Text = My.Settings.bouyomiPath
         myFont = Form1.TextBox1.Font
         Me.AcceptButton = OKButton
@@ -50,6 +52,8 @@
         My.Settings.autoNext = CheckBox_autoNext.Checked
         My.Settings.readMaegaki = CheckBox_Maegaki.Checked
         My.Settings.readAtogaki = CheckBox_Atogaki.Checked
+        My.Settings.readTitle = CheckBox_readTitle.Checked
+        My.Settings.readSubTitle = CheckBox_readSubTitle.Checked
         My.Settings.myFont = myFont
         Form1.TextBox1.Font = myFont
         My.Settings.bouyomiPath = TextBox_bPath.Text
@@ -59,4 +63,6 @@
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         System.Diagnostics.Process.Start("http://chi.usamimi.info/Program/Application/BouyomiChan/")
     End Sub
+
+
 End Class

@@ -38,6 +38,8 @@ Partial Class Form2
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.CheckBox_readTitle = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_readSubTitle = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'CheckBox_autoRead
@@ -62,7 +64,7 @@ Partial Class Form2
         '
         'Button_Font
         '
-        Me.Button_Font.Location = New System.Drawing.Point(13, 111)
+        Me.Button_Font.Location = New System.Drawing.Point(12, 166)
         Me.Button_Font.Name = "Button_Font"
         Me.Button_Font.Size = New System.Drawing.Size(92, 23)
         Me.Button_Font.TabIndex = 2
@@ -73,7 +75,7 @@ Partial Class Form2
         'FontLabel
         '
         Me.FontLabel.AutoSize = True
-        Me.FontLabel.Location = New System.Drawing.Point(109, 116)
+        Me.FontLabel.Location = New System.Drawing.Point(108, 171)
         Me.FontLabel.Name = "FontLabel"
         Me.FontLabel.Size = New System.Drawing.Size(38, 12)
         Me.FontLabel.TabIndex = 3
@@ -81,7 +83,7 @@ Partial Class Form2
         '
         'OKButton
         '
-        Me.OKButton.Location = New System.Drawing.Point(234, 207)
+        Me.OKButton.Location = New System.Drawing.Point(233, 262)
         Me.OKButton.Name = "OKButton"
         Me.OKButton.Size = New System.Drawing.Size(75, 23)
         Me.OKButton.TabIndex = 4
@@ -90,7 +92,7 @@ Partial Class Form2
         '
         'Button_Cancel
         '
-        Me.Button_Cancel.Location = New System.Drawing.Point(323, 207)
+        Me.Button_Cancel.Location = New System.Drawing.Point(322, 262)
         Me.Button_Cancel.Name = "Button_Cancel"
         Me.Button_Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Button_Cancel.TabIndex = 5
@@ -99,7 +101,7 @@ Partial Class Form2
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(334, 167)
+        Me.Button1.Location = New System.Drawing.Point(333, 222)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(64, 23)
         Me.Button1.TabIndex = 6
@@ -110,7 +112,7 @@ Partial Class Form2
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(11, 153)
+        Me.Label1.Location = New System.Drawing.Point(10, 208)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(233, 12)
         Me.Label1.TabIndex = 7
@@ -118,7 +120,7 @@ Partial Class Form2
         '
         'TextBox_bPath
         '
-        Me.TextBox_bPath.Location = New System.Drawing.Point(13, 169)
+        Me.TextBox_bPath.Location = New System.Drawing.Point(12, 224)
         Me.TextBox_bPath.Name = "TextBox_bPath"
         Me.TextBox_bPath.Size = New System.Drawing.Size(315, 19)
         Me.TextBox_bPath.TabIndex = 8
@@ -127,7 +129,7 @@ Partial Class Form2
         'CheckBox_Maegaki
         '
         Me.CheckBox_Maegaki.AutoSize = True
-        Me.CheckBox_Maegaki.Location = New System.Drawing.Point(12, 56)
+        Me.CheckBox_Maegaki.Location = New System.Drawing.Point(12, 100)
         Me.CheckBox_Maegaki.Name = "CheckBox_Maegaki"
         Me.CheckBox_Maegaki.Size = New System.Drawing.Size(88, 16)
         Me.CheckBox_Maegaki.TabIndex = 10
@@ -138,7 +140,7 @@ Partial Class Form2
         'CheckBox_Atogaki
         '
         Me.CheckBox_Atogaki.AutoSize = True
-        Me.CheckBox_Atogaki.Location = New System.Drawing.Point(12, 78)
+        Me.CheckBox_Atogaki.Location = New System.Drawing.Point(12, 122)
         Me.CheckBox_Atogaki.Name = "CheckBox_Atogaki"
         Me.CheckBox_Atogaki.Size = New System.Drawing.Size(88, 16)
         Me.CheckBox_Atogaki.TabIndex = 11
@@ -149,7 +151,7 @@ Partial Class Form2
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(9, 207)
+        Me.LinkLabel1.Location = New System.Drawing.Point(8, 262)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(152, 12)
         Me.LinkLabel1.TabIndex = 9
@@ -164,11 +166,33 @@ Partial Class Form2
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'CheckBox_readTitle
+        '
+        Me.CheckBox_readTitle.AutoSize = True
+        Me.CheckBox_readTitle.Location = New System.Drawing.Point(12, 56)
+        Me.CheckBox_readTitle.Name = "CheckBox_readTitle"
+        Me.CheckBox_readTitle.Size = New System.Drawing.Size(90, 16)
+        Me.CheckBox_readTitle.TabIndex = 12
+        Me.CheckBox_readTitle.Text = "タイトルを読む"
+        Me.CheckBox_readTitle.UseVisualStyleBackColor = True
+        '
+        'CheckBox_readSubTitle
+        '
+        Me.CheckBox_readSubTitle.AutoSize = True
+        Me.CheckBox_readSubTitle.Location = New System.Drawing.Point(12, 78)
+        Me.CheckBox_readSubTitle.Name = "CheckBox_readSubTitle"
+        Me.CheckBox_readSubTitle.Size = New System.Drawing.Size(109, 16)
+        Me.CheckBox_readSubTitle.TabIndex = 13
+        Me.CheckBox_readSubTitle.Text = "サブタイトルを読む"
+        Me.CheckBox_readSubTitle.UseVisualStyleBackColor = True
+        '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(411, 241)
+        Me.ClientSize = New System.Drawing.Size(411, 297)
+        Me.Controls.Add(Me.CheckBox_readSubTitle)
+        Me.Controls.Add(Me.CheckBox_readTitle)
         Me.Controls.Add(Me.CheckBox_Atogaki)
         Me.Controls.Add(Me.CheckBox_Maegaki)
         Me.Controls.Add(Me.LinkLabel1)
@@ -185,7 +209,7 @@ Partial Class Form2
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Location = Global.なろうReader.My.MySettings.Default.SettingLocation
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(427, 280)
+        Me.MaximumSize = New System.Drawing.Size(427, 400)
         Me.MinimizeBox = False
         Me.MinimumSize = New System.Drawing.Size(427, 280)
         Me.Name = "Form2"
@@ -212,4 +236,6 @@ Partial Class Form2
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents CheckBox_Maegaki As CheckBox
     Friend WithEvents CheckBox_Atogaki As CheckBox
+    Friend WithEvents CheckBox_readTitle As CheckBox
+    Friend WithEvents CheckBox_readSubTitle As CheckBox
 End Class
