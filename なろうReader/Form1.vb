@@ -109,26 +109,22 @@ Public Class Form1
         ProgressBar1.Hide()
         EnableButton(Button_reload)
         If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
-            'StopTalk()
-
-            'TextBox1.Text = ""
-            'Thread.Sleep(1000)
-            'WebBrowser1.Stop()
             Return
         End If
 
         If oldUrl = WebBrowser1.Url.ToString Then
             EnableButton(Button_reload)
             ProgressBar1.Hide()
-
             Thread.Yield()
             Return
 
         Else
             TextBox1.Text = ""
         End If
-
-
+        StopTalk()
+        TextBox1.Text = ""
+        Console.WriteLine(WebBrowser1.DocumentTitle)
+        Console.WriteLine(WebBrowser1.ReadyState.ToString)
         If oldUrl.Length > 0 Then
             If hIndex = 0 Then
                 If bList.Count > 0 Then
@@ -145,11 +141,6 @@ Public Class Form1
         End If
         Dim curURL As String = WebBrowser1.Url.ToString
         Dim curTitle As String = WebBrowser1.DocumentTitle
-
-
-
-
-
         oldUrl = curURL
         oldTitle = curTitle
 
@@ -205,10 +196,8 @@ Public Class Form1
         Else
             content = Doc.GetElementById("novel_honbun")
         End If
-        'content = Doc.GetElementById("novel_honbun")
         If content IsNot Nothing Then
             WebBrowser1.Stop()
-            'origHtml = content.InnerHtml
             Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
             For Each el As HtmlElement In divs
                 Dim eclass As String = el.GetAttribute("className")
@@ -267,16 +256,16 @@ Public Class Form1
         'Catch
         '    honbun = ""
         'End Try
+
         TextBox1.Text = honbun
         If honbun.Length > 0 Then
             TextBox1.SelectionStart = 0
             TextBox1.SelectionLength = 0
             TextBox1.Select(start, 0)
             TextBox1.ScrollToCaret()
-            'start = 0
-            'length = 0
 
             If My.Settings.autoRead Or (My.Settings.autoNext And reading) Then
+
                 StartTalk()
             Else
                 StopTalk()
@@ -284,7 +273,7 @@ Public Class Form1
         Else
             NoTalk()
         End If
-        'ProgressBar1.Hide()
+
     End Sub
     Private Sub bouyomicheck()
         If Not System.IO.File.Exists(My.Settings.bouyomiPath) Then
@@ -483,16 +472,16 @@ Public Class Form1
     Private Sub Talk()
         Dim lStart As Integer = start
         Dim llength As Integer = length
+        Dim text1 As String
+        Dim text2 As String
         While True
-            'DoSelect(oldStart, start - oldStart + 1)
-            'DoScroll()
+            text1 = GetReaderText()
 
-            Dim src As String = GetReaderText()
+            Dim src As String = text1
             Dim textLength As Integer = src.Length
             If (textLength < 1) Then
                 reading = False
                 NoTalk()
-                'Return
             Else
                 Dim lineend As Int32
                 Try
@@ -518,12 +507,13 @@ Public Class Form1
                 If src.Length > 0 Then
                     EnableButton(Button2)
                     DisableButton(Button1)
+
                     DoSelect(lStart, llength)
                     DoScroll()
                     'Thread.Yield()
+
                     bouyomi(src)
                     Thread.Sleep(50)
-                    'TextBox1.Select(start, length)
                     While isTalking()
 
                         'TextBox1.Select(oldStart, start - oldStart + 1)
@@ -534,7 +524,6 @@ Public Class Form1
 
                 End If
 
-                'TextBox1.ScrollToCaret()
                 oldStart = lStart
                 lStart = lStart + llength + 1
 
@@ -568,6 +557,15 @@ Public Class Form1
                 End If
 
             End While
+            text2 = GetReaderText()
+            If Not text1 = text2 Then
+                '不意のページ遷移対策
+                start = 0
+                length = 0
+                lStart = 0
+                llength = 0
+                Continue While
+            End If
         End While
     End Sub
 

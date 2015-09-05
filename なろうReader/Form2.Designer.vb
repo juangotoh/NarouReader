@@ -33,11 +33,11 @@ Partial Class Form2
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TextBox_bPath = New System.Windows.Forms.TextBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.CheckBox_Maegaki = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Atogaki = New System.Windows.Forms.CheckBox()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.CheckBox_Maegaki = New System.Windows.Forms.CheckBox()
-        Me.CheckBox_Atogaki = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'CheckBox_autoRead
@@ -45,9 +45,9 @@ Partial Class Form2
         Me.CheckBox_autoRead.AutoSize = True
         Me.CheckBox_autoRead.Location = New System.Drawing.Point(12, 12)
         Me.CheckBox_autoRead.Name = "CheckBox_autoRead"
-        Me.CheckBox_autoRead.Size = New System.Drawing.Size(252, 16)
+        Me.CheckBox_autoRead.Size = New System.Drawing.Size(207, 16)
         Me.CheckBox_autoRead.TabIndex = 0
-        Me.CheckBox_autoRead.Text = "ページ読み込み時、自動的に小説を読み上げる"
+        Me.CheckBox_autoRead.Text = "起動すると自動的に小説を読み上げる"
         Me.CheckBox_autoRead.UseVisualStyleBackColor = True
         '
         'CheckBox_autoNext
@@ -124,24 +124,6 @@ Partial Class Form2
         Me.TextBox_bPath.TabIndex = 8
         Me.ToolTip1.SetToolTip(Me.TextBox_bPath, "棒読みちゃんの実行ファイルがある場所を設定します。ファイル名はBouyuomiChan.exeです。")
         '
-        'LinkLabel1
-        '
-        Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(9, 207)
-        Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(152, 12)
-        Me.LinkLabel1.TabIndex = 9
-        Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "棒読みちゃん配布サイトへ移動"
-        '
-        'FontDialog1
-        '
-        Me.FontDialog1.AllowVerticalFonts = False
-        '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
         'CheckBox_Maegaki
         '
         Me.CheckBox_Maegaki.AutoSize = True
@@ -163,6 +145,24 @@ Partial Class Form2
         Me.CheckBox_Atogaki.Text = "後書きを読む"
         Me.ToolTip1.SetToolTip(Me.CheckBox_Atogaki, "後書きがある場合、読み上げます。")
         Me.CheckBox_Atogaki.UseVisualStyleBackColor = True
+        '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.AutoSize = True
+        Me.LinkLabel1.Location = New System.Drawing.Point(9, 207)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(152, 12)
+        Me.LinkLabel1.TabIndex = 9
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "棒読みちゃん配布サイトへ移動"
+        '
+        'FontDialog1
+        '
+        Me.FontDialog1.AllowVerticalFonts = False
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'Form2
         '
