@@ -209,6 +209,114 @@ Namespace My
                 Me("readSubTitle") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.5")>  _
+        Public Property jtalk_a() As Double
+            Get
+                Return CType(Me("jtalk_a"),Double)
+            End Get
+            Set
+                Me("jtalk_a") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property jtalk_fm() As Double
+            Get
+                Return CType(Me("jtalk_fm"),Double)
+            End Get
+            Set
+                Me("jtalk_fm") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property jtalk_jm() As Double
+            Get
+                Return CType(Me("jtalk_jm"),Double)
+            End Get
+            Set
+                Me("jtalk_jm") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.5")>  _
+        Public Property jtalk_jf() As Double
+            Get
+                Return CType(Me("jtalk_jf"),Double)
+            End Get
+            Set
+                Me("jtalk_jf") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property jtalk_r() As Double
+            Get
+                Return CType(Me("jtalk_r"),Double)
+            End Get
+            Set
+                Me("jtalk_r") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property useBouyomi() As Boolean
+            Get
+                Return CType(Me("useBouyomi"),Boolean)
+            End Get
+            Set
+                Me("useBouyomi") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("mei_normal")>  _
+        Public Property jtalk_voice() As String
+            Get
+                Return CType(Me("jtalk_voice"),String)
+            End Get
+            Set
+                Me("jtalk_voice") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-x open_jtalk_dic_shift_jis-1.08  -z 2048000")>  _
+        Public Property jtalk_opt() As String
+            Get
+                Return CType(Me("jtalk_opt"),String)
+            End Get
+            Set
+                Me("jtalk_opt") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-10")>  _
+        Public Property jTalk_g() As Double
+            Get
+                Return CType(Me("jTalk_g"),Double)
+            End Get
+            Set
+                Me("jTalk_g") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -15,7 +15,85 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_1556E5859A084A4FA681A85361685B75"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_34C12EB58E774DCB886D00FD403891E2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3898102D53BD48AAB5EB967B7819EF5D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3AF71A064EAE4E8193256A50197735C5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3BC6900F2AD842D2920D4A4B5CCE53CD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3F6700BD0F3E45F9A20EA4868242A11B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_48904C4DD6CA44D1B78837B06F59F901"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4CEAEECF344F43CF94F9A932C782DE5B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5714DE3E203F424D8DD1CA0705AD702B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5C1BDF7B3508423387E748AC63510A47"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_73B195C0E39649DB863F8E1872788180"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_81F7C9E19B7F464E8A9660A12C86328C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8E0DE5427A16490088710A7214C7E734"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8E300E154A204F2194405D626FBE4865"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -27,7 +105,67 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A047A5ABC3EA4FFE9882C7AFE1E18389"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B009484E82EF45B48DE111E57C753427"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B025FE9604AD44FBBB5A11CA51BBD390"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BA802F8A7EE94EA1967D22CD867B06F1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BAF80E2840504D9D95D8BE92429398E2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C1A8A10417B34CDFB5741334D62B3EDA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C9CB3A2C1EC741C19E1D81E85B679A21"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CB29017601C14DC2B7BC942CF2CBE5BC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DD04D48CDD1D478994E784FF6CFED8E4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E34FD27E08AE453E8F67677A466D4DE8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F8F5004B4B5A434F8436CACD7119178C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -170,6 +308,266 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1556E5859A084A4FA681A85361685B75"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\right-id.def"
+            "TargetName" = "8:right-id.def"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_34C12EB58E774DCB886D00FD403891E2"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\voices\\mei_sad.htsvoice"
+            "TargetName" = "8:mei_sad.htsvoice"
+            "Tag" = "8:"
+            "Folder" = "8:_A360AB9368794B149D31679F9F1BD744"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3898102D53BD48AAB5EB967B7819EF5D"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\licenses\\NarouReader-1.0.7\\COPYING..txt"
+            "TargetName" = "8:COPYING..txt"
+            "Tag" = "8:"
+            "Folder" = "8:_A4BA1ED8BBE84F639CDB4AB4D85247C7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3AF71A064EAE4E8193256A50197735C5"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\sys.dic"
+            "TargetName" = "8:sys.dic"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3BC6900F2AD842D2920D4A4B5CCE53CD"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\rewrite.def"
+            "TargetName" = "8:rewrite.def"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3F6700BD0F3E45F9A20EA4868242A11B"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\voices\\mei_happy.htsvoice"
+            "TargetName" = "8:mei_happy.htsvoice"
+            "Tag" = "8:"
+            "Folder" = "8:_A360AB9368794B149D31679F9F1BD744"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_48904C4DD6CA44D1B78837B06F59F901"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\voices\\nitech_jp_atr503_m001.htsvoice"
+            "TargetName" = "8:nitech_jp_atr503_m001.htsvoice"
+            "Tag" = "8:"
+            "Folder" = "8:_A360AB9368794B149D31679F9F1BD744"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4CEAEECF344F43CF94F9A932C782DE5B"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\licenses\\MMDAgent_Example-1.4-Voice\\mei\\COPYRIGHT.txt"
+            "TargetName" = "8:COPYRIGHT.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_F970FB4ED63D490F99320CB3F3CA657C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5714DE3E203F424D8DD1CA0705AD702B"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\licenses\\hts_engine_API-1.09\\COPYING"
+            "TargetName" = "8:COPYING"
+            "Tag" = "8:"
+            "Folder" = "8:_3B4E73D8204943A697D939F812131F2A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C1BDF7B3508423387E748AC63510A47"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\COPYING"
+            "TargetName" = "8:COPYING"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_73B195C0E39649DB863F8E1872788180"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\matrix.bin"
+            "TargetName" = "8:matrix.bin"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E0DE5427A16490088710A7214C7E734"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\char.bin"
+            "TargetName" = "8:char.bin"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E300E154A204F2194405D626FBE4865"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\licenses\\open_jtalk-1.0.8\\COPYING"
+            "TargetName" = "8:COPYING"
+            "Tag" = "8:"
+            "Folder" = "8:_7D22AB2975524D5EB45284151B5AA167"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_98A253A823C682C548D67332E4DF8C67"
             {
             "AssemblyRegister" = "3:1"
@@ -177,6 +575,11 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_98A253A823C682C548D67332E4DF8C67"
+                    {
+                    "Name" = "8:System.Net.Http.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -196,12 +599,212 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A047A5ABC3EA4FFE9882C7AFE1E18389"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\left-id.def"
+            "TargetName" = "8:left-id.def"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B009484E82EF45B48DE111E57C753427"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\voices\\mei_angry.htsvoice"
+            "TargetName" = "8:mei_angry.htsvoice"
+            "Tag" = "8:"
+            "Folder" = "8:_A360AB9368794B149D31679F9F1BD744"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B025FE9604AD44FBBB5A11CA51BBD390"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\unk.dic"
+            "TargetName" = "8:unk.dic"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BA802F8A7EE94EA1967D22CD867B06F1"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\voices\\mei_normal.htsvoice"
+            "TargetName" = "8:mei_normal.htsvoice"
+            "Tag" = "8:"
+            "Folder" = "8:_A360AB9368794B149D31679F9F1BD744"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BAF80E2840504D9D95D8BE92429398E2"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk_dic_shift_jis-1.08\\pos-id.def"
+            "TargetName" = "8:pos-id.def"
+            "Tag" = "8:"
+            "Folder" = "8:_B00485B5E233473786B2C62D7E7939B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C1A8A10417B34CDFB5741334D62B3EDA"
             {
             "SourcePath" = "8:..\\なろうReader\\icon.ico"
             "TargetName" = "8:icon.ico"
             "Tag" = "8:"
             "Folder" = "8:_0BAE32CBD2624609B534636CD6A72E1C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C9CB3A2C1EC741C19E1D81E85B679A21"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\open_jtalk.exe"
+            "TargetName" = "8:open_jtalk.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_0BAE32CBD2624609B534636CD6A72E1C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CB29017601C14DC2B7BC942CF2CBE5BC"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\licenses\\hts_voice_nitech_jp_atr503_m001-1.05\\COPYING"
+            "TargetName" = "8:COPYING"
+            "Tag" = "8:"
+            "Folder" = "8:_37CE0247183D49B1BF7B0D740E823B8F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DD04D48CDD1D478994E784FF6CFED8E4"
+            {
+            "SourcePath" = "8:..\\readme.txt"
+            "TargetName" = "8:readme.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_0BAE32CBD2624609B534636CD6A72E1C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E34FD27E08AE453E8F67677A466D4DE8"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\voices\\mei_bashful.htsvoice"
+            "TargetName" = "8:mei_bashful.htsvoice"
+            "Tag" = "8:"
+            "Folder" = "8:_A360AB9368794B149D31679F9F1BD744"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F8F5004B4B5A434F8436CACD7119178C"
+            {
+            "SourcePath" = "8:..\\SharedFiles\\licenses\\open_jtalk_dic_shift_jis-1.08\\COPYING"
+            "TargetName" = "8:COPYING"
+            "Tag" = "8:"
+            "Folder" = "8:_E596086C448B47899FF8C102AAD07569"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -254,6 +857,116 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_0E6CDBAB29D14C47B17A5557DF09A7A8"
+                    {
+                    "Name" = "8:licenses"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_38828CBFCDE342B1ADD6385804AFCDE8"
+                        "Folders"
+                        {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_37CE0247183D49B1BF7B0D740E823B8F"
+                            {
+                            "Name" = "8:hts_voice_nitech_jp_atr503_m001-1.05"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_EA1597086A2B47C2A996FE12F114CC93"
+                                "Folders"
+                                {
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_3B4E73D8204943A697D939F812131F2A"
+                            {
+                            "Name" = "8:hts_engine_API-1.09"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_BBC6509404E14554A3FF9599F4EC20CE"
+                                "Folders"
+                                {
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_7D22AB2975524D5EB45284151B5AA167"
+                            {
+                            "Name" = "8:open_jtalk-1.0.8"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_DF02E6D51C5F4DBC82640D6CBF4AEFFB"
+                                "Folders"
+                                {
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_A4BA1ED8BBE84F639CDB4AB4D85247C7"
+                            {
+                            "Name" = "8:NarouReader-1.0.7"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_5D241AC3F8954A409402719E4F4C048B"
+                                "Folders"
+                                {
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_E596086C448B47899FF8C102AAD07569"
+                            {
+                            "Name" = "8:open_jtalk_dic_shift_jis-1.08"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_E7FB9812CDCF4850961980A2933DF1E2"
+                                "Folders"
+                                {
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_F43ED265B78E4140840D46E705B53E2F"
+                            {
+                            "Name" = "8:MMDAgent_Example-1.4-Voice"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_067D4EF990234D15A63A0F62B8DC1385"
+                                "Folders"
+                                {
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_F970FB4ED63D490F99320CB3F3CA657C"
+                                    {
+                                    "Name" = "8:mei"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_62BEFE477CEA4BDEACA858CD8B38EDEE"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_A360AB9368794B149D31679F9F1BD744"
+                    {
+                    "Name" = "8:voices"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_EA960B0F3D824FF695736C3836898352"
+                        "Folders"
+                        {
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_B00485B5E233473786B2C62D7E7939B2"
+                    {
+                    "Name" = "8:open_jtalk_dic_shift_jis-1.08"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_57367E6F3B194CB484B903C361BB3FEF"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_64BE244976AE4774890EAE49EBA18B8C"
@@ -284,7 +997,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:なろうReader"
         "ProductCode" = "8:{54898669-A909-47FA-A793-A520A8C51C94}"
-        "PackageCode" = "8:{004EBB5B-AA5C-4086-9C0A-3AD520CB9276}"
+        "PackageCode" = "8:{D771B4A5-BFEE-4A07-84E7-9BDF89E29B02}"
         "UpgradeCode" = "8:{405D40A6-347C-41DA-AAD9-AEB043F54CB8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -819,7 +1532,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_81F7C9E19B7F464E8A9660A12C86328C"
             {
-            "SourcePath" = "8:..\\なろうReader\\obj\\Releasex64\\なろうReader.exe"
+            "SourcePath" = "8:..\\なろうReader\\obj\\Release\\なろうReader.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0BAE32CBD2624609B534636CD6A72E1C"

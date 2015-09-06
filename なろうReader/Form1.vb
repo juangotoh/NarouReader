@@ -280,7 +280,27 @@ Public Class Form1
         End If
 
     End Sub
+    Public Sub jtalk(text As String, opt As String)
+        Dim ps1 As New Diagnostics.ProcessStartInfo
+        ps1.FileName = "open_jtalk.exe"
+        ps1.Arguments = opt
+        ps1.CreateNoWindow = True
+        ps1.UseShellExecute = False
+        ps1.RedirectStandardInput = True
+        ps1.WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath)
+        Dim hProcess As Diagnostics.Process = Diagnostics.Process.Start(ps1)
+        Dim sw As StreamWriter = hProcess.StandardInput
+        text = text.Trim
+        sw.Write(text)
+        sw.Close()
+        hProcess.WaitForExit()
+        hProcess.Close()
+        hProcess.Dispose()
+    End Sub
     Private Sub bouyomicheck()
+        If Not My.Settings.useBouyomi Then
+            Return
+        End If
         If Not System.IO.File.Exists(My.Settings.bouyomiPath) Then
             MessageBox.Show("棒読みちゃんの場所を設定してください", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
             doSetting()
@@ -305,7 +325,7 @@ Public Class Form1
 
 
     End Sub
-    Private Sub bouyomi(str As String)
+    Public Sub bouyomi(str As String)
         Dim bMessage As Byte()
         bMessage = System.Text.Encoding.UTF8.GetBytes(str)
         Dim length As Int32 = bMessage.Length
@@ -342,8 +362,24 @@ Public Class Form1
 
         End Try
     End Sub
-    Private Sub stopbouyomi()
+    Public Function jOpt(voice As String, a As Double, fm As Double, jm As Double, jf As Double, r As Double, g As Integer) As String
+        Dim result = My.Settings.jtalk_opt
+        result = result + " -m voices/" + voice + ".htsvoice"
+        result = result + " -a " + a.ToString
+        result = result + " -fm " + fm.ToString
+        result = result + " -jm " + jm.ToString
+        result = result + " -jf " + jf.ToString
+        result = result + " -r " + r.ToString
+        result = result + " -g " + g.ToString
 
+        result = result + " -p 240 -u 0.2 -b 0.1 -s 48000"
+        Return result
+    End Function
+
+    Private Sub stopbouyomi()
+        If Not My.Settings.useBouyomi Then
+            Return
+        End If
         Dim iCommand As Int16 = 64
 
         Dim sHost As String = "127.0.0.1"
@@ -361,6 +397,9 @@ Public Class Form1
 
     End Sub
     Private Function isTalking() As Boolean
+        If Not My.Settings.useBouyomi Then
+            Return False
+        End If
         Dim iCommand As Int16 = 288
         Dim iResult As Byte = 0
         Dim sHost As String = "127.0.0.1"
@@ -518,7 +557,19 @@ Public Class Form1
                         DoScroll()
                         Thread.Yield()
                         If src.Length > 0 Then
-                            bouyomi(src)
+                            src = src.Trim
+                            If My.Settings.useBouyomi Then
+                                bouyomi(src)
+                            Else
+                                Dim opt As String = jOpt(My.Settings.jtalk_voice, My.Settings.jtalk_a, My.Settings.jtalk_fm, My.Settings.jtalk_jm, My.Settings.jtalk_jf, My.Settings.jtalk_r, My.Settings.jTalk_g)
+                                'Dim lines As Array = src.Split("。")
+                                'For Each line In lines
+                                '    jtalk(line, opt)
+                                'Next
+                                jtalk(src, opt)
+                            End If
+
+
                             Thread.Sleep(50)
                             While isTalking()
 

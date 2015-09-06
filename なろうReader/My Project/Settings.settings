@@ -41,5 +41,32 @@
     <Setting Name="readSubTitle" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="jtalk_a" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="jtalk_fm" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="jtalk_jm" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="jtalk_jf" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="jtalk_r" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="useBouyomi" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="jtalk_voice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mei_normal</Value>
+    </Setting>
+    <Setting Name="jtalk_opt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-x open_jtalk_dic_shift_jis-1.08  -z 2048000</Value>
+    </Setting>
+    <Setting Name="jTalk_g" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">-10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
