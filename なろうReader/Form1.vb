@@ -4,6 +4,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Public Class Form1
     Dim myTitle = Me.Text
+    Dim novelTitle As String = ""
     Dim reading As Boolean = False
     Dim firstRead As Boolean = True
     Dim title As String = ""
@@ -30,7 +31,7 @@ Public Class Form1
     Dim readingText As String = "読み上げ中..."
     Dim stoppingText As String = "読み上げ停止中"
     Dim noReadingText As String = "読み上げる文章がありません"
-
+    Dim echoDir As String = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\" + My.Application.Info.Title
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
@@ -122,8 +123,6 @@ Public Class Form1
 
         StopTalk()
         TextBox1.Text = ""
-        Console.WriteLine(WebBrowser1.DocumentTitle)
-        Console.WriteLine(WebBrowser1.ReadyState.ToString)
         If oldUrl.Length > 0 Then
             If hIndex = 0 Then
                 If bList.Count > 0 Then
@@ -237,6 +236,7 @@ Public Class Form1
             If author <> "" Then
                 title = title + ControlChars.NewLine + author + karagyou
             End If
+            novelTitle = title
             If My.Settings.readMaegaki Then
                 maeText = RubyConvert(maegaki) + karagyou
             End If
@@ -556,6 +556,8 @@ Public Class Form1
         Dim oldLength As Integer = length
         Dim text1 As String
         Dim text2 As String
+        Dim echofile As String = echoDir + "\echo.txt"
+
         While True
             text1 = GetReaderText()
 
@@ -578,7 +580,6 @@ Public Class Form1
                 If llength >= 0 Then
                     Try
                         src = src.Substring(lStart, llength)
-                        'Console.WriteLine(src + vbCrLf)
                     Catch
                         'src = src.Substring(lStart, -1)
 
@@ -593,22 +594,36 @@ Public Class Form1
                         DoScroll()
                         Thread.Yield()
                         If My.Settings.useBouyomi Then
-                            bouyomi(src)
-                            'Thread.Sleep(100)
-                            Dim st As New Stopwatch
-                            st.Start()
-                            While Not isTalking()
-                                '実際に発音し始めるまで待つ。何らかのエラーで発音しない状態が続くとまずいので2秒経過したら抜ける
-                                Dim et As TimeSpan = st.Elapsed
-                                If et.TotalSeconds > 2 Then
-                                    Exit While
-                                End If
-                                'Thread.Sleep(100)
-                            End While
-                            st.Stop()
-                            While isTalking()
-                                'Thread.Sleep(100)
-                            End While
+                            Dim lines As Array = src.Split("。")
+                            For i = 0 To lines.Length - 1
+                                Dim line As String = lines(i)
+                                Dim shortlines As Array = line.Split("、")
+                                For k = 0 To shortlines.Length - 1
+                                    Dim shortline As String = shortlines(k)
+                                    bouyomi(shortline + " ")
+                                    Dim echoOut As New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
+                                    echoOut.Write(shortline)
+                                    echoOut.Close()
+                                    'Thread.Sleep(100)
+                                    Dim st As New Stopwatch
+                                    st.Start()
+                                    While Not isTalking()
+                                        '実際に発音し始めるまで待つ。何らかのエラーで発音しない状態が続くとまずいので2秒経過したら抜ける
+                                        Dim et As TimeSpan = st.Elapsed
+                                        If et.TotalSeconds > 2 Then
+                                            Exit While
+                                        End If
+                                        'Thread.Sleep(100)
+                                    End While
+                                    st.Stop()
+                                    While isTalking()
+                                        'Thread.Sleep(100)
+                                    End While
+                                Next
+
+
+                            Next
+
 
                         Else
                             Dim opt As String = jOpt(My.Settings.jtalk_voice, My.Settings.jtalk_a, My.Settings.jtalk_fm, My.Settings.jtalk_jm, My.Settings.jtalk_jf, My.Settings.jtalk_r, My.Settings.jTalk_g)
@@ -666,6 +681,10 @@ Public Class Form1
     End Sub
 
     Private Sub StartTalk()
+        Dim ecohTiteFile As String = echoDir + "\title.txt"
+        Dim echoOut As New StreamWriter(ecohTiteFile, False, System.Text.Encoding.UTF8)
+        echoOut.Write("小説家になろう:" + novelTitle)
+        echoOut.Close()
         'Timer1.Start()
         'tThread.Start()
         talkStopped = True
@@ -681,7 +700,14 @@ Public Class Form1
         BlinkTimer.Start()
     End Sub
     Private Sub StopTalk()
-
+        Dim echoTiteFile As String = echoDir + "\title.txt"
+        Dim echoFile As String = echoDir + "\echo.txt"
+        Dim echoOut As New StreamWriter(echoTiteFile, False, System.Text.Encoding.UTF8)
+        echoOut.Write("")
+        echoOut.Close()
+        Dim ww As New StreamWriter(echoFile, False, System.Text.Encoding.UTF8)
+        ww.Write("")
+        ww.Close()
         talkStopped = True
         EnableButton(playStopButton)
         SetButtonImage(playStopButton, 0)
@@ -853,12 +879,9 @@ Public Class Form1
         item = e.ClickedItem
         num = Integer.Parse(item.Tag)
         max = bList.Count - 1
-        'Console.WriteLine("選択：" + item.Text)
         Dim pItem As Array = {}
         For i = 0 To num
             pItem = bList.Item(max - i)
-            Console.WriteLine(pItem(0))
-            Console.WriteLine(pItem(1))
             fList.Add(pItem)
             bList.Remove(pItem)
         Next
@@ -902,12 +925,9 @@ Public Class Form1
         item = e.ClickedItem
         num = Integer.Parse(item.Tag)
         max = fList.Count - 1
-        'Console.WriteLine("選択：" + item.Text)
         Dim pItem As Array = {}
         For i = 0 To num
             pItem = fList.Item(max - i)
-            Console.WriteLine(pItem(0))
-            Console.WriteLine(pItem(1))
             bList.Add(pItem)
             fList.Remove(pItem)
         Next
