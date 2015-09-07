@@ -27,10 +27,14 @@ Public Class Form1
     Dim hIndex As Integer = 0
     Dim talkStopped As Boolean = True
     Dim talkStart As Boolean = False
+    Dim readingText As String = "読み上げ中..."
+    Dim stoppingText As String = "読み上げ停止中"
+    Dim noReadingText As String = "読み上げる文章がありません"
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
+        WriteReadingLabel(readingText)
         myTitle = Me.Text
         bouyomicheck()
         Me.ClientSize = My.Settings.MyClientSize
@@ -39,7 +43,6 @@ Public Class Form1
         length = 0
         oldStart = 0
         WebBrowser1.ScriptErrorsSuppressed = True
-
         If startpage.Length = 0 Then startpage = homeUrl
         loadURL(startpage)
         TextBox1.HideSelection = False
@@ -49,8 +52,6 @@ Public Class Form1
         tThread.IsBackground = True
         tThread.Name = "TalkThread"
         tThread.Start()
-
-
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
@@ -62,7 +63,6 @@ Public Class Form1
         Dim honbun As String = ""
         Try
             Dim origHtml = content.InnerHtml
-
             elems = content.GetElementsByTagName("RUBY")
             If elems.Count > 0 Then
                 For Each elem As HtmlElement In elems
@@ -90,11 +90,8 @@ Public Class Form1
                         'ルビベースを読み仮名で置き換え
                         elem.OuterHtml = yomiText
                     End If
-
-
                 Next
                 honbun = content.InnerText
-
                 'Webブラウザ画面でルビをいじった部分を元に戻す
                 content.InnerHtml = origHtml
             Else
@@ -106,21 +103,23 @@ Public Class Form1
         Return honbun
     End Function
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
-        ProgressBar1.Hide()
-        EnableButton(Button_reload)
+
         If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
+            EnableButton(Button_reload)
+            ProgressBar1.Hide()
             Return
         End If
 
         If oldUrl = WebBrowser1.Url.ToString Then
-            EnableButton(Button_reload)
             ProgressBar1.Hide()
+            EnableButton(Button_reload)
             Thread.Yield()
             Return
 
         Else
             TextBox1.Text = ""
         End If
+
         StopTalk()
         TextBox1.Text = ""
         Console.WriteLine(WebBrowser1.DocumentTitle)
@@ -279,6 +278,7 @@ Public Class Form1
             NoTalk()
         End If
 
+
     End Sub
     Public Sub jtalk(text As String, opt As String)
         Dim ps1 As New Diagnostics.ProcessStartInfo
@@ -400,6 +400,7 @@ Public Class Form1
         If Not My.Settings.useBouyomi Then
             Return False
         End If
+        Thread.Sleep(200)
         Dim iCommand As Int16 = 288
         Dim iResult As Byte = 0
         Dim sHost As String = "127.0.0.1"
@@ -426,14 +427,20 @@ Public Class Form1
     End Function
     Private Sub Form1_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
         StopTalk()
+        tThread.Abort()
     End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        start = TextBox1.SelectionStart
-        reading = True
-        oldStart = start
-        length = 0
-        StartTalk()
+    Private Sub playStopButton_Click(sender As Object, e As EventArgs) Handles playStopButton.Click
+        If playStopButton.ImageIndex = 0 Then
+            start = TextBox1.SelectionStart
+            reading = True
+            oldStart = start
+            length = 0
+            StartTalk()
+        Else
+            reading = False
+            StopTalk()
+            stopbouyomi()
+        End If
     End Sub
 
     Private Sub WebBrowser1_NewWindow(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles WebBrowser1.NewWindow
@@ -446,14 +453,43 @@ Public Class Form1
         e.Cancel = True
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        reading = False
-        StopTalk()
-        stopbouyomi()
+    Private Delegate Sub dlgSetTip(b As Button, ByVal text As String)
+    Public Sub SetTip(b As Button, ByVal text As String)
+        If Me.Label_reading.InvokeRequired Then
+            Static Dim d As dlgSetTip = New dlgSetTip(AddressOf Me.SetTip)
+            Me.Label_reading.Invoke(d, b, text)
+            Return
+        End If
+        ToolTip1.SetToolTip(b, text)
     End Sub
-
-
-
+    Private Delegate Sub dlgSetReadingColor(fc As Color, bc As Color)
+    Public Sub SetReadingColor(fc As Color, bc As Color)
+        If Me.Label_reading.InvokeRequired Then
+            Static Dim d As dlgSetReadingColor = New dlgSetReadingColor(AddressOf Me.SetReadingColor)
+            Me.Label_reading.Invoke(d, fc, bc)
+            Return
+        End If
+        Me.Label_reading.ForeColor = fc
+        Me.Label_reading.BackColor = bc
+    End Sub
+    Private Delegate Sub dlgWriteRadinglabel(ByVal text As String)
+    Public Sub WriteReadingLabel(ByVal text As String)
+        If Me.Label_reading.InvokeRequired Then
+            Static Dim d As dlgWriteRadinglabel = New dlgWriteRadinglabel(AddressOf Me.WriteReadingLabel)
+            Me.Label_reading.Invoke(d, text)
+            Return
+        End If
+        Me.Label_reading.Text = text
+    End Sub
+    Private Delegate Sub dlgShowReading()
+    Public Sub ShowReading()
+        If Me.Label_reading.InvokeRequired Then
+            Static Dim d As dlgShowReading = New dlgShowReading(AddressOf Me.ShowReading)
+            Me.Label_reading.Invoke(d)
+            Return
+        End If
+        Me.Label_reading.Show()
+    End Sub
     Private Delegate Sub dlgWriteText(ByVal text As String)
     Public Sub SetURL(ByVal text As String)
         If Me.TextBox_url.InvokeRequired Then ' Delete
@@ -514,6 +550,7 @@ Public Class Form1
     End Sub
 
     Private Sub Talk()
+        ' テキスト読み上げ処理：Threadで実行される
         Dim lStart As Integer = start
         Dim llength As Integer = length
         Dim oldLength As Integer = length
@@ -522,7 +559,7 @@ Public Class Form1
         While True
             text1 = GetReaderText()
 
-            Dim src As String = text1
+            Dim src As String = text1.Trim()
             Dim textLength As Integer = src.Length
             If (textLength < 1) Then
                 reading = False
@@ -538,7 +575,6 @@ Public Class Form1
                     lineend = textLength
                 End If
                 llength = lineend - lStart
-                'TextBox1.SelectionStart = start
                 If llength >= 0 Then
                     Try
                         src = src.Substring(lStart, llength)
@@ -548,48 +584,37 @@ Public Class Form1
 
                     End Try
                 End If
-
-                If src.Trim <> "" Then
-                    EnableButton(Button2)
-                    DisableButton(Button1)
+                src = src.Trim
+                If src.Length > 0 Then
+                    'EnableButton(Button2)
+                    'DisableButton(Button1)
                     If Not (oldStart = lStart And oldLength = llength) Then
                         DoSelect(lStart, llength)
                         DoScroll()
                         Thread.Yield()
-                        If src.Length > 0 Then
-                            src = src.Trim
-                            If My.Settings.useBouyomi Then
-                                bouyomi(src)
-                            Else
-                                Dim opt As String = jOpt(My.Settings.jtalk_voice, My.Settings.jtalk_a, My.Settings.jtalk_fm, My.Settings.jtalk_jm, My.Settings.jtalk_jf, My.Settings.jtalk_r, My.Settings.jTalk_g)
-                                'Dim lines As Array = src.Split("。")
-                                'For Each line In lines
-                                '    jtalk(line, opt)
-                                'Next
-                                jtalk(src, opt)
-                            End If
-
-
-                            Thread.Sleep(50)
-                            While isTalking()
-
-                                'TextBox1.Select(oldStart, start - oldStart + 1)
-                                'TextBox1.ScrollToCaret()
-                                'Return
-                                Thread.Sleep(50)
+                        If My.Settings.useBouyomi Then
+                            bouyomi(src)
+                            'Thread.Sleep(100)
+                            Dim st As New Stopwatch
+                            st.Start()
+                            While Not isTalking()
+                                '実際に発音し始めるまで待つ。何らかのエラーで発音しない状態が続くとまずいので2秒経過したら抜ける
+                                Dim et As TimeSpan = st.Elapsed
+                                If et.TotalSeconds > 2 Then
+                                    Exit While
+                                End If
+                                'Thread.Sleep(100)
                             End While
+                            st.Stop()
+                            While isTalking()
+                                'Thread.Sleep(100)
+                            End While
+
+                        Else
+                            Dim opt As String = jOpt(My.Settings.jtalk_voice, My.Settings.jtalk_a, My.Settings.jtalk_fm, My.Settings.jtalk_jm, My.Settings.jtalk_jf, My.Settings.jtalk_r, My.Settings.jTalk_g)
+                            jtalk(src, opt)
                         End If
-
                     End If
-
-                    'While isTalking()
-
-                    '    'TextBox1.Select(oldStart, start - oldStart + 1)
-                    '    'TextBox1.ScrollToCaret()
-                    '    'Return
-                    '    Thread.Sleep(50)
-                    'End While
-
                 End If
 
                 oldStart = lStart
@@ -597,7 +622,7 @@ Public Class Form1
                 lStart = lStart + llength + 1
 
                 If textLength > 0 And lStart >= textLength Then
-
+                    DoSelect(textLength, 0)
                     Dim nexturl As String = nextStory
                     If nextStory.Length > 0 And My.Settings.autoNext Then
                         loadURL(nextStory)
@@ -611,6 +636,7 @@ Public Class Form1
                         lStart = textLength - 1
 
                     End If
+                    StopTalk()
                     'talkStopped = True
                 End If
 
@@ -644,20 +670,33 @@ Public Class Form1
         'tThread.Start()
         talkStopped = True
         talkStart = True
-        EnableButton(Button2)
-        DisableButton(Button1)
+        EnableButton(playStopButton)
+        SetButtonImage(playStopButton, 1)
+        SetTip(playStopButton, "読み上げを停止します")
+
+
+        WriteReadingLabel(readingText)
+        'SetReadingColor(Color.Yellow, Color.Green)
+        Thread.Sleep(100)
+        BlinkTimer.Start()
     End Sub
     Private Sub StopTalk()
 
         talkStopped = True
-
-
-        EnableButton(Button1)
-        DisableButton(Button2)
+        EnableButton(playStopButton)
+        SetButtonImage(playStopButton, 0)
+        WriteReadingLabel(stoppingText)
+        SetTip(playStopButton, "読み上げを開始します")
+        BlinkTimer.Stop()
+        'SetReadingColor(Color.Black, Color.Transparent)
+        ShowReading()
+        Thread.Sleep(100)
     End Sub
     Private Sub NoTalk()
-        DisableButton(Button1)
-        DisableButton(Button2)
+        DisableButton(playStopButton)
+        SetButtonImage(playStopButton, 0)
+        WriteReadingLabel(noReadingText)
+
     End Sub
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         My.Settings.MyClientSize = Me.ClientSize
@@ -755,13 +794,17 @@ Public Class Form1
         WebBrowser1.Select()
     End Sub
 
-    Private Sub Button1_Enter(sender As Object, e As EventArgs) Handles Button1.Enter
+    Private Sub Button1_Enter(sender As Object, e As EventArgs)
         WebBrowser1.Select()
     End Sub
 
-    Private Sub Button2_Enter(sender As Object, e As EventArgs) Handles Button2.Enter
+    Private Sub Button2_Enter(sender As Object, e As EventArgs)
         WebBrowser1.Select()
     End Sub
+    Private Sub playStopButton_Enter(sender As Object, e As EventArgs) Handles playStopButton.Enter
+        WebBrowser1.Select()
+    End Sub
+
     Private Sub EnableButton(b As Button)
         SetButtonImage(b, 0)
         SetButtonEnabld(b, True)
@@ -810,7 +853,7 @@ Public Class Form1
         item = e.ClickedItem
         num = Integer.Parse(item.Tag)
         max = bList.Count - 1
-        Console.WriteLine("選択：" + item.Text)
+        'Console.WriteLine("選択：" + item.Text)
         Dim pItem As Array = {}
         For i = 0 To num
             pItem = bList.Item(max - i)
@@ -859,7 +902,7 @@ Public Class Form1
         item = e.ClickedItem
         num = Integer.Parse(item.Tag)
         max = fList.Count - 1
-        Console.WriteLine("選択：" + item.Text)
+        'Console.WriteLine("選択：" + item.Text)
         Dim pItem As Array = {}
         For i = 0 To num
             pItem = fList.Item(max - i)
@@ -892,4 +935,17 @@ Public Class Form1
         Timer3.Stop()
 
     End Sub
+
+    Private Sub BlinkTimer_Tick(sender As Object, e As EventArgs) Handles BlinkTimer.Tick
+        Static show As Boolean = True
+        If show Then
+            show = False
+            Label_reading.Show()
+        Else
+            show = True
+            Label_reading.Hide()
+        End If
+    End Sub
+
+
 End Class

@@ -25,11 +25,8 @@ Partial Class Form1
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.PlayImages = New System.Windows.Forms.ImageList(Me.components)
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.StopImages = New System.Windows.Forms.ImageList(Me.components)
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
@@ -45,11 +42,15 @@ Partial Class Form1
         Me.HomeImages = New System.Windows.Forms.ImageList(Me.components)
         Me.Button_Setting = New System.Windows.Forms.Button()
         Me.SettingImages = New System.Windows.Forms.ImageList(Me.components)
-        Me.ToolTip_Read = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.bMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.fMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.Label_reading = New System.Windows.Forms.Label()
+        Me.BlinkTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.playStopButton = New System.Windows.Forms.Button()
+        Me.playStopImages = New System.Windows.Forms.ImageList(Me.components)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -63,20 +64,8 @@ Partial Class Form1
         Me.WebBrowser1.Location = New System.Drawing.Point(0, 0)
         Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
         Me.WebBrowser1.Name = "WebBrowser1"
-        Me.WebBrowser1.Size = New System.Drawing.Size(857, 427)
+        Me.WebBrowser1.Size = New System.Drawing.Size(857, 418)
         Me.WebBrowser1.TabIndex = 0
-        '
-        'Button1
-        '
-        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.ImageIndex = 0
-        Me.Button1.ImageList = Me.PlayImages
-        Me.Button1.Location = New System.Drawing.Point(761, 6)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(24, 24)
-        Me.Button1.TabIndex = 3
-        Me.ToolTip_Read.SetToolTip(Me.Button1, "このページの小説を読み上げます")
-        Me.Button1.UseVisualStyleBackColor = True
         '
         'PlayImages
         '
@@ -84,18 +73,6 @@ Partial Class Form1
         Me.PlayImages.TransparentColor = System.Drawing.Color.Transparent
         Me.PlayImages.Images.SetKeyName(0, "play_s.png")
         Me.PlayImages.Images.SetKeyName(1, "play_s_gray.png")
-        '
-        'Button2
-        '
-        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button2.ImageIndex = 0
-        Me.Button2.ImageList = Me.StopImages
-        Me.Button2.Location = New System.Drawing.Point(791, 6)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(24, 24)
-        Me.Button2.TabIndex = 4
-        Me.ToolTip_Read.SetToolTip(Me.Button2, "読み上げを停止します")
-        Me.Button2.UseVisualStyleBackColor = True
         '
         'StopImages
         '
@@ -114,7 +91,7 @@ Partial Class Form1
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
         Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TextBox1.Size = New System.Drawing.Size(857, 109)
+        Me.TextBox1.Size = New System.Drawing.Size(857, 107)
         Me.TextBox1.TabIndex = 2
         '
         'SplitContainer1
@@ -134,8 +111,8 @@ Partial Class Form1
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(857, 540)
-        Me.SplitContainer1.SplitterDistance = 427
+        Me.SplitContainer1.Size = New System.Drawing.Size(857, 529)
+        Me.SplitContainer1.SplitterDistance = 418
         Me.SplitContainer1.TabIndex = 0
         '
         'PictureBox1
@@ -153,13 +130,13 @@ Partial Class Form1
         Me.TextBox_url.Font = New System.Drawing.Font("MS UI Gothic", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.TextBox_url.Location = New System.Drawing.Point(132, 7)
         Me.TextBox_url.Name = "TextBox_url"
-        Me.TextBox_url.Size = New System.Drawing.Size(623, 23)
+        Me.TextBox_url.Size = New System.Drawing.Size(683, 23)
         Me.TextBox_url.TabIndex = 9
         '
         'ProgressBar1
         '
         Me.ProgressBar1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(607, 584)
+        Me.ProgressBar1.Location = New System.Drawing.Point(607, 578)
         Me.ProgressBar1.MarqueeAnimationSpeed = 1
         Me.ProgressBar1.Maximum = 10
         Me.ProgressBar1.Name = "ProgressBar1"
@@ -176,7 +153,7 @@ Partial Class Form1
         Me.Button_Back.Name = "Button_Back"
         Me.Button_Back.Size = New System.Drawing.Size(24, 24)
         Me.Button_Back.TabIndex = 11
-        Me.ToolTip_Read.SetToolTip(Me.Button_Back, "クリックすると前に戻ります")
+        Me.ToolTip1.SetToolTip(Me.Button_Back, "クリックすると前に戻ります")
         Me.Button_Back.UseVisualStyleBackColor = True
         '
         'LarrowImages
@@ -194,7 +171,7 @@ Partial Class Form1
         Me.Button_Forward.Name = "Button_Forward"
         Me.Button_Forward.Size = New System.Drawing.Size(24, 24)
         Me.Button_Forward.TabIndex = 12
-        Me.ToolTip_Read.SetToolTip(Me.Button_Forward, "クリックすると次に進みます")
+        Me.ToolTip1.SetToolTip(Me.Button_Forward, "クリックすると次に進みます")
         Me.Button_Forward.UseVisualStyleBackColor = True
         '
         'RarrowList
@@ -212,7 +189,7 @@ Partial Class Form1
         Me.Button_reload.Name = "Button_reload"
         Me.Button_reload.Size = New System.Drawing.Size(24, 24)
         Me.Button_reload.TabIndex = 13
-        Me.ToolTip_Read.SetToolTip(Me.Button_reload, "このページを再読み込みします")
+        Me.ToolTip1.SetToolTip(Me.Button_reload, "このページを再読み込みします")
         Me.Button_reload.UseVisualStyleBackColor = True
         '
         'ReloadImages
@@ -230,7 +207,7 @@ Partial Class Form1
         Me.Button_home.Name = "Button_home"
         Me.Button_home.Size = New System.Drawing.Size(24, 24)
         Me.Button_home.TabIndex = 14
-        Me.ToolTip_Read.SetToolTip(Me.Button_home, "小説家になろうホームページに移動します")
+        Me.ToolTip1.SetToolTip(Me.Button_home, "小説家になろうホームページに移動します")
         Me.Button_home.UseVisualStyleBackColor = True
         '
         'HomeImages
@@ -250,7 +227,7 @@ Partial Class Form1
         Me.Button_Setting.Name = "Button_Setting"
         Me.Button_Setting.Size = New System.Drawing.Size(24, 24)
         Me.Button_Setting.TabIndex = 15
-        Me.ToolTip_Read.SetToolTip(Me.Button_Setting, "設定ダイアログを表示します")
+        Me.ToolTip1.SetToolTip(Me.Button_Setting, "設定ダイアログを表示します")
         Me.Button_Setting.UseVisualStyleBackColor = True
         '
         'SettingImages
@@ -273,16 +250,51 @@ Partial Class Form1
         '
         Me.fMenu.Name = "fMenu"
         Me.fMenu.ShowImageMargin = False
-        Me.fMenu.Size = New System.Drawing.Size(128, 26)
+        Me.fMenu.Size = New System.Drawing.Size(36, 4)
         '
         'Timer3
         '
+        '
+        'Label_reading
+        '
+        Me.Label_reading.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label_reading.AutoSize = True
+        Me.Label_reading.Location = New System.Drawing.Point(58, 578)
+        Me.Label_reading.Name = "Label_reading"
+        Me.Label_reading.Size = New System.Drawing.Size(38, 12)
+        Me.Label_reading.TabIndex = 16
+        Me.Label_reading.Text = "Label1"
+        '
+        'BlinkTimer
+        '
+        Me.BlinkTimer.Interval = 500
+        '
+        'playStopButton
+        '
+        Me.playStopButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.playStopButton.ImageIndex = 0
+        Me.playStopButton.ImageList = Me.playStopImages
+        Me.playStopButton.Location = New System.Drawing.Point(12, 571)
+        Me.playStopButton.Name = "playStopButton"
+        Me.playStopButton.Size = New System.Drawing.Size(24, 24)
+        Me.playStopButton.TabIndex = 17
+        Me.ToolTip1.SetToolTip(Me.playStopButton, "このページの小説を読み上げます")
+        Me.playStopButton.UseVisualStyleBackColor = True
+        '
+        'playStopImages
+        '
+        Me.playStopImages.ImageStream = CType(resources.GetObject("playStopImages.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.playStopImages.TransparentColor = System.Drawing.Color.Transparent
+        Me.playStopImages.Images.SetKeyName(0, "play_s.png")
+        Me.playStopImages.Images.SetKeyName(1, "pause_s.png")
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(857, 599)
+        Me.Controls.Add(Me.playStopButton)
+        Me.Controls.Add(Me.Label_reading)
         Me.Controls.Add(Me.Button_Setting)
         Me.Controls.Add(Me.Button_home)
         Me.Controls.Add(Me.Button_reload)
@@ -290,9 +302,7 @@ Partial Class Form1
         Me.Controls.Add(Me.Button_Back)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.TextBox_url)
-        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Controls.Add(Me.Button2)
         Me.DataBindings.Add(New System.Windows.Forms.Binding("Location", Global.なろうReader.My.MySettings.Default, "MyLocation", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Location = Global.なろうReader.My.MySettings.Default.MyLocation
@@ -312,9 +322,6 @@ Partial Class Form1
 
     Friend WithEvents WebBrowser1 As WebBrowser
     Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Timer1 As Timer
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents TextBox_url As TextBox
     Friend WithEvents ProgressBar1 As ProgressBar
@@ -326,7 +333,7 @@ Partial Class Form1
     Friend WithEvents Button_reload As Button
     Friend WithEvents Button_home As Button
     Friend WithEvents Button_Setting As Button
-    Friend WithEvents ToolTip_Read As ToolTip
+    Friend WithEvents ToolTip1 As ToolTip
     Friend WithEvents PlayImages As ImageList
     Friend WithEvents StopImages As ImageList
     Friend WithEvents SettingImages As ImageList
@@ -336,4 +343,8 @@ Partial Class Form1
     Friend WithEvents Timer2 As Timer
     Friend WithEvents fMenu As ContextMenuStrip
     Friend WithEvents Timer3 As Timer
+    Friend WithEvents Label_reading As Label
+    Friend WithEvents BlinkTimer As Timer
+    Friend WithEvents playStopButton As Button
+    Friend WithEvents playStopImages As ImageList
 End Class

@@ -51,6 +51,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_487B48C951FE419F9EDFEDA569DD8828"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_48904C4DD6CA44D1B78837B06F59F901"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -414,6 +420,26 @@
             "TargetName" = "8:mei_happy.htsvoice"
             "Tag" = "8:"
             "Folder" = "8:_A360AB9368794B149D31679F9F1BD744"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_487B48C951FE419F9EDFEDA569DD8828"
+            {
+            "SourcePath" = "8:..\\ChangeLog.txt"
+            "TargetName" = "8:ChangeLog.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_0BAE32CBD2624609B534636CD6A72E1C"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -997,7 +1023,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:なろうReader"
         "ProductCode" = "8:{54898669-A909-47FA-A793-A520A8C51C94}"
-        "PackageCode" = "8:{D771B4A5-BFEE-4A07-84E7-9BDF89E29B02}"
+        "PackageCode" = "8:{38F44700-8764-49BE-AA0E-D70A033DDF03}"
         "UpgradeCode" = "8:{405D40A6-347C-41DA-AAD9-AEB043F54CB8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
