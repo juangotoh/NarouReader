@@ -32,6 +32,7 @@ Public Class Form1
     Dim stoppingText As String = "読み上げ停止中"
     Dim noReadingText As String = "読み上げる文章がありません"
     Dim echoDir As String = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\" + My.Application.Info.Title
+    Dim multiLoad As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
@@ -104,17 +105,19 @@ Public Class Form1
         Return honbun
     End Function
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
-
-        If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
-            EnableButton(Button_reload)
-            ProgressBar1.Hide()
-            Return
-        End If
+        Static Dim multi As Integer = 0
+        'If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
+        '    EnableButton(Button_reload)
+        '    ProgressBar1.Hide()
+        '    Return
+        'End If
 
         If oldUrl = WebBrowser1.Url.ToString Then
+
             ProgressBar1.Hide()
             EnableButton(Button_reload)
             Thread.Yield()
+
             Return
 
         Else
@@ -122,7 +125,7 @@ Public Class Form1
         End If
 
         StopTalk()
-        TextBox1.Text = ""
+        'TextBox1.Text = ""
         If oldUrl.Length > 0 Then
             If hIndex = 0 Then
                 If bList.Count > 0 Then
@@ -277,8 +280,8 @@ Public Class Form1
         Else
             NoTalk()
         End If
-
-
+        EnableButton(Button_reload)
+        ProgressBar1.Hide()
     End Sub
     Public Sub jtalk(text As String, opt As String)
         Dim ps1 As New Diagnostics.ProcessStartInfo
@@ -587,49 +590,41 @@ Public Class Form1
                 End If
                 src = src.Trim
                 If src.Length > 0 Then
-                    'EnableButton(Button2)
-                    'DisableButton(Button1)
-                    If Not (oldStart = lStart And oldLength = llength) Then
-                        DoSelect(lStart, llength)
-                        DoScroll()
+                    DoSelect(lStart, llength)
+                    DoScroll()
                         Thread.Yield()
-                        If My.Settings.useBouyomi Then
-                            Dim lines As Array = src.Split("。")
-                            For i = 0 To lines.Length - 1
-                                Dim line As String = lines(i)
-                                Dim shortlines As Array = line.Split("、")
-                                For k = 0 To shortlines.Length - 1
-                                    Dim shortline As String = shortlines(k)
-                                    bouyomi(shortline + " ")
-                                    Dim echoOut As New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
-                                    echoOut.Write(shortline)
-                                    echoOut.Close()
+                    If My.Settings.useBouyomi Then
+                        Dim lines As Array = src.Split("。")
+                        For i = 0 To lines.Length - 1
+                            Dim line As String = lines(i)
+                            Dim shortlines As Array = line.Split("、")
+                            For k = 0 To shortlines.Length - 1
+                                Dim shortline As String = shortlines(k)
+                                bouyomi(shortline + " ")
+                                Dim echoOut As New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
+                                echoOut.Write(shortline)
+                                echoOut.Close()
+                                'Thread.Sleep(100)
+                                Dim st As New Stopwatch
+                                st.Start()
+                                While Not isTalking()
+                                    '実際に発音し始めるまで待つ。何らかのエラーで発音しない状態が続くとまずいので2秒経過したら抜ける
+                                    Dim et As TimeSpan = st.Elapsed
+                                    If et.TotalSeconds > 2 Then
+                                        Exit While
+                                    End If
                                     'Thread.Sleep(100)
-                                    Dim st As New Stopwatch
-                                    st.Start()
-                                    While Not isTalking()
-                                        '実際に発音し始めるまで待つ。何らかのエラーで発音しない状態が続くとまずいので2秒経過したら抜ける
-                                        Dim et As TimeSpan = st.Elapsed
-                                        If et.TotalSeconds > 2 Then
-                                            Exit While
-                                        End If
-                                        'Thread.Sleep(100)
-                                    End While
-                                    st.Stop()
-                                    While isTalking()
-                                        'Thread.Sleep(100)
-                                    End While
-                                Next
-
-
+                                End While
+                                st.Stop()
+                                While isTalking()
+                                    'Thread.Sleep(100)
+                                End While
                             Next
-
-
-                        Else
-                            Dim opt As String = jOpt(My.Settings.jtalk_voice, My.Settings.jtalk_a, My.Settings.jtalk_fm, My.Settings.jtalk_jm, My.Settings.jtalk_jf, My.Settings.jtalk_r, My.Settings.jTalk_g)
+                        Next
+                    Else
+                        Dim opt As String = jOpt(My.Settings.jtalk_voice, My.Settings.jtalk_a, My.Settings.jtalk_fm, My.Settings.jtalk_jm, My.Settings.jtalk_jf, My.Settings.jtalk_r, My.Settings.jTalk_g)
                             jtalk(src, opt)
                         End If
-                    End If
                 End If
 
                 oldStart = lStart
@@ -685,17 +680,12 @@ Public Class Form1
         Dim echoOut As New StreamWriter(ecohTiteFile, False, System.Text.Encoding.UTF8)
         echoOut.Write("小説家になろう:" + novelTitle)
         echoOut.Close()
-        'Timer1.Start()
-        'tThread.Start()
         talkStopped = True
         talkStart = True
         EnableButton(playStopButton)
         SetButtonImage(playStopButton, 1)
         SetTip(playStopButton, "読み上げを停止します")
-
-
         WriteReadingLabel(readingText)
-        'SetReadingColor(Color.Yellow, Color.Green)
         Thread.Sleep(100)
         BlinkTimer.Start()
     End Sub
@@ -750,6 +740,7 @@ Public Class Form1
         TextBox_url.Text = WebBrowser1.Url.ToString
         ProgressBar1.Show()
         DisableButton(Button_reload)
+        multiLoad = 0
         'StopTalk()
     End Sub
 
