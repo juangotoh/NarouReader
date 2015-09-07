@@ -202,6 +202,7 @@
   <ItemGroup>
     <Content Include="icon.ico" />
     <Content Include="readme.txt" />
+    <Content Include="screenshot1.0.8_mainwindow.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
