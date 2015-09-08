@@ -33,6 +33,8 @@ Public Class Form1
     Dim noReadingText As String = "読み上げる文章がありません"
     Dim echoDir As String = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\" + My.Application.Info.Title
     Dim multiLoad As Integer = 0
+    Dim nowTalking As Boolean = False
+    Dim indexArray As Integer()
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
@@ -105,27 +107,40 @@ Public Class Form1
         Return honbun
     End Function
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
-        Static Dim multi As Integer = 0
-        'If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
-        '    EnableButton(Button_reload)
-        '    ProgressBar1.Hide()
-        '    Return
-        'End If
+
 
         If oldUrl = WebBrowser1.Url.ToString Then
 
             ProgressBar1.Hide()
             EnableButton(Button_reload)
             Thread.Yield()
-
+            If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
+                Return
+            End If
             Return
 
         Else
             TextBox1.Text = ""
+            Thread.Yield()
         End If
+        If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
+            EnableButton(Button_reload)
+            ProgressBar1.Hide()
+            Return
+        End If
+        multiLoad = multiLoad + 1
+        Debug.WriteLine("multiLoad=" + multiLoad.ToString)
 
-        StopTalk()
-        'TextBox1.Text = ""
+        If multiLoad > 1 Then
+            Return
+        End If
+        If oldUrl <> WebBrowser1.Url.ToString Then
+            'StopTalk()
+        End If
+        'StopTalk()
+
+        Thread.Yield()
+        Debug.WriteLine("------Parce HTML-----")
         If oldUrl.Length > 0 Then
             If hIndex = 0 Then
                 If bList.Count > 0 Then
@@ -198,7 +213,7 @@ Public Class Form1
             content = Doc.GetElementById("novel_honbun")
         End If
         If content IsNot Nothing Then
-            WebBrowser1.Stop()
+            'WebBrowser1.Stop()
             Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
             For Each el As HtmlElement In divs
                 Dim eclass As String = el.GetAttribute("className")
@@ -266,14 +281,26 @@ Public Class Form1
 
         TextBox1.Text = honbun
         If honbun.Length > 0 Then
+            Dim r As New Regex("(、|。|\r\n)+")
+            Dim mc As MatchCollection = r.Matches(honbun)
+            Dim i As Integer
+            indexArray = New Integer(mc.Count) {}
+            For i = 0 To mc.Count - 1
+                indexArray(i) = mc.Item(i).Index
+            Next
+            If indexArray(i) < honbun.Length - 1 Then
+                Array.Resize(indexArray, i + 2)
+                indexArray(i + 1) = honbun.Length - 1
+            End If
             TextBox1.SelectionStart = 0
             TextBox1.SelectionLength = 0
             TextBox1.Select(start, 0)
             TextBox1.ScrollToCaret()
-
+            Debug.WriteLine("-----Scroll To top ----")
             If My.Settings.autoRead Or (My.Settings.autoNext And reading) Then
 
                 StartTalk()
+
             Else
                 StopTalk()
             End If
@@ -552,6 +579,25 @@ Public Class Form1
         TextBox1.ScrollToCaret()
     End Sub
 
+    Private Function findNextPosition(ByRef a As Array, start As Integer) As Integer
+        Dim i As Integer = 0
+        Debug.WriteLine("Start Position=" + start.ToString)
+        While i < a.Length
+            If start >= 0 And start <= a(0) Then
+                Debug.WriteLine("Result=" + a(0).ToString)
+                Return a(0)
+            ElseIf i > 0 Then
+                If start > a(i - 1) And start <= a(i) Then
+                    Debug.WriteLine("Result=" + a(i).ToString)
+                    Return a(i)
+                End If
+            End If
+            i = i + 1
+        End While
+        Debug.WriteLine("Result=" + start.ToString)
+        Return start
+    End Function
+
     Private Sub Talk()
         ' テキスト読み上げ処理：Threadで実行される
         Dim lStart As Integer = start
@@ -560,9 +606,12 @@ Public Class Form1
         Dim text1 As String
         Dim text2 As String
         Dim echofile As String = echoDir + "\echo.txt"
-
+        Dim r As New Regex("(、|。|\r\n)+")
         While True
             text1 = GetReaderText()
+            Dim mc As MatchCollection = r.Matches(text1)
+
+            Dim i As Integer
 
             Dim src As String = text1.Trim()
             Dim textLength As Integer = src.Length
@@ -576,60 +625,57 @@ Public Class Form1
                 Catch
                     lineend = lStart
                 End Try
+                lineend = findNextPosition(indexArray, lStart)
                 If lineend = -1 Then
                     lineend = textLength
                 End If
-                llength = lineend - lStart
+                llength = lineend - lStart + 1
                 If llength >= 0 Then
                     Try
                         src = src.Substring(lStart, llength)
                     Catch
-                        'src = src.Substring(lStart, -1)
+                        src = src.Substring(lStart, 0)
 
                     End Try
+
                 End If
                 src = src.Trim
                 If src.Length > 0 Then
                     DoSelect(lStart, llength)
                     DoScroll()
-                        Thread.Yield()
+                    Thread.Yield()
+                    Dim echoOut As New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
+                    echoOut.Write(src)
+                    echoOut.Close()
                     If My.Settings.useBouyomi Then
-                        Dim lines As Array = src.Split("。")
-                        For i = 0 To lines.Length - 1
-                            Dim line As String = lines(i)
-                            Dim shortlines As Array = line.Split("、")
-                            For k = 0 To shortlines.Length - 1
-                                Dim shortline As String = shortlines(k)
-                                bouyomi(shortline + " ")
-                                Dim echoOut As New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
-                                echoOut.Write(shortline)
-                                echoOut.Close()
-                                'Thread.Sleep(100)
-                                Dim st As New Stopwatch
-                                st.Start()
-                                While Not isTalking()
-                                    '実際に発音し始めるまで待つ。何らかのエラーで発音しない状態が続くとまずいので2秒経過したら抜ける
-                                    Dim et As TimeSpan = st.Elapsed
-                                    If et.TotalSeconds > 2 Then
-                                        Exit While
-                                    End If
-                                    'Thread.Sleep(100)
-                                End While
-                                st.Stop()
-                                While isTalking()
-                                    'Thread.Sleep(100)
-                                End While
-                            Next
-                        Next
+                        bouyomi(src)
+
+                        'Thread.Sleep(100)
+                        Dim st As New Stopwatch
+                        st.Start()
+                        While Not isTalking()
+                            If talkStopped Then Exit While
+                            '実際に発音し始めるまで待つ。何らかのエラーで発音しない状態が続くとまずいので2秒経過したら抜ける
+                            Dim et As TimeSpan = st.Elapsed
+                            If et.TotalSeconds > 2 Then
+                                Exit While
+                            End If
+                            'Thread.Sleep(100)
+                        End While
+                        st.Stop()
+                        While isTalking()
+                            If talkStopped Then Exit While
+                            'Thread.Sleep(100)
+                        End While
                     Else
                         Dim opt As String = jOpt(My.Settings.jtalk_voice, My.Settings.jtalk_a, My.Settings.jtalk_fm, My.Settings.jtalk_jm, My.Settings.jtalk_jf, My.Settings.jtalk_r, My.Settings.jTalk_g)
-                            jtalk(src, opt)
-                        End If
+                        jtalk(src, opt)
+                    End If
                 End If
 
                 oldStart = lStart
                 oldLength = llength
-                lStart = lStart + llength + 1
+                lStart = lStart + llength '+ 1
 
                 If textLength > 0 And lStart >= textLength Then
                     DoSelect(textLength, 0)
@@ -640,17 +686,22 @@ Public Class Form1
                         length = 0
                         lStart = start
                         llength = 0
-                        StopTalk()
-                        Thread.Sleep(100)
+                        'StopTalk()
+                        Thread.Sleep(1000)
                     Else
                         lStart = textLength - 1
-
+                        llength = 0
+                        StopTalk()
                     End If
-                    StopTalk()
+                    'StopTalk()
                     'talkStopped = True
                 End If
 
 
+            End If
+            If GetReaderLength() = 0 Then
+                StopTalk()
+                talkStopped = True
             End If
             While talkStopped
                 Thread.Sleep(100)
@@ -682,6 +733,7 @@ Public Class Form1
         echoOut.Close()
         talkStopped = True
         talkStart = True
+        nowTalking = True
         EnableButton(playStopButton)
         SetButtonImage(playStopButton, 1)
         SetTip(playStopButton, "読み上げを停止します")
@@ -699,6 +751,7 @@ Public Class Form1
         ww.Write("")
         ww.Close()
         talkStopped = True
+        nowTalking = True
         EnableButton(playStopButton)
         SetButtonImage(playStopButton, 0)
         WriteReadingLabel(stoppingText)
@@ -732,15 +785,13 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub WebBrowser1_ProgressChanged(sender As Object, e As WebBrowserProgressChangedEventArgs) Handles WebBrowser1.ProgressChanged
-
-    End Sub
 
     Private Sub WebBrowser1_Navigated(sender As Object, e As WebBrowserNavigatedEventArgs) Handles WebBrowser1.Navigated
         TextBox_url.Text = WebBrowser1.Url.ToString
         ProgressBar1.Show()
         DisableButton(Button_reload)
         multiLoad = 0
+        Debug.WriteLine("Navigated:" + e.Url.ToString)
         'StopTalk()
     End Sub
 
