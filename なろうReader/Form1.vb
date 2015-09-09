@@ -607,13 +607,17 @@ Public Class Form1
                     DoSelect(lStart, llength)
                     DoScroll()
                     Thread.Yield()
-                    Dim echoOut As New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
-                    Try
+                    Dim echoOut As StreamWriter
 
+                    Try
+                        echoOut = New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
                         echoOut.Write(src)
                         echoOut.Close()
                     Catch ex As Exception
-                        echoOut.Close()
+                        If echoOut IsNot Nothing Then
+                            echoOut.Close()
+                        End If
+
                     End Try
 
                     If My.Settings.useBouyomi Then
@@ -734,13 +738,16 @@ Public Class Form1
 
     Private Sub StartTalk()
         Dim ecohTiteFile As String = echoDir + "\title.txt"
-        Dim echoOut As New StreamWriter(ecohTiteFile, False, System.Text.Encoding.UTF8)
+        Dim echoOut As StreamWriter
         Try
-
+            echoOut = New StreamWriter(ecohTiteFile, False, System.Text.Encoding.UTF8)
             echoOut.Write("小説家になろう:" + novelTitle)
             echoOut.Close()
         Catch ex As Exception
-            echoOut.Close()
+            If echoOut IsNot Nothing Then
+                echoOut.Close()
+            End If
+
         End Try
 
 
@@ -756,13 +763,28 @@ Public Class Form1
     End Sub
     Private Sub StopTalk()
         Dim echoTiteFile As String = echoDir + "\title.txt"
+        Dim echoOut As StreamWriter
+        Try
+            echoOut = New StreamWriter(echoTiteFile, False, System.Text.Encoding.UTF8)
+            echoOut.Write("")
+            echoOut.Close()
+        Catch ex As Exception
+            If echoOut IsNot Nothing Then
+                echoOut.Close()
+            End If
+        End Try
         Dim echoFile As String = echoDir + "\echo.txt"
-        Dim echoOut As New StreamWriter(echoTiteFile, False, System.Text.Encoding.UTF8)
-        echoOut.Write("")
-        echoOut.Close()
-        Dim ww As New StreamWriter(echoFile, False, System.Text.Encoding.UTF8)
-        ww.Write("")
-        ww.Close()
+        Dim ww As StreamWriter
+        Try
+            ww = New StreamWriter(echoFile, False, System.Text.Encoding.UTF8)
+            ww.Write("")
+            ww.Close()
+        Catch ex As Exception
+            If ww IsNot Nothing Then
+                ww.Close()
+            End If
+        End Try
+
         talkStopped = True
         nowTalking = True
         EnableButton(playStopButton)
