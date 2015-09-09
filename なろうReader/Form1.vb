@@ -355,43 +355,6 @@ Public Class Form1
 
 
     End Sub
-    Public Sub bouyomi(str As String)
-        Dim bMessage As Byte()
-        bMessage = System.Text.Encoding.UTF8.GetBytes(str)
-        Dim length As Int32 = bMessage.Length
-        Dim iCommand As Int16 = 1
-        Dim iSpeed As Int16 = -1
-        Dim iTone As Int16 = -1
-        Dim iVolume As Int16 = -1
-        Dim iVoice As Int16 = 0
-        Dim bCode As Byte = 0
-        Dim sHost As String = "127.0.0.1"
-        Dim port As Integer = 50001
-        Dim tc As TcpClient
-        Try
-            tc = New TcpClient(sHost, port)
-            Dim ns = tc.GetStream()
-            Dim bw As BinaryWriter = New BinaryWriter(ns)
-            bw.Write(iCommand)
-            bw.Write(iSpeed)
-            bw.Write(iTone)
-            bw.Write(iVolume)
-            bw.Write(iVoice)
-            bw.Write(bCode)
-            bw.Write(length)
-            bw.Write(bMessage)
-            tc.Close()
-        Catch ex As Exception
-            If firstRead Then
-                firstRead = False
-                MessageBox.Show("棒読みちゃんが起動していないため、読み上げ機能が使えません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                bouyomicheck()
-                StopTalk()
-
-            End If
-
-        End Try
-    End Sub
     Public Function jOpt(voice As String, a As Double, fm As Double, jm As Double, jf As Double, r As Double, g As Integer) As String
         Dim result = My.Settings.jtalk_opt
         result = result + " -m voices/" + voice + ".htsvoice"
@@ -645,8 +608,14 @@ Public Class Form1
                     DoScroll()
                     Thread.Yield()
                     Dim echoOut As New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
-                    echoOut.Write(src)
-                    echoOut.Close()
+                    Try
+
+                        echoOut.Write(src)
+                        echoOut.Close()
+                    Catch ex As Exception
+                        echoOut.Close()
+                    End Try
+
                     If My.Settings.useBouyomi Then
                         bouyomi(src)
 
@@ -725,12 +694,56 @@ Public Class Form1
             End If
         End While
     End Sub
+    Public Sub bouyomi(str As String)
+        Dim bMessage As Byte()
+        bMessage = System.Text.Encoding.UTF8.GetBytes(str)
+        Dim length As Int32 = bMessage.Length
+        Dim iCommand As Int16 = 1
+        Dim iSpeed As Int16 = -1
+        Dim iTone As Int16 = -1
+        Dim iVolume As Int16 = -1
+        Dim iVoice As Int16 = 0
+        Dim bCode As Byte = 0
+        Dim sHost As String = "127.0.0.1"
+        Dim port As Integer = 50001
+        Dim tc As TcpClient
+        Try
+            tc = New TcpClient(sHost, port)
+            Dim ns As NetworkStream = tc.GetStream()
+            Dim bw As BinaryWriter = New BinaryWriter(ns)
+            bw.Write(iCommand)
+            bw.Write(iSpeed)
+            bw.Write(iTone)
+            bw.Write(iVolume)
+            bw.Write(iVoice)
+            bw.Write(bCode)
+            bw.Write(length)
+            bw.Write(bMessage)
+            tc.Close()
+        Catch ex As Exception
+            If firstRead Then
+                firstRead = False
+                MessageBox.Show("棒読みちゃんが起動していないため、読み上げ機能が使えません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                bouyomicheck()
+                StopTalk()
+
+            End If
+
+        End Try
+    End Sub
 
     Private Sub StartTalk()
         Dim ecohTiteFile As String = echoDir + "\title.txt"
         Dim echoOut As New StreamWriter(ecohTiteFile, False, System.Text.Encoding.UTF8)
-        echoOut.Write("小説家になろう:" + novelTitle)
-        echoOut.Close()
+        Try
+
+            echoOut.Write("小説家になろう:" + novelTitle)
+            echoOut.Close()
+        Catch ex As Exception
+            echoOut.Close()
+        End Try
+
+
         talkStopped = True
         talkStart = True
         nowTalking = True
