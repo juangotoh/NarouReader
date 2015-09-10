@@ -317,6 +317,42 @@ Namespace My
                 Me("jTalk_g") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property rubyConvert() As Boolean
+            Get
+                Return CType(Me("rubyConvert"),Boolean)
+            End Get
+            Set
+                Me("rubyConvert") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property rubyDelete() As Boolean
+            Get
+                Return CType(Me("rubyDelete"),Boolean)
+            End Get
+            Set
+                Me("rubyDelete") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property rubyNothing() As Boolean
+            Get
+                Return CType(Me("rubyNothing"),Boolean)
+            End Get
+            Set
+                Me("rubyNothing") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

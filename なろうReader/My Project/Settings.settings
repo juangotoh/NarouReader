@@ -68,5 +68,14 @@
     <Setting Name="jTalk_g" Type="System.Double" Scope="User">
       <Value Profile="(Default)">-10</Value>
     </Setting>
+    <Setting Name="rubyConvert" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="rubyDelete" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="rubyNothing" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -9,6 +9,9 @@
         CheckBox_Atogaki.Checked = My.Settings.readAtogaki
         CheckBox_readTitle.Checked = My.Settings.readTitle
         CheckBox_readSubTitle.Checked = My.Settings.readSubTitle
+        RadioButton_rubyConvert.Checked = My.Settings.rubyConvert
+        RadioButton_rubyDelete.Checked = My.Settings.rubyDelete
+        RadioButton_rubyNothing.Checked = My.Settings.rubyNothing
         TrackBar_a.Value = My.Settings.jtalk_a * 100
         TrackBar_fm.Value = My.Settings.jtalk_fm * 10
         TrackBar_jm.Value = My.Settings.jtalk_jm * 100
@@ -78,6 +81,9 @@
         My.Settings.readAtogaki = CheckBox_Atogaki.Checked
         My.Settings.readTitle = CheckBox_readTitle.Checked
         My.Settings.readSubTitle = CheckBox_readSubTitle.Checked
+        My.Settings.rubyConvert = RadioButton_rubyConvert.Checked
+        My.Settings.rubyDelete = RadioButton_rubyDelete.Checked
+        My.Settings.rubyNothing = RadioButton_rubyNothing.Checked
         My.Settings.useBouyomi = RadioButton_bouyomi.Checked
         My.Settings.jtalk_voice = ComboBox1.Text
         My.Settings.jtalk_a = Double.Parse(TextBox_a.Text)
@@ -90,6 +96,7 @@
         My.Settings.myFont = myFont
         Form1.TextBox1.Font = myFont
         My.Settings.bouyomiPath = TextBox_bPath.Text
+        Form1.loadPlainText()
         Me.Close()
     End Sub
 

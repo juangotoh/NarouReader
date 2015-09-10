@@ -65,6 +65,9 @@ Public Class Form1
         Dim elems As HtmlElementCollection
         Dim rubyChanged As Boolean = False
         Dim honbun As String = ""
+        If My.Settings.rubyNothing Then
+            Return content.InnerText
+        End If
         Try
             Dim origHtml = content.InnerHtml
             elems = content.GetElementsByTagName("RUBY")
@@ -75,7 +78,9 @@ Public Class Form1
                     Dim kakkoCol As HtmlElementCollection = elem.GetElementsByTagName("RP")
                     For Each kakko As HtmlElement In kakkoCol
                         '括弧は削除
-                        kakko.OuterHtml = ""
+                        If My.Settings.rubyConvert Or My.Settings.rubyDelete Then
+                            kakko.OuterHtml = ""
+                        End If
                     Next
                     Dim rtcol As HtmlElementCollection = elem.GetElementsByTagName("RT")
                     For Each yomi As HtmlElement In rtcol
@@ -83,16 +88,26 @@ Public Class Form1
                         If Regex.IsMatch(yomi.InnerText, "[^, .、。．・]") Then
                             isBouten = False
                         End If
-                        yomiText = yomiText + yomi.InnerText
+                        If My.Settings.rubyConvert Then
+                            yomiText = yomiText + yomi.InnerText
+                        ElseIf My.Settings.rubyDelete Then
+                            yomi.InnerHtml = ""
+                        End If
+
                     Next
                     If isBouten Then
                         For Each yomi As HtmlElement In rtcol
                             '傍点を削除
-                            yomi.InnerHtml = ""
+                            If My.Settings.rubyConvert Or My.Settings.rubyDelete Then
+                                yomi.InnerHtml = ""
+                            End If
+
                         Next
                     Else
                         'ルビベースを読み仮名で置き換え
-                        elem.OuterHtml = yomiText
+                        If My.Settings.rubyConvert Then
+                            elem.OuterHtml = yomiText
+                        End If
                     End If
                 Next
                 honbun = content.InnerText
@@ -106,60 +121,7 @@ Public Class Form1
         End Try
         Return honbun
     End Function
-    Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
-
-
-        If oldUrl = WebBrowser1.Url.ToString Then
-
-            ProgressBar1.Hide()
-            EnableButton(Button_reload)
-            Thread.Yield()
-            If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
-                Return
-            End If
-            Return
-
-        Else
-            TextBox1.Text = ""
-            Thread.Yield()
-        End If
-        If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
-            EnableButton(Button_reload)
-            ProgressBar1.Hide()
-            Return
-        End If
-        multiLoad = multiLoad + 1
-        Debug.WriteLine("multiLoad=" + multiLoad.ToString)
-
-        If multiLoad > 1 Then
-            Return
-        End If
-        If oldUrl <> WebBrowser1.Url.ToString Then
-            'StopTalk()
-        End If
-        'StopTalk()
-
-        Thread.Yield()
-        Debug.WriteLine("------Parce HTML-----")
-        If oldUrl.Length > 0 Then
-            If hIndex = 0 Then
-                If bList.Count > 0 Then
-                    Dim bItem As Array = bList.Item(bList.Count - 1)
-                    If bItem(0) = oldUrl Then
-                        bList.RemoveAt(bList.Count - 1)
-                    End If
-
-                    fList.Clear()
-                End If
-                bList.Add({oldUrl, oldTitle})
-            End If
-            hIndex = 0
-        End If
-        Dim curURL As String = WebBrowser1.Url.ToString
-        Dim curTitle As String = WebBrowser1.DocumentTitle
-        oldUrl = curURL
-        oldTitle = curTitle
-
+    Public Sub loadPlainText()
         Dim content As HtmlElement = Nothing
         Dim wtitle As HtmlElement = Nothing
         Dim maegaki As HtmlElement = Nothing
@@ -297,6 +259,199 @@ Public Class Form1
             TextBox1.Select(start, 0)
             TextBox1.ScrollToCaret()
             Debug.WriteLine("-----Scroll To top ----")
+        End If
+    End Sub
+    Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
+
+
+        If oldUrl = WebBrowser1.Url.ToString Then
+
+            ProgressBar1.Hide()
+            EnableButton(Button_reload)
+            Thread.Yield()
+            If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
+                Return
+            End If
+            Return
+
+        Else
+            TextBox1.Text = ""
+            Thread.Yield()
+        End If
+        If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
+            EnableButton(Button_reload)
+            ProgressBar1.Hide()
+            Return
+        End If
+        multiLoad = multiLoad + 1
+        Debug.WriteLine("multiLoad=" + multiLoad.ToString)
+
+        If multiLoad > 1 Then
+            Return
+        End If
+        If oldUrl <> WebBrowser1.Url.ToString Then
+            'StopTalk()
+        End If
+        'StopTalk()
+
+        Thread.Yield()
+        Debug.WriteLine("------Parce HTML-----")
+        If oldUrl.Length > 0 Then
+            If hIndex = 0 Then
+                If bList.Count > 0 Then
+                    Dim bItem As Array = bList.Item(bList.Count - 1)
+                    If bItem(0) = oldUrl Then
+                        bList.RemoveAt(bList.Count - 1)
+                    End If
+
+                    fList.Clear()
+                End If
+                bList.Add({oldUrl, oldTitle})
+            End If
+            hIndex = 0
+        End If
+        Dim curURL As String = WebBrowser1.Url.ToString
+        Dim curTitle As String = WebBrowser1.DocumentTitle
+        oldUrl = curURL
+        oldTitle = curTitle
+        loadPlainText()
+        'Dim content As HtmlElement = Nothing
+        'Dim wtitle As HtmlElement = Nothing
+        'Dim maegaki As HtmlElement = Nothing
+        'Dim atogaki As HtmlElement = Nothing
+        'Dim maeText As String = ""
+        'Dim atoText As String = ""
+        'Dim author As String = ""
+
+        'Dim pageTitle As String = ""
+
+        'title = ""
+        'chapter = ""
+        'subtitle = ""
+        'nextStory = ""
+        'If Not (TextBox_url.Text = startpage) Then
+        '    startpage = TextBox_url.Text
+        '    start = 0
+        '    oldStart = 0
+        '    length = 0
+        'End If
+        'If bList.Count > 0 Then
+        '    EnableButton(Button_Back)
+        'Else
+        '    DisableButton(Button_Back)
+        'End If
+        'If fList.Count > 0 Then
+        '    EnableButton(Button_Forward)
+        'Else
+        '    DisableButton(Button_Forward)
+        'End If
+
+        'stopbouyomi()
+        ''Try
+        'Dim Doc As HtmlDocument = WebBrowser1.Document
+        'pageTitle = Doc.Title
+        'Me.Text = myTitle + " - " + pageTitle
+        'wtitle = Doc.GetElementById("writting_title")
+        'maegaki = Doc.GetElementById("novel_p")
+        'atogaki = Doc.GetElementById("novel_a")
+        'If wtitle IsNot Nothing Then
+        '    title = wtitle.InnerText + karagyou
+        '    Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("div")
+        '    For Each el As HtmlElement In divs
+        '        If el.GetAttribute("className") = "writtingnovel novel" Then
+        '            content = el
+        '            Exit For
+        '        End If
+        '    Next
+
+        'Else
+        '    content = Doc.GetElementById("novel_honbun")
+        'End If
+        'If content IsNot Nothing Then
+        '    'WebBrowser1.Stop()
+        '    Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
+        '    For Each el As HtmlElement In divs
+        '        Dim eclass As String = el.GetAttribute("className")
+
+        '        If eclass = "novel_bn" Then
+
+        '            Dim nextlink As HtmlElementCollection = el.GetElementsByTagName("A")
+        '            For Each l As HtmlElement In nextlink
+        '                Dim ltext As String = l.InnerText
+
+        '                If ltext.IndexOf("次の話") >= 0 Then
+        '                    nextStory = l.GetAttribute("href")
+        '                End If
+        '            Next
+        '        ElseIf eclass = "contents1" Then
+        '            title = el.InnerText + karagyou
+        '        ElseIf eclass = "novel_writername" Then
+        '            author = el.InnerText
+        '        End If
+
+
+        '    Next
+
+        '    Dim ps As HtmlElementCollection = Doc.GetElementsByTagName("P")
+        '    For Each el As HtmlElement In ps
+        '        Dim eclass As String = el.GetAttribute("className")
+        '        If eclass = "novel_subtitle" Then
+        '            subtitle = el.InnerText + karagyou
+
+        '        ElseIf eclass = "chapter_title" Then
+        '            chapter = el.InnerText + karagyou
+        '        ElseIf eclass = "series_title" Then
+        '            title = el.InnerText + " "
+        '        ElseIf eclass = "novel_title" Then
+        '            title = title + el.InnerText + " "
+        '        End If
+        '    Next
+        '    If author <> "" Then
+        '        title = title + ControlChars.NewLine + author + karagyou
+        '    End If
+        '    novelTitle = title
+        '    If My.Settings.readMaegaki Then
+        '        maeText = RubyConvert(maegaki) + karagyou
+        '    End If
+        '    If My.Settings.readAtogaki Then
+        '        atoText = karagyou + RubyConvert(atogaki)
+        '    End If
+        '    honbun = RubyConvert(content)
+
+        '    If Not My.Settings.readTitle Then
+        '        title = ""
+        '    End If
+        '    If Not My.Settings.readSubTitle Then
+        '        subtitle = ""
+        '    End If
+        '    honbun = title + subtitle + maeText + honbun + atoText
+
+        'Else
+        '    honbun = ""
+        '    NoTalk()
+        'End If
+        ''Catch
+        ''    honbun = ""
+        ''End Try
+
+        'TextBox1.Text = honbun
+        If honbun.Length > 0 Then
+            'Dim r As New Regex("(、|。|\r\n)+")
+            'Dim mc As MatchCollection = r.Matches(honbun)
+            'Dim i As Integer
+            'indexArray = New Integer(mc.Count) {}
+            'For i = 0 To mc.Count - 1
+            '    indexArray(i) = mc.Item(i).Index
+            'Next
+            'If indexArray(i) < honbun.Length - 1 Then
+            '    Array.Resize(indexArray, i + 2)
+            '    indexArray(i + 1) = honbun.Length - 1
+            'End If
+            'TextBox1.SelectionStart = 0
+            'TextBox1.SelectionLength = 0
+            'TextBox1.Select(start, 0)
+            'TextBox1.ScrollToCaret()
+            'Debug.WriteLine("-----Scroll To top ----")
             If My.Settings.autoRead Or (My.Settings.autoNext And reading) Then
 
                 StartTalk()
@@ -864,6 +1019,9 @@ Public Class Form1
         WebBrowser1.Navigate(homeUrl)
     End Sub
     Private Sub doSetting()
+        StopTalk()
+        start = 0
+        length = 0
         Form2.StartPosition = FormStartPosition.CenterParent
         Form2.ShowDialog()
         If myDialogOK Then

@@ -68,6 +68,10 @@ Partial Class Form2
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.TextBox_sample = New System.Windows.Forms.TextBox()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.RadioButton_rubyConvert = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_rubyDelete = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_rubyNothing = New System.Windows.Forms.RadioButton()
         Me.GroupBox1.SuspendLayout()
         CType(Me.TrackBar_g, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TrackBar_r, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,6 +81,7 @@ Partial Class Form2
         CType(Me.TrackBar_a, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.SuspendLayout()
         '
         'CheckBox_autoRead
@@ -101,7 +106,7 @@ Partial Class Form2
         '
         'Button_Font
         '
-        Me.Button_Font.Location = New System.Drawing.Point(12, 23)
+        Me.Button_Font.Location = New System.Drawing.Point(16, 29)
         Me.Button_Font.Name = "Button_Font"
         Me.Button_Font.Size = New System.Drawing.Size(92, 23)
         Me.Button_Font.TabIndex = 2
@@ -112,7 +117,7 @@ Partial Class Form2
         'FontLabel
         '
         Me.FontLabel.AutoSize = True
-        Me.FontLabel.Location = New System.Drawing.Point(14, 59)
+        Me.FontLabel.Location = New System.Drawing.Point(14, 66)
         Me.FontLabel.Name = "FontLabel"
         Me.FontLabel.Size = New System.Drawing.Size(38, 12)
         Me.FontLabel.TabIndex = 3
@@ -473,6 +478,7 @@ Partial Class Form2
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.GroupBox4)
         Me.GroupBox2.Controls.Add(Me.CheckBox_autoRead)
         Me.GroupBox2.Controls.Add(Me.CheckBox_autoNext)
         Me.GroupBox2.Controls.Add(Me.CheckBox_readSubTitle)
@@ -481,7 +487,7 @@ Partial Class Form2
         Me.GroupBox2.Controls.Add(Me.CheckBox_Atogaki)
         Me.GroupBox2.Location = New System.Drawing.Point(401, 22)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(355, 166)
+        Me.GroupBox2.Size = New System.Drawing.Size(355, 173)
         Me.GroupBox2.TabIndex = 18
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "読み上げ項目関連"
@@ -491,22 +497,67 @@ Partial Class Form2
         Me.GroupBox3.Controls.Add(Me.TextBox_sample)
         Me.GroupBox3.Controls.Add(Me.Button_Font)
         Me.GroupBox3.Controls.Add(Me.FontLabel)
-        Me.GroupBox3.Location = New System.Drawing.Point(401, 194)
+        Me.GroupBox3.Location = New System.Drawing.Point(401, 213)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(355, 202)
+        Me.GroupBox3.Size = New System.Drawing.Size(355, 183)
         Me.GroupBox3.TabIndex = 19
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "テキスト表示"
         '
         'TextBox_sample
         '
-        Me.TextBox_sample.Location = New System.Drawing.Point(21, 89)
+        Me.TextBox_sample.Location = New System.Drawing.Point(16, 83)
         Me.TextBox_sample.Multiline = True
         Me.TextBox_sample.Name = "TextBox_sample"
         Me.TextBox_sample.ReadOnly = True
         Me.TextBox_sample.Size = New System.Drawing.Size(319, 83)
         Me.TextBox_sample.TabIndex = 4
         Me.TextBox_sample.Text = "テキスト表示サンプルです。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "あいうえおABCDabc123456"
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.RadioButton_rubyNothing)
+        Me.GroupBox4.Controls.Add(Me.RadioButton_rubyDelete)
+        Me.GroupBox4.Controls.Add(Me.RadioButton_rubyConvert)
+        Me.GroupBox4.Location = New System.Drawing.Point(166, 65)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(169, 92)
+        Me.GroupBox4.TabIndex = 15
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "ルビの扱い"
+        '
+        'RadioButton_rubyConvert
+        '
+        Me.RadioButton_rubyConvert.AutoSize = True
+        Me.RadioButton_rubyConvert.Location = New System.Drawing.Point(16, 18)
+        Me.RadioButton_rubyConvert.Name = "RadioButton_rubyConvert"
+        Me.RadioButton_rubyConvert.Size = New System.Drawing.Size(126, 16)
+        Me.RadioButton_rubyConvert.TabIndex = 0
+        Me.RadioButton_rubyConvert.TabStop = True
+        Me.RadioButton_rubyConvert.Text = "本文をルビで置き換え"
+        Me.RadioButton_rubyConvert.UseVisualStyleBackColor = True
+        '
+        'RadioButton_rubyDelete
+        '
+        Me.RadioButton_rubyDelete.AutoSize = True
+        Me.RadioButton_rubyDelete.Location = New System.Drawing.Point(16, 40)
+        Me.RadioButton_rubyDelete.Name = "RadioButton_rubyDelete"
+        Me.RadioButton_rubyDelete.Size = New System.Drawing.Size(74, 16)
+        Me.RadioButton_rubyDelete.TabIndex = 1
+        Me.RadioButton_rubyDelete.TabStop = True
+        Me.RadioButton_rubyDelete.Text = "ルビを削除"
+        Me.RadioButton_rubyDelete.UseVisualStyleBackColor = True
+        '
+        'RadioButton_rubyNothing
+        '
+        Me.RadioButton_rubyNothing.AutoSize = True
+        Me.RadioButton_rubyNothing.Location = New System.Drawing.Point(16, 62)
+        Me.RadioButton_rubyNothing.Name = "RadioButton_rubyNothing"
+        Me.RadioButton_rubyNothing.Size = New System.Drawing.Size(69, 16)
+        Me.RadioButton_rubyNothing.TabIndex = 2
+        Me.RadioButton_rubyNothing.TabStop = True
+        Me.RadioButton_rubyNothing.Text = "両方残す"
+        Me.RadioButton_rubyNothing.UseVisualStyleBackColor = True
         '
         'Form2
         '
@@ -541,6 +592,8 @@ Partial Class Form2
         Me.GroupBox2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -590,4 +643,8 @@ Partial Class Form2
     Friend WithEvents Label8 As Label
     Friend WithEvents TextBox_g As TextBox
     Friend WithEvents TrackBar_g As TrackBar
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents RadioButton_rubyNothing As RadioButton
+    Friend WithEvents RadioButton_rubyDelete As RadioButton
+    Friend WithEvents RadioButton_rubyConvert As RadioButton
 End Class
