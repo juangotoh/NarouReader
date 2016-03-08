@@ -3,6 +3,8 @@ Imports System.Net.Sockets
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Public Class Form1
+
+
     Dim myTitle = Me.Text
     Dim novelTitle As String = ""
     Dim reading As Boolean = False
@@ -23,6 +25,8 @@ Public Class Form1
     Dim tThread As Thread
     Dim bList As New ArrayList
     Dim fList As New ArrayList
+    Dim curURL As String = ""
+    Dim curTitle As String = ""
     Dim oldUrl As String = ""
     Dim oldTitle As String = ""
     Dim hIndex As Integer = 0
@@ -38,6 +42,8 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
+        Sethome(My.Settings.home)
+        selectHome(My.Settings.home)
         WriteReadingLabel(readingText)
         myTitle = Me.Text
         bouyomicheck()
@@ -56,8 +62,24 @@ Public Class Form1
         tThread.IsBackground = True
         tThread.Name = "TalkThread"
         tThread.Start()
-    End Sub
 
+    End Sub
+    Private Sub Sethome(target As String)
+        Select Case target
+            Case "小説家になろう"
+                homeUrl = "http://syosetu.com/"
+            Case "カクヨム"
+                homeUrl = "https://kakuyomu.jp"
+        End Select
+
+    End Sub
+    Private Sub selectHome(target As String)
+        For i = 0 To ComboBox1.Items.Count - 1
+            If ComboBox1.Items(i).ToString = target Then
+                ComboBox1.SelectedIndex = i
+            End If
+        Next
+    End Sub
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
         WebBrowser1.GoBack()
     End Sub
@@ -173,6 +195,17 @@ Public Class Form1
 
         Else
             content = Doc.GetElementById("novel_honbun")
+            If content Is Nothing Then
+                Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("div")
+                For Each el As HtmlElement In divs
+                    If el.GetAttribute("className") = "widget-episodeBody" Then
+                        content = el
+
+
+
+                    End If
+                Next
+            End If
         End If
         If content IsNot Nothing Then
             'WebBrowser1.Stop()
@@ -198,7 +231,19 @@ Public Class Form1
 
 
             Next
-
+            If nextStory.Length = 0 Then
+                Dim nextEp As HtmlElement = Doc.GetElementById("contentMain-nextEpisode")
+                If nextEp IsNot Nothing Then
+                    Dim nextLink As HtmlElementCollection = nextEp.GetElementsByTagName("A")
+                    nextStory = nextLink(0).GetAttribute("href")
+                End If
+            End If
+            If title.Length = 0 Then
+                Dim titleEl As HtmlElement = Doc.GetElementById("contentMain-header-workTitle")
+                If titleEl IsNot Nothing Then title = titleEl.InnerText
+                Dim authorEl As HtmlElement = Doc.GetElementById("contentMain-header-author")
+                If authorEl IsNot Nothing Then author = Doc.GetElementById("contentMain-header-author").InnerText
+            End If
             Dim ps As HtmlElementCollection = Doc.GetElementsByTagName("P")
             For Each el As HtmlElement In ps
                 Dim eclass As String = el.GetAttribute("className")
@@ -211,6 +256,10 @@ Public Class Form1
                     title = el.InnerText + " "
                 ElseIf eclass = "novel_title" Then
                     title = title + el.InnerText + " "
+                ElseIf el.GetAttribute("className") = "chapterTitle level1" Then
+                    subtitle = el.InnerText
+                ElseIf el.GetAttribute("className") = "widget-episodeTitle" Then
+                    subtitle += vbCrLf + el.InnerText
                 End If
             Next
             If author <> "" Then
@@ -260,6 +309,19 @@ Public Class Form1
             TextBox1.ScrollToCaret()
             Debug.WriteLine("-----Scroll To top ----")
         End If
+        If honbun.Length > 0 Then
+            If My.Settings.autoRead Or (My.Settings.autoNext And reading) Then
+
+                StartTalk()
+
+            Else
+                StopTalk()
+            End If
+        Else
+            NoTalk()
+        End If
+        EnableButton(Button_reload)
+        ProgressBar1.Hide()
     End Sub
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
 
@@ -310,160 +372,12 @@ Public Class Form1
             End If
             hIndex = 0
         End If
-        Dim curURL As String = WebBrowser1.Url.ToString
-        Dim curTitle As String = WebBrowser1.DocumentTitle
+        curURL = WebBrowser1.Url.ToString
+        curTitle = WebBrowser1.DocumentTitle
         oldUrl = curURL
         oldTitle = curTitle
         loadPlainText()
-        'Dim content As HtmlElement = Nothing
-        'Dim wtitle As HtmlElement = Nothing
-        'Dim maegaki As HtmlElement = Nothing
-        'Dim atogaki As HtmlElement = Nothing
-        'Dim maeText As String = ""
-        'Dim atoText As String = ""
-        'Dim author As String = ""
 
-        'Dim pageTitle As String = ""
-
-        'title = ""
-        'chapter = ""
-        'subtitle = ""
-        'nextStory = ""
-        'If Not (TextBox_url.Text = startpage) Then
-        '    startpage = TextBox_url.Text
-        '    start = 0
-        '    oldStart = 0
-        '    length = 0
-        'End If
-        'If bList.Count > 0 Then
-        '    EnableButton(Button_Back)
-        'Else
-        '    DisableButton(Button_Back)
-        'End If
-        'If fList.Count > 0 Then
-        '    EnableButton(Button_Forward)
-        'Else
-        '    DisableButton(Button_Forward)
-        'End If
-
-        'stopbouyomi()
-        ''Try
-        'Dim Doc As HtmlDocument = WebBrowser1.Document
-        'pageTitle = Doc.Title
-        'Me.Text = myTitle + " - " + pageTitle
-        'wtitle = Doc.GetElementById("writting_title")
-        'maegaki = Doc.GetElementById("novel_p")
-        'atogaki = Doc.GetElementById("novel_a")
-        'If wtitle IsNot Nothing Then
-        '    title = wtitle.InnerText + karagyou
-        '    Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("div")
-        '    For Each el As HtmlElement In divs
-        '        If el.GetAttribute("className") = "writtingnovel novel" Then
-        '            content = el
-        '            Exit For
-        '        End If
-        '    Next
-
-        'Else
-        '    content = Doc.GetElementById("novel_honbun")
-        'End If
-        'If content IsNot Nothing Then
-        '    'WebBrowser1.Stop()
-        '    Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
-        '    For Each el As HtmlElement In divs
-        '        Dim eclass As String = el.GetAttribute("className")
-
-        '        If eclass = "novel_bn" Then
-
-        '            Dim nextlink As HtmlElementCollection = el.GetElementsByTagName("A")
-        '            For Each l As HtmlElement In nextlink
-        '                Dim ltext As String = l.InnerText
-
-        '                If ltext.IndexOf("次の話") >= 0 Then
-        '                    nextStory = l.GetAttribute("href")
-        '                End If
-        '            Next
-        '        ElseIf eclass = "contents1" Then
-        '            title = el.InnerText + karagyou
-        '        ElseIf eclass = "novel_writername" Then
-        '            author = el.InnerText
-        '        End If
-
-
-        '    Next
-
-        '    Dim ps As HtmlElementCollection = Doc.GetElementsByTagName("P")
-        '    For Each el As HtmlElement In ps
-        '        Dim eclass As String = el.GetAttribute("className")
-        '        If eclass = "novel_subtitle" Then
-        '            subtitle = el.InnerText + karagyou
-
-        '        ElseIf eclass = "chapter_title" Then
-        '            chapter = el.InnerText + karagyou
-        '        ElseIf eclass = "series_title" Then
-        '            title = el.InnerText + " "
-        '        ElseIf eclass = "novel_title" Then
-        '            title = title + el.InnerText + " "
-        '        End If
-        '    Next
-        '    If author <> "" Then
-        '        title = title + ControlChars.NewLine + author + karagyou
-        '    End If
-        '    novelTitle = title
-        '    If My.Settings.readMaegaki Then
-        '        maeText = RubyConvert(maegaki) + karagyou
-        '    End If
-        '    If My.Settings.readAtogaki Then
-        '        atoText = karagyou + RubyConvert(atogaki)
-        '    End If
-        '    honbun = RubyConvert(content)
-
-        '    If Not My.Settings.readTitle Then
-        '        title = ""
-        '    End If
-        '    If Not My.Settings.readSubTitle Then
-        '        subtitle = ""
-        '    End If
-        '    honbun = title + subtitle + maeText + honbun + atoText
-
-        'Else
-        '    honbun = ""
-        '    NoTalk()
-        'End If
-        ''Catch
-        ''    honbun = ""
-        ''End Try
-
-        'TextBox1.Text = honbun
-        If honbun.Length > 0 Then
-            'Dim r As New Regex("(、|。|\r\n)+")
-            'Dim mc As MatchCollection = r.Matches(honbun)
-            'Dim i As Integer
-            'indexArray = New Integer(mc.Count) {}
-            'For i = 0 To mc.Count - 1
-            '    indexArray(i) = mc.Item(i).Index
-            'Next
-            'If indexArray(i) < honbun.Length - 1 Then
-            '    Array.Resize(indexArray, i + 2)
-            '    indexArray(i + 1) = honbun.Length - 1
-            'End If
-            'TextBox1.SelectionStart = 0
-            'TextBox1.SelectionLength = 0
-            'TextBox1.Select(start, 0)
-            'TextBox1.ScrollToCaret()
-            'Debug.WriteLine("-----Scroll To top ----")
-            If My.Settings.autoRead Or (My.Settings.autoNext And reading) Then
-
-                StartTalk()
-
-            Else
-                StopTalk()
-            End If
-        Else
-            NoTalk()
-        End If
-        EnableButton(Button_reload)
-        ProgressBar1.Hide()
     End Sub
     Public Sub jtalk(text As String, opt As String)
         Dim ps1 As New Diagnostics.ProcessStartInfo
@@ -610,6 +524,7 @@ Public Class Form1
         End If
         ToolTip1.SetToolTip(b, text)
     End Sub
+
     Private Delegate Sub dlgSetReadingColor(fc As Color, bc As Color)
     Public Sub SetReadingColor(fc As Color, bc As Color)
         If Me.Label_reading.InvokeRequired Then
@@ -667,9 +582,18 @@ Public Class Form1
     Public Function GetReaderText() As String
         If Me.TextBox1.InvokeRequired Then
             Static Dim d As dlgGetReaderText = New dlgGetReaderText(AddressOf Me.GetReaderText)
-            TextBox1.Invoke(d)
+            Return TextBox1.Invoke(d)
         End If
         Return TextBox1.Text
+    End Function
+    Private Delegate Function dlgGetSelectedText() As String
+    Public Function GetSelectedText() As String
+        If Me.TextBox1.InvokeRequired Then
+            Static Dim d As dlgGetSelectedText = New dlgGetSelectedText(AddressOf Me.GetSelectedText)
+            Return TextBox1.Invoke(d)
+
+        End If
+        Return TextBox1.SelectedText
     End Function
     Private Delegate Function dlgGetReaderLength() As Integer
     Public Function GetReaderLength() As Integer
@@ -696,6 +620,7 @@ Public Class Form1
         End If
         TextBox1.ScrollToCaret()
     End Sub
+
 
     Private Function findNextPosition(ByRef a As Array, start As Integer) As Integer
         Dim i As Integer = 0
@@ -728,10 +653,7 @@ Public Class Form1
         While True
             text1 = GetReaderText()
             Dim mc As MatchCollection = r.Matches(text1)
-
-            Dim i As Integer
-
-            Dim src As String = text1.Trim()
+            Dim src As String = text1
             Dim textLength As Integer = src.Length
             If (textLength < 1) Then
                 reading = False
@@ -753,17 +675,15 @@ Public Class Form1
                         src = src.Substring(lStart, llength)
                     Catch
                         src = src.Substring(lStart, 0)
-
                     End Try
-
                 End If
                 src = src.Trim
+                DoSelect(lStart, llength)
+                DoScroll()
+                Debug.WriteLine(src)
                 If src.Length > 0 Then
-                    DoSelect(lStart, llength)
-                    DoScroll()
                     Thread.Yield()
                     Dim echoOut As StreamWriter
-
                     Try
                         echoOut = New StreamWriter(echofile, False, System.Text.Encoding.UTF8)
                         echoOut.Write(src)
@@ -772,13 +692,9 @@ Public Class Form1
                         If echoOut IsNot Nothing Then
                             echoOut.Close()
                         End If
-
                     End Try
-
                     If My.Settings.useBouyomi Then
                         bouyomi(src)
-
-                        'Thread.Sleep(100)
                         Dim st As New Stopwatch
                         st.Start()
                         While Not isTalking()
@@ -814,18 +730,13 @@ Public Class Form1
                         length = 0
                         lStart = start
                         llength = 0
-                        'StopTalk()
                         Thread.Sleep(1000)
                     Else
                         lStart = textLength - 1
                         llength = 0
                         StopTalk()
                     End If
-                    'StopTalk()
-                    'talkStopped = True
                 End If
-
-
             End If
             If GetReaderLength() = 0 Then
                 StopTalk()
@@ -939,7 +850,6 @@ Public Class Form1
                 ww.Close()
             End If
         End Try
-
         talkStopped = True
         nowTalking = True
         EnableButton(playStopButton)
@@ -975,14 +885,25 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub WebBrowser1_Navigating(sender As Object, e As WebBrowserNavigatingEventArgs) Handles WebBrowser1.Navigating
+        If e.Url.ToString.Contains("about:blank") Then
+            'WebBrowser1.Stop()
+            'WebBrowser1.AllowNavigation = False
+            Timer1.Interval = 50000
+            Timer1.Start()
+            Return
+        End If
+    End Sub
+
 
     Private Sub WebBrowser1_Navigated(sender As Object, e As WebBrowserNavigatedEventArgs) Handles WebBrowser1.Navigated
+        WebBrowser1.AllowNavigation = True
         TextBox_url.Text = WebBrowser1.Url.ToString
         ProgressBar1.Show()
         DisableButton(Button_reload)
+        Button_reload.Enabled = True
         multiLoad = 0
         Debug.WriteLine("Navigated:" + e.Url.ToString)
-        'StopTalk()
     End Sub
 
     Private Sub Button_Back_Click(sender As Object, e As EventArgs) Handles Button_Back.Click
@@ -1069,14 +990,10 @@ Public Class Form1
     Private Sub EnableButton(b As Button)
         SetButtonImage(b, 0)
         SetButtonEnabld(b, True)
-        'b.ImageIndex = 0
-        'b.Enabled = True
     End Sub
     Private Sub DisableButton(b As Button)
         SetButtonImage(b, 1)
         SetButtonEnabld(b, False)
-        'b.ImageIndex = 1
-        'b.Enabled = False
     End Sub
 
     Private Sub Button_Back_MouseDown(sender As Object, e As MouseEventArgs) Handles Button_Back.MouseDown
@@ -1202,5 +1119,12 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        WebBrowser1.Stop()
+    End Sub
 
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        Sethome(ComboBox1.SelectedItem.ToString)
+        loadURL(homeUrl)
+    End Sub
 End Class

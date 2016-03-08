@@ -353,6 +353,18 @@ Namespace My
                 Me("rubyNothing") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("小説家になろう")>  _
+        Public Property home() As String
+            Get
+                Return CType(Me("home"),String)
+            End Get
+            Set
+                Me("home") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

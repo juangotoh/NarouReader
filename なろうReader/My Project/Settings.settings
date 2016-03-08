@@ -77,5 +77,8 @@
     <Setting Name="rubyNothing" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="home" Type="System.String" Scope="User">
+      <Value Profile="(Default)">小説家になろう</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

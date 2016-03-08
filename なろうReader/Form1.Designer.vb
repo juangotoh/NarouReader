@@ -43,14 +43,16 @@ Partial Class Form1
         Me.Button_Setting = New System.Windows.Forms.Button()
         Me.SettingImages = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.playStopButton = New System.Windows.Forms.Button()
+        Me.playStopImages = New System.Windows.Forms.ImageList(Me.components)
         Me.bMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.fMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
         Me.Label_reading = New System.Windows.Forms.Label()
         Me.BlinkTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.playStopButton = New System.Windows.Forms.Button()
-        Me.playStopImages = New System.Windows.Forms.ImageList(Me.components)
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -128,9 +130,9 @@ Partial Class Form1
         Me.TextBox_url.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_url.Font = New System.Drawing.Font("MS UI Gothic", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.TextBox_url.Location = New System.Drawing.Point(132, 7)
+        Me.TextBox_url.Location = New System.Drawing.Point(259, 7)
         Me.TextBox_url.Name = "TextBox_url"
-        Me.TextBox_url.Size = New System.Drawing.Size(683, 23)
+        Me.TextBox_url.Size = New System.Drawing.Size(556, 23)
         Me.TextBox_url.TabIndex = 9
         '
         'ProgressBar1
@@ -237,6 +239,25 @@ Partial Class Form1
         Me.SettingImages.Images.SetKeyName(0, "setting.png")
         Me.SettingImages.Images.SetKeyName(1, "setting_gray.png")
         '
+        'playStopButton
+        '
+        Me.playStopButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.playStopButton.ImageIndex = 0
+        Me.playStopButton.ImageList = Me.playStopImages
+        Me.playStopButton.Location = New System.Drawing.Point(12, 571)
+        Me.playStopButton.Name = "playStopButton"
+        Me.playStopButton.Size = New System.Drawing.Size(24, 24)
+        Me.playStopButton.TabIndex = 17
+        Me.ToolTip1.SetToolTip(Me.playStopButton, "このページの小説を読み上げます")
+        Me.playStopButton.UseVisualStyleBackColor = True
+        '
+        'playStopImages
+        '
+        Me.playStopImages.ImageStream = CType(resources.GetObject("playStopImages.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.playStopImages.TransparentColor = System.Drawing.Color.Transparent
+        Me.playStopImages.Images.SetKeyName(0, "play_s.png")
+        Me.playStopImages.Images.SetKeyName(1, "pause_s.png")
+        '
         'bMenu
         '
         Me.bMenu.Name = "bMenu"
@@ -269,30 +290,25 @@ Partial Class Form1
         '
         Me.BlinkTimer.Interval = 500
         '
-        'playStopButton
+        'Timer1
         '
-        Me.playStopButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.playStopButton.ImageIndex = 0
-        Me.playStopButton.ImageList = Me.playStopImages
-        Me.playStopButton.Location = New System.Drawing.Point(12, 571)
-        Me.playStopButton.Name = "playStopButton"
-        Me.playStopButton.Size = New System.Drawing.Size(24, 24)
-        Me.playStopButton.TabIndex = 17
-        Me.ToolTip1.SetToolTip(Me.playStopButton, "このページの小説を読み上げます")
-        Me.playStopButton.UseVisualStyleBackColor = True
         '
-        'playStopImages
+        'ComboBox1
         '
-        Me.playStopImages.ImageStream = CType(resources.GetObject("playStopImages.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.playStopImages.TransparentColor = System.Drawing.Color.Transparent
-        Me.playStopImages.Images.SetKeyName(0, "play_s.png")
-        Me.playStopImages.Images.SetKeyName(1, "pause_s.png")
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Items.AddRange(New Object() {"小説家になろう", "カクヨム"})
+        Me.ComboBox1.Location = New System.Drawing.Point(132, 10)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(121, 20)
+        Me.ComboBox1.TabIndex = 18
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(857, 599)
+        Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.playStopButton)
         Me.Controls.Add(Me.Label_reading)
         Me.Controls.Add(Me.Button_Setting)
@@ -347,4 +363,6 @@ Partial Class Form1
     Friend WithEvents BlinkTimer As Timer
     Friend WithEvents playStopButton As Button
     Friend WithEvents playStopImages As ImageList
+    Friend WithEvents Timer1 As Timer
+    Friend WithEvents ComboBox1 As ComboBox
 End Class
