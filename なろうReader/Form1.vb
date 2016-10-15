@@ -2,6 +2,8 @@
 Imports System.Net.Sockets
 Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports System.Speech.Synthesis
+Imports System.Globalization
 Public Class Form1
 
 
@@ -39,15 +41,30 @@ Public Class Form1
     Dim multiLoad As Integer = 0
     Dim nowTalking As Boolean = False
     Dim indexArray As Integer()
-
+    Dim synth As SpeechSynthesizer
+    Public SAPIvoices As New List(Of String)
+    Public SAPIVoice As String
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
-        Sethome(My.Settings.home)
+        synth = New SpeechSynthesizer()
+        Dim vv = synth.GetInstalledVoices(New CultureInfo("ja-JP"))
+        SAPIVoice = ""
+        For Each v As InstalledVoice In vv
+            SAPIvoices.Add(v.VoiceInfo.Name)
+            If v.VoiceInfo.Name = My.Settings.SAPIVoice Then
+                SAPIVoice = v.VoiceInfo.Name
+            End If
+        Next
+        If SAPIVoice.Length = 0 Then
+            SAPIVoice = SAPIvoices(0)
+        End If
+        synth.SelectVoice(SAPIVoice)
         selectHome(My.Settings.home)
         WriteReadingLabel(readingText)
         myTitle = Me.Text
         bouyomicheck()
         Me.ClientSize = My.Settings.MyClientSize
+        selectHome(My.Settings.home)
         startpage = My.Settings.LastUrl
         start = My.Settings.LastSelection
         length = 0
@@ -68,17 +85,20 @@ Public Class Form1
         Select Case target
             Case "小説家になろう"
                 homeUrl = "http://syosetu.com/"
+                My.Settings.home = "小説家になろう"
             Case "カクヨム"
                 homeUrl = "https://kakuyomu.jp"
+                My.Settings.home = "カクヨム"
+            Case "アルファポリス"
+                homeUrl = "http://www.alphapolis.co.jp/"
+                My.Settings.home = "アルファポリス"
         End Select
 
     End Sub
     Private Sub selectHome(target As String)
-        For i = 0 To ComboBox1.Items.Count - 1
-            If ComboBox1.Items(i).ToString = target Then
-                ComboBox1.SelectedIndex = i
-            End If
-        Next
+        Dim index As Integer = ComboBox1.FindString(target)
+        If index < 0 Then index = 0
+        ComboBox1.SelectedIndex = index
     End Sub
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
         WebBrowser1.GoBack()
@@ -153,7 +173,7 @@ Public Class Form1
         Dim author As String = ""
 
         Dim pageTitle As String = ""
-
+        Dim siori As Boolean = False
         title = ""
         chapter = ""
         subtitle = ""
@@ -198,22 +218,32 @@ Public Class Form1
             If content Is Nothing Then
                 Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("div")
                 For Each el As HtmlElement In divs
-                    If el.GetAttribute("className") = "widget-episodeBody" Then
+                    ' カクヨム　本文
+                    If el.GetAttribute("className") = "widget-episodeBody js-episode-body" Then
                         content = el
-
-
-
+                        ' アルファポリス　本文
+                    ElseIf el.GetAttribute("Classname") = "novel_body section target_scroll_navigation" Then
+                        content = el
+                        siori = True
                     End If
                 Next
             End If
         End If
         If content IsNot Nothing Then
             'WebBrowser1.Stop()
+            'アルファポリス　タイトル
+            Dim hs As HtmlElementCollection = Doc.GetElementsByTagName("H1")
+            For Each el As HtmlElement In hs
+                Dim eclass As String = el.GetAttribute("className")
+                If eclass = "novel_title" Then
+                    title = el.InnerText + karagyou
+                End If
+            Next
             Dim divs As HtmlElementCollection = Doc.GetElementsByTagName("DIV")
             For Each el As HtmlElement In divs
                 Dim eclass As String = el.GetAttribute("className")
 
-                If eclass = "novel_bn" Then
+                If eclass = "novel_bn" Or eclass = "novel_link section" Then
 
                     Dim nextlink As HtmlElementCollection = el.GetElementsByTagName("A")
                     For Each l As HtmlElement In nextlink
@@ -227,11 +257,19 @@ Public Class Form1
                     title = el.InnerText + karagyou
                 ElseIf eclass = "novel_writername" Then
                     author = el.InnerText
+                    ' アルファポリス　作者
+                ElseIf eclass = "novel_author section" Then
+                    author = "作者 " + el.InnerText
+                    ' アルファポリス　サブタイトル
+                ElseIf eclass = "chapter_title" Then
+                    'subtitle = el.InnerText
                 End If
 
 
             Next
+
             If nextStory.Length = 0 Then
+                ' カクヨム　次の話リンク
                 Dim nextEp As HtmlElement = Doc.GetElementById("contentMain-nextEpisode")
                 If nextEp IsNot Nothing Then
                     Dim nextLink As HtmlElementCollection = nextEp.GetElementsByTagName("A")
@@ -239,27 +277,32 @@ Public Class Form1
                 End If
             End If
             If title.Length = 0 Then
+                ' カクヨム タイトル
                 Dim titleEl As HtmlElement = Doc.GetElementById("contentMain-header-workTitle")
                 If titleEl IsNot Nothing Then title = titleEl.InnerText
+                ' カクヨム　作者
                 Dim authorEl As HtmlElement = Doc.GetElementById("contentMain-header-author")
                 If authorEl IsNot Nothing Then author = Doc.GetElementById("contentMain-header-author").InnerText
             End If
             Dim ps As HtmlElementCollection = Doc.GetElementsByTagName("P")
             For Each el As HtmlElement In ps
                 Dim eclass As String = el.GetAttribute("className")
+                ' なろう　サブタイトル
                 If eclass = "novel_subtitle" Then
                     subtitle = el.InnerText + karagyou
-
+                    ' なろう　章タイトル
                 ElseIf eclass = "chapter_title" Then
                     chapter = el.InnerText + karagyou
+                    ' なろう　シリーズタイトル
                 ElseIf eclass = "series_title" Then
                     title = el.InnerText + " "
                 ElseIf eclass = "novel_title" Then
                     title = title + el.InnerText + " "
                 ElseIf el.GetAttribute("className") = "chapterTitle level1" Then
                     subtitle = el.InnerText
+                    ' カクヨム　章タイトル
                 ElseIf el.GetAttribute("className") = "widget-episodeTitle" Then
-                    subtitle += vbCrLf + el.InnerText
+                    subtitle += vbCrLf + el.InnerText + vbCrLf
                 End If
             Next
             If author <> "" Then
@@ -281,7 +324,11 @@ Public Class Form1
                 subtitle = ""
             End If
             honbun = title + subtitle + maeText + honbun + atoText
-
+            ' アルファポリス本文中の「しおりを挟む」を削除
+            If siori Then
+                honbun = Replace(honbun, "しおりを挟む", "", 1, 2)
+                siori = False
+            End If
         Else
             honbun = ""
             NoTalk()
@@ -292,7 +339,14 @@ Public Class Form1
 
         TextBox1.Text = honbun
         If honbun.Length > 0 Then
-            Dim r As New Regex("(、|。|\r\n)+")
+            Dim sep As String
+            sep = "\r\n"
+            If My.Settings.separator = "改行と句点（。）" Then
+                sep += "|。"
+            ElseIf My.Settings.separator = "改行と句読点（。、）" Then
+                sep += "|。|、"
+            End If
+            Dim r As New Regex(sep)
             Dim mc As MatchCollection = r.Matches(honbun)
             Dim i As Integer
             indexArray = New Integer(mc.Count) {}
@@ -308,8 +362,12 @@ Public Class Form1
             TextBox1.Select(start, 0)
             TextBox1.ScrollToCaret()
             Debug.WriteLine("-----Scroll To top ----")
+            EnableButton(playStopButton)
+            SetButtonImage(playStopButton, 1)
+            SetTip(playStopButton, "読み上げを停止します")
         End If
         If honbun.Length > 0 Then
+
             If My.Settings.autoRead Or (My.Settings.autoNext And reading) Then
 
                 StartTalk()
@@ -711,9 +769,11 @@ Public Class Form1
                             If talkStopped Then Exit While
                             'Thread.Sleep(100)
                         End While
-                    Else
+                    ElseIf My.Settings.useJTalk Then
                         Dim opt As String = jOpt(My.Settings.jtalk_voice, My.Settings.jtalk_a, My.Settings.jtalk_fm, My.Settings.jtalk_jm, My.Settings.jtalk_jf, My.Settings.jtalk_r, My.Settings.jTalk_g)
                         jtalk(src, opt)
+                    Else
+                        SAPITalk(src, My.Settings.SAPIVolume, My.Settings.SAPIRate)
                     End If
                 End If
 
@@ -763,6 +823,11 @@ Public Class Form1
                 Continue While
             End If
         End While
+    End Sub
+    Public Sub SAPITalk(str As String, vol As Integer, rate As Integer)
+        synth.Volume = vol
+        synth.Rate = rate
+        synth.Speak(str)
     End Sub
     Public Sub bouyomi(str As String)
         Dim bMessage As Byte()
@@ -1008,11 +1073,14 @@ Public Class Form1
     Private Sub showBackMenu()
         bMenu.Items.Clear()
         Dim max = bList.Count - 1
+        Dim start = 0
+        If max > 20 Then
+            start = max - 20
+        End If
 
-
-        For i = 0 To bList.Count - 1
+        For i = start To max
             Dim newItem As New ToolStripMenuItem
-            Dim item As Array = bList.Item(max - i)
+            Dim item As Array = bList.Item(max - i + start)
             newItem.Text = item(1)
             newItem.Tag = i.ToString
             bMenu.Items.Add(newItem)
@@ -1055,11 +1123,14 @@ Public Class Form1
     Private Sub showForwardMenu()
         fMenu.Items.Clear()
         Dim max = fList.Count - 1
+        Dim start = 0
+        If max > 20 Then
+            start = max - 20
+        End If
 
-
-        For i = 0 To fList.Count - 1
+        For i =start To max
             Dim newItem As New ToolStripMenuItem
-            Dim item As Array = fList.Item(max - i)
+            Dim item As Array = fList.Item(max - i + start)
             newItem.Text = item(1)
             newItem.Tag = i.ToString
             fMenu.Items.Add(newItem)

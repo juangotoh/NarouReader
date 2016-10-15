@@ -80,5 +80,23 @@
     <Setting Name="home" Type="System.String" Scope="User">
       <Value Profile="(Default)">小説家になろう</Value>
     </Setting>
+    <Setting Name="SAPIVoice" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SAPIVolume" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="SAPIRate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="useJTalk" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="useSAPI" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="separator" Type="System.String" Scope="User">
+      <Value Profile="(Default)">改行と句読点（。、）</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

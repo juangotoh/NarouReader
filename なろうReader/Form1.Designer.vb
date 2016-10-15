@@ -297,7 +297,7 @@ Partial Class Form1
         '
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"小説家になろう", "カクヨム"})
+        Me.ComboBox1.Items.AddRange(New Object() {"小説家になろう", "カクヨム", "アルファポリス"})
         Me.ComboBox1.Location = New System.Drawing.Point(132, 10)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(121, 20)

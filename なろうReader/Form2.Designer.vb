@@ -43,6 +43,15 @@ Partial Class Form2
         Me.RadioButton_bouyomi = New System.Windows.Forms.RadioButton()
         Me.RadioButton_jtalk = New System.Windows.Forms.RadioButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.TrackBar_SAPI_Volume = New System.Windows.Forms.TrackBar()
+        Me.TrackBar_SAPI_Speed = New System.Windows.Forms.TrackBar()
+        Me.TextBox_SAPI_Volume = New System.Windows.Forms.TextBox()
+        Me.TextBox_SAPI_Speed = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.ComboBox_SAPI_Voice = New System.Windows.Forms.ComboBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.RadioButton_SAPI = New System.Windows.Forms.RadioButton()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.TextBox_g = New System.Windows.Forms.TextBox()
         Me.TrackBar_g = New System.Windows.Forms.TrackBar()
@@ -66,13 +75,17 @@ Partial Class Form2
         Me.TrackBar_a = New System.Windows.Forms.TrackBar()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.RadioButton_rubyNothing = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_rubyDelete = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_rubyConvert = New System.Windows.Forms.RadioButton()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.TextBox_sample = New System.Windows.Forms.TextBox()
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.RadioButton_rubyConvert = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_rubyDelete = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_rubyNothing = New System.Windows.Forms.RadioButton()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.ComboBox_Separator = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.TrackBar_SAPI_Volume, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TrackBar_SAPI_Speed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TrackBar_g, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TrackBar_r, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TrackBar_jf, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,14 +93,14 @@ Partial Class Form2
         CType(Me.TrackBar_fm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TrackBar_a, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'CheckBox_autoRead
         '
         Me.CheckBox_autoRead.AutoSize = True
-        Me.CheckBox_autoRead.Location = New System.Drawing.Point(16, 21)
+        Me.CheckBox_autoRead.Location = New System.Drawing.Point(6, 34)
         Me.CheckBox_autoRead.Name = "CheckBox_autoRead"
         Me.CheckBox_autoRead.Size = New System.Drawing.Size(207, 16)
         Me.CheckBox_autoRead.TabIndex = 0
@@ -97,7 +110,7 @@ Partial Class Form2
         'CheckBox_autoNext
         '
         Me.CheckBox_autoNext.AutoSize = True
-        Me.CheckBox_autoNext.Location = New System.Drawing.Point(16, 43)
+        Me.CheckBox_autoNext.Location = New System.Drawing.Point(6, 56)
         Me.CheckBox_autoNext.Name = "CheckBox_autoNext"
         Me.CheckBox_autoNext.Size = New System.Drawing.Size(252, 16)
         Me.CheckBox_autoNext.TabIndex = 1
@@ -106,7 +119,7 @@ Partial Class Form2
         '
         'Button_Font
         '
-        Me.Button_Font.Location = New System.Drawing.Point(16, 29)
+        Me.Button_Font.Location = New System.Drawing.Point(8, 21)
         Me.Button_Font.Name = "Button_Font"
         Me.Button_Font.Size = New System.Drawing.Size(92, 23)
         Me.Button_Font.TabIndex = 2
@@ -117,7 +130,7 @@ Partial Class Form2
         'FontLabel
         '
         Me.FontLabel.AutoSize = True
-        Me.FontLabel.Location = New System.Drawing.Point(14, 66)
+        Me.FontLabel.Location = New System.Drawing.Point(6, 54)
         Me.FontLabel.Name = "FontLabel"
         Me.FontLabel.Size = New System.Drawing.Size(38, 12)
         Me.FontLabel.TabIndex = 3
@@ -171,7 +184,7 @@ Partial Class Form2
         'CheckBox_Maegaki
         '
         Me.CheckBox_Maegaki.AutoSize = True
-        Me.CheckBox_Maegaki.Location = New System.Drawing.Point(16, 109)
+        Me.CheckBox_Maegaki.Location = New System.Drawing.Point(6, 122)
         Me.CheckBox_Maegaki.Name = "CheckBox_Maegaki"
         Me.CheckBox_Maegaki.Size = New System.Drawing.Size(88, 16)
         Me.CheckBox_Maegaki.TabIndex = 10
@@ -182,7 +195,7 @@ Partial Class Form2
         'CheckBox_Atogaki
         '
         Me.CheckBox_Atogaki.AutoSize = True
-        Me.CheckBox_Atogaki.Location = New System.Drawing.Point(16, 131)
+        Me.CheckBox_Atogaki.Location = New System.Drawing.Point(6, 144)
         Me.CheckBox_Atogaki.Name = "CheckBox_Atogaki"
         Me.CheckBox_Atogaki.Size = New System.Drawing.Size(88, 16)
         Me.CheckBox_Atogaki.TabIndex = 11
@@ -211,7 +224,7 @@ Partial Class Form2
         'CheckBox_readTitle
         '
         Me.CheckBox_readTitle.AutoSize = True
-        Me.CheckBox_readTitle.Location = New System.Drawing.Point(16, 65)
+        Me.CheckBox_readTitle.Location = New System.Drawing.Point(6, 78)
         Me.CheckBox_readTitle.Name = "CheckBox_readTitle"
         Me.CheckBox_readTitle.Size = New System.Drawing.Size(90, 16)
         Me.CheckBox_readTitle.TabIndex = 12
@@ -221,7 +234,7 @@ Partial Class Form2
         'CheckBox_readSubTitle
         '
         Me.CheckBox_readSubTitle.AutoSize = True
-        Me.CheckBox_readSubTitle.Location = New System.Drawing.Point(16, 87)
+        Me.CheckBox_readSubTitle.Location = New System.Drawing.Point(6, 100)
         Me.CheckBox_readSubTitle.Name = "CheckBox_readSubTitle"
         Me.CheckBox_readSubTitle.Size = New System.Drawing.Size(109, 16)
         Me.CheckBox_readSubTitle.TabIndex = 13
@@ -242,7 +255,7 @@ Partial Class Form2
         'RadioButton_jtalk
         '
         Me.RadioButton_jtalk.AutoSize = True
-        Me.RadioButton_jtalk.Location = New System.Drawing.Point(15, 97)
+        Me.RadioButton_jtalk.Location = New System.Drawing.Point(15, 89)
         Me.RadioButton_jtalk.Name = "RadioButton_jtalk"
         Me.RadioButton_jtalk.Size = New System.Drawing.Size(82, 16)
         Me.RadioButton_jtalk.TabIndex = 15
@@ -252,6 +265,15 @@ Partial Class Form2
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.TrackBar_SAPI_Volume)
+        Me.GroupBox1.Controls.Add(Me.TrackBar_SAPI_Speed)
+        Me.GroupBox1.Controls.Add(Me.TextBox_SAPI_Volume)
+        Me.GroupBox1.Controls.Add(Me.TextBox_SAPI_Speed)
+        Me.GroupBox1.Controls.Add(Me.Label11)
+        Me.GroupBox1.Controls.Add(Me.Label10)
+        Me.GroupBox1.Controls.Add(Me.ComboBox_SAPI_Voice)
+        Me.GroupBox1.Controls.Add(Me.Label9)
+        Me.GroupBox1.Controls.Add(Me.RadioButton_SAPI)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.TextBox_g)
         Me.GroupBox1.Controls.Add(Me.TrackBar_g)
@@ -281,15 +303,95 @@ Partial Class Form2
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(383, 384)
+        Me.GroupBox1.Size = New System.Drawing.Size(423, 427)
         Me.GroupBox1.TabIndex = 17
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "音声合成エンジン"
         '
+        'TrackBar_SAPI_Volume
+        '
+        Me.TrackBar_SAPI_Volume.Location = New System.Drawing.Point(130, 398)
+        Me.TrackBar_SAPI_Volume.Maximum = 100
+        Me.TrackBar_SAPI_Volume.Name = "TrackBar_SAPI_Volume"
+        Me.TrackBar_SAPI_Volume.Size = New System.Drawing.Size(206, 45)
+        Me.TrackBar_SAPI_Volume.TabIndex = 45
+        Me.TrackBar_SAPI_Volume.Value = 50
+        '
+        'TrackBar_SAPI_Speed
+        '
+        Me.TrackBar_SAPI_Speed.Location = New System.Drawing.Point(130, 358)
+        Me.TrackBar_SAPI_Speed.Minimum = -10
+        Me.TrackBar_SAPI_Speed.Name = "TrackBar_SAPI_Speed"
+        Me.TrackBar_SAPI_Speed.Size = New System.Drawing.Size(206, 45)
+        Me.TrackBar_SAPI_Speed.TabIndex = 44
+        '
+        'TextBox_SAPI_Volume
+        '
+        Me.TextBox_SAPI_Volume.Location = New System.Drawing.Point(73, 398)
+        Me.TextBox_SAPI_Volume.Name = "TextBox_SAPI_Volume"
+        Me.TextBox_SAPI_Volume.ReadOnly = True
+        Me.TextBox_SAPI_Volume.Size = New System.Drawing.Size(51, 19)
+        Me.TextBox_SAPI_Volume.TabIndex = 43
+        '
+        'TextBox_SAPI_Speed
+        '
+        Me.TextBox_SAPI_Speed.Location = New System.Drawing.Point(73, 365)
+        Me.TextBox_SAPI_Speed.Name = "TextBox_SAPI_Speed"
+        Me.TextBox_SAPI_Speed.ReadOnly = True
+        Me.TextBox_SAPI_Speed.Size = New System.Drawing.Size(51, 19)
+        Me.TextBox_SAPI_Speed.TabIndex = 42
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(38, 400)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(29, 12)
+        Me.Label11.TabIndex = 41
+        Me.Label11.Text = "音量"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(38, 368)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(29, 12)
+        Me.Label10.TabIndex = 40
+        Me.Label10.Text = "速度"
+        '
+        'ComboBox_SAPI_Voice
+        '
+        Me.ComboBox_SAPI_Voice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox_SAPI_Voice.FormattingEnabled = True
+        Me.ComboBox_SAPI_Voice.Location = New System.Drawing.Point(73, 332)
+        Me.ComboBox_SAPI_Voice.Name = "ComboBox_SAPI_Voice"
+        Me.ComboBox_SAPI_Voice.Size = New System.Drawing.Size(223, 20)
+        Me.ComboBox_SAPI_Voice.TabIndex = 39
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(38, 335)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(29, 12)
+        Me.Label9.TabIndex = 38
+        Me.Label9.Text = "音声"
+        '
+        'RadioButton_SAPI
+        '
+        Me.RadioButton_SAPI.AutoSize = True
+        Me.RadioButton_SAPI.Location = New System.Drawing.Point(15, 310)
+        Me.RadioButton_SAPI.Name = "RadioButton_SAPI"
+        Me.RadioButton_SAPI.Size = New System.Drawing.Size(149, 16)
+        Me.RadioButton_SAPI.TabIndex = 37
+        Me.RadioButton_SAPI.TabStop = True
+        Me.RadioButton_SAPI.Text = "Windows Text to Speech"
+        Me.RadioButton_SAPI.UseVisualStyleBackColor = True
+        '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(38, 303)
+        Me.Label8.Location = New System.Drawing.Point(38, 284)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(29, 12)
         Me.Label8.TabIndex = 36
@@ -297,7 +399,7 @@ Partial Class Form2
         '
         'TextBox_g
         '
-        Me.TextBox_g.Location = New System.Drawing.Point(73, 300)
+        Me.TextBox_g.Location = New System.Drawing.Point(73, 281)
         Me.TextBox_g.Name = "TextBox_g"
         Me.TextBox_g.ReadOnly = True
         Me.TextBox_g.Size = New System.Drawing.Size(51, 19)
@@ -305,7 +407,7 @@ Partial Class Form2
         '
         'TrackBar_g
         '
-        Me.TrackBar_g.Location = New System.Drawing.Point(130, 300)
+        Me.TrackBar_g.Location = New System.Drawing.Point(130, 281)
         Me.TrackBar_g.Maximum = 20
         Me.TrackBar_g.Minimum = -20
         Me.TrackBar_g.Name = "TrackBar_g"
@@ -315,7 +417,7 @@ Partial Class Form2
         '
         'Button_Talk
         '
-        Me.Button_Talk.Location = New System.Drawing.Point(288, 351)
+        Me.Button_Talk.Location = New System.Drawing.Point(342, 398)
         Me.Button_Talk.Name = "Button_Talk"
         Me.Button_Talk.Size = New System.Drawing.Size(75, 23)
         Me.Button_Talk.TabIndex = 33
@@ -324,7 +426,7 @@ Partial Class Form2
         '
         'TextBox_r
         '
-        Me.TextBox_r.Location = New System.Drawing.Point(73, 271)
+        Me.TextBox_r.Location = New System.Drawing.Point(73, 252)
         Me.TextBox_r.Name = "TextBox_r"
         Me.TextBox_r.ReadOnly = True
         Me.TextBox_r.Size = New System.Drawing.Size(51, 19)
@@ -332,7 +434,7 @@ Partial Class Form2
         '
         'TextBox_jf
         '
-        Me.TextBox_jf.Location = New System.Drawing.Point(73, 238)
+        Me.TextBox_jf.Location = New System.Drawing.Point(73, 219)
         Me.TextBox_jf.Name = "TextBox_jf"
         Me.TextBox_jf.ReadOnly = True
         Me.TextBox_jf.Size = New System.Drawing.Size(51, 19)
@@ -340,7 +442,7 @@ Partial Class Form2
         '
         'TextBox_jm
         '
-        Me.TextBox_jm.Location = New System.Drawing.Point(73, 209)
+        Me.TextBox_jm.Location = New System.Drawing.Point(73, 190)
         Me.TextBox_jm.Name = "TextBox_jm"
         Me.TextBox_jm.ReadOnly = True
         Me.TextBox_jm.Size = New System.Drawing.Size(51, 19)
@@ -348,7 +450,7 @@ Partial Class Form2
         '
         'TextBox_fm
         '
-        Me.TextBox_fm.Location = New System.Drawing.Point(73, 182)
+        Me.TextBox_fm.Location = New System.Drawing.Point(73, 163)
         Me.TextBox_fm.Name = "TextBox_fm"
         Me.TextBox_fm.ReadOnly = True
         Me.TextBox_fm.Size = New System.Drawing.Size(51, 19)
@@ -356,7 +458,7 @@ Partial Class Form2
         '
         'TextBox_a
         '
-        Me.TextBox_a.Location = New System.Drawing.Point(73, 155)
+        Me.TextBox_a.Location = New System.Drawing.Point(73, 136)
         Me.TextBox_a.Name = "TextBox_a"
         Me.TextBox_a.ReadOnly = True
         Me.TextBox_a.Size = New System.Drawing.Size(51, 19)
@@ -365,7 +467,7 @@ Partial Class Form2
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(38, 212)
+        Me.Label7.Location = New System.Drawing.Point(38, 193)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(29, 12)
         Me.Label7.TabIndex = 27
@@ -373,7 +475,7 @@ Partial Class Form2
         '
         'TrackBar_r
         '
-        Me.TrackBar_r.Location = New System.Drawing.Point(130, 271)
+        Me.TrackBar_r.Location = New System.Drawing.Point(130, 252)
         Me.TrackBar_r.Maximum = 40
         Me.TrackBar_r.Minimum = 1
         Me.TrackBar_r.Name = "TrackBar_r"
@@ -383,7 +485,7 @@ Partial Class Form2
         '
         'TrackBar_jf
         '
-        Me.TrackBar_jf.Location = New System.Drawing.Point(130, 238)
+        Me.TrackBar_jf.Location = New System.Drawing.Point(130, 219)
         Me.TrackBar_jf.Maximum = 100
         Me.TrackBar_jf.Name = "TrackBar_jf"
         Me.TrackBar_jf.Size = New System.Drawing.Size(211, 45)
@@ -391,7 +493,7 @@ Partial Class Form2
         '
         'TrackBar_jm
         '
-        Me.TrackBar_jm.Location = New System.Drawing.Point(129, 209)
+        Me.TrackBar_jm.Location = New System.Drawing.Point(129, 190)
         Me.TrackBar_jm.Maximum = 100
         Me.TrackBar_jm.Name = "TrackBar_jm"
         Me.TrackBar_jm.Size = New System.Drawing.Size(211, 45)
@@ -400,7 +502,7 @@ Partial Class Form2
         '
         'TrackBar_fm
         '
-        Me.TrackBar_fm.Location = New System.Drawing.Point(129, 182)
+        Me.TrackBar_fm.Location = New System.Drawing.Point(129, 163)
         Me.TrackBar_fm.Maximum = 240
         Me.TrackBar_fm.Minimum = -240
         Me.TrackBar_fm.Name = "TrackBar_fm"
@@ -410,7 +512,7 @@ Partial Class Form2
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(38, 274)
+        Me.Label6.Location = New System.Drawing.Point(38, 255)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(29, 12)
         Me.Label6.TabIndex = 22
@@ -419,7 +521,7 @@ Partial Class Form2
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(38, 241)
+        Me.Label5.Location = New System.Drawing.Point(38, 222)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(29, 12)
         Me.Label5.TabIndex = 21
@@ -428,7 +530,7 @@ Partial Class Form2
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(38, 185)
+        Me.Label4.Location = New System.Drawing.Point(38, 166)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(25, 12)
         Me.Label4.TabIndex = 20
@@ -437,7 +539,7 @@ Partial Class Form2
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(38, 158)
+        Me.Label3.Location = New System.Drawing.Point(38, 139)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(29, 12)
         Me.Label3.TabIndex = 19
@@ -446,7 +548,7 @@ Partial Class Form2
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(38, 122)
+        Me.Label2.Location = New System.Drawing.Point(38, 113)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(29, 12)
         Me.Label2.TabIndex = 18
@@ -457,14 +559,14 @@ Partial Class Form2
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"mei_angry", "mei_bashful", "mei_happy", "mei_normal", "mei_sad", "nitech_jp_atr503_m001"})
-        Me.ComboBox1.Location = New System.Drawing.Point(82, 119)
+        Me.ComboBox1.Location = New System.Drawing.Point(82, 110)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(210, 20)
         Me.ComboBox1.TabIndex = 17
         '
         'TrackBar_a
         '
-        Me.TrackBar_a.Location = New System.Drawing.Point(130, 155)
+        Me.TrackBar_a.Location = New System.Drawing.Point(130, 136)
         Me.TrackBar_a.Maximum = 100
         Me.TrackBar_a.Name = "TrackBar_a"
         Me.TrackBar_a.Size = New System.Drawing.Size(211, 45)
@@ -478,6 +580,8 @@ Partial Class Form2
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.ComboBox_Separator)
+        Me.GroupBox2.Controls.Add(Me.Label12)
         Me.GroupBox2.Controls.Add(Me.GroupBox4)
         Me.GroupBox2.Controls.Add(Me.CheckBox_autoRead)
         Me.GroupBox2.Controls.Add(Me.CheckBox_autoNext)
@@ -485,57 +589,35 @@ Partial Class Form2
         Me.GroupBox2.Controls.Add(Me.CheckBox_Maegaki)
         Me.GroupBox2.Controls.Add(Me.CheckBox_readTitle)
         Me.GroupBox2.Controls.Add(Me.CheckBox_Atogaki)
-        Me.GroupBox2.Location = New System.Drawing.Point(401, 22)
+        Me.GroupBox2.Location = New System.Drawing.Point(441, 22)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(355, 173)
+        Me.GroupBox2.Size = New System.Drawing.Size(331, 231)
         Me.GroupBox2.TabIndex = 18
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "読み上げ項目関連"
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.TextBox_sample)
-        Me.GroupBox3.Controls.Add(Me.Button_Font)
-        Me.GroupBox3.Controls.Add(Me.FontLabel)
-        Me.GroupBox3.Location = New System.Drawing.Point(401, 213)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(355, 183)
-        Me.GroupBox3.TabIndex = 19
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "テキスト表示"
-        '
-        'TextBox_sample
-        '
-        Me.TextBox_sample.Location = New System.Drawing.Point(16, 83)
-        Me.TextBox_sample.Multiline = True
-        Me.TextBox_sample.Name = "TextBox_sample"
-        Me.TextBox_sample.ReadOnly = True
-        Me.TextBox_sample.Size = New System.Drawing.Size(319, 83)
-        Me.TextBox_sample.TabIndex = 4
-        Me.TextBox_sample.Text = "テキスト表示サンプルです。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "あいうえおABCDabc123456"
         '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.RadioButton_rubyNothing)
         Me.GroupBox4.Controls.Add(Me.RadioButton_rubyDelete)
         Me.GroupBox4.Controls.Add(Me.RadioButton_rubyConvert)
-        Me.GroupBox4.Location = New System.Drawing.Point(166, 65)
+        Me.GroupBox4.Location = New System.Drawing.Point(141, 80)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.Size = New System.Drawing.Size(169, 92)
         Me.GroupBox4.TabIndex = 15
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "ルビの扱い"
         '
-        'RadioButton_rubyConvert
+        'RadioButton_rubyNothing
         '
-        Me.RadioButton_rubyConvert.AutoSize = True
-        Me.RadioButton_rubyConvert.Location = New System.Drawing.Point(16, 18)
-        Me.RadioButton_rubyConvert.Name = "RadioButton_rubyConvert"
-        Me.RadioButton_rubyConvert.Size = New System.Drawing.Size(126, 16)
-        Me.RadioButton_rubyConvert.TabIndex = 0
-        Me.RadioButton_rubyConvert.TabStop = True
-        Me.RadioButton_rubyConvert.Text = "本文をルビで置き換え"
-        Me.RadioButton_rubyConvert.UseVisualStyleBackColor = True
+        Me.RadioButton_rubyNothing.AutoSize = True
+        Me.RadioButton_rubyNothing.Location = New System.Drawing.Point(16, 62)
+        Me.RadioButton_rubyNothing.Name = "RadioButton_rubyNothing"
+        Me.RadioButton_rubyNothing.Size = New System.Drawing.Size(69, 16)
+        Me.RadioButton_rubyNothing.TabIndex = 2
+        Me.RadioButton_rubyNothing.TabStop = True
+        Me.RadioButton_rubyNothing.Text = "両方残す"
+        Me.RadioButton_rubyNothing.UseVisualStyleBackColor = True
         '
         'RadioButton_rubyDelete
         '
@@ -548,16 +630,57 @@ Partial Class Form2
         Me.RadioButton_rubyDelete.Text = "ルビを削除"
         Me.RadioButton_rubyDelete.UseVisualStyleBackColor = True
         '
-        'RadioButton_rubyNothing
+        'RadioButton_rubyConvert
         '
-        Me.RadioButton_rubyNothing.AutoSize = True
-        Me.RadioButton_rubyNothing.Location = New System.Drawing.Point(16, 62)
-        Me.RadioButton_rubyNothing.Name = "RadioButton_rubyNothing"
-        Me.RadioButton_rubyNothing.Size = New System.Drawing.Size(69, 16)
-        Me.RadioButton_rubyNothing.TabIndex = 2
-        Me.RadioButton_rubyNothing.TabStop = True
-        Me.RadioButton_rubyNothing.Text = "両方残す"
-        Me.RadioButton_rubyNothing.UseVisualStyleBackColor = True
+        Me.RadioButton_rubyConvert.AutoSize = True
+        Me.RadioButton_rubyConvert.Location = New System.Drawing.Point(16, 18)
+        Me.RadioButton_rubyConvert.Name = "RadioButton_rubyConvert"
+        Me.RadioButton_rubyConvert.Size = New System.Drawing.Size(126, 16)
+        Me.RadioButton_rubyConvert.TabIndex = 0
+        Me.RadioButton_rubyConvert.TabStop = True
+        Me.RadioButton_rubyConvert.Text = "本文をルビで置き換え"
+        Me.RadioButton_rubyConvert.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.TextBox_sample)
+        Me.GroupBox3.Controls.Add(Me.Button_Font)
+        Me.GroupBox3.Controls.Add(Me.FontLabel)
+        Me.GroupBox3.Location = New System.Drawing.Point(441, 259)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(331, 151)
+        Me.GroupBox3.TabIndex = 19
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "テキスト表示"
+        '
+        'TextBox_sample
+        '
+        Me.TextBox_sample.Location = New System.Drawing.Point(6, 73)
+        Me.TextBox_sample.Multiline = True
+        Me.TextBox_sample.Name = "TextBox_sample"
+        Me.TextBox_sample.ReadOnly = True
+        Me.TextBox_sample.Size = New System.Drawing.Size(319, 73)
+        Me.TextBox_sample.TabIndex = 4
+        Me.TextBox_sample.Text = "テキスト表示サンプルです。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "あいうえおABCDabc123456"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(4, 180)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(89, 12)
+        Me.Label12.TabIndex = 16
+        Me.Label12.Text = "テキスト分割位置"
+        '
+        'ComboBox_Separator
+        '
+        Me.ComboBox_Separator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox_Separator.FormattingEnabled = True
+        Me.ComboBox_Separator.Items.AddRange(New Object() {"改行のみ", "改行と句点（。）", "改行と句読点（。、）"})
+        Me.ComboBox_Separator.Location = New System.Drawing.Point(46, 195)
+        Me.ComboBox_Separator.Name = "ComboBox_Separator"
+        Me.ComboBox_Separator.Size = New System.Drawing.Size(264, 20)
+        Me.ComboBox_Separator.TabIndex = 17
         '
         'Form2
         '
@@ -582,6 +705,8 @@ Partial Class Form2
         Me.Text = "なろうReader 設定"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.TrackBar_SAPI_Volume, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TrackBar_SAPI_Speed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TrackBar_g, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TrackBar_r, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TrackBar_jf, System.ComponentModel.ISupportInitialize).EndInit()
@@ -590,10 +715,10 @@ Partial Class Form2
         CType(Me.TrackBar_a, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
-        Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox3.PerformLayout()
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox4.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -647,4 +772,15 @@ Partial Class Form2
     Friend WithEvents RadioButton_rubyNothing As RadioButton
     Friend WithEvents RadioButton_rubyDelete As RadioButton
     Friend WithEvents RadioButton_rubyConvert As RadioButton
+    Friend WithEvents TrackBar_SAPI_Volume As TrackBar
+    Friend WithEvents TrackBar_SAPI_Speed As TrackBar
+    Friend WithEvents TextBox_SAPI_Volume As TextBox
+    Friend WithEvents TextBox_SAPI_Speed As TextBox
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents ComboBox_SAPI_Voice As ComboBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents RadioButton_SAPI As RadioButton
+    Friend WithEvents ComboBox_Separator As ComboBox
+    Friend WithEvents Label12 As Label
 End Class

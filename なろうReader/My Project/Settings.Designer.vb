@@ -365,6 +365,78 @@ Namespace My
                 Me("home") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property SAPIVoice() As String
+            Get
+                Return CType(Me("SAPIVoice"),String)
+            End Get
+            Set
+                Me("SAPIVoice") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("50")>  _
+        Public Property SAPIVolume() As Integer
+            Get
+                Return CType(Me("SAPIVolume"),Integer)
+            End Get
+            Set
+                Me("SAPIVolume") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property SAPIRate() As Integer
+            Get
+                Return CType(Me("SAPIRate"),Integer)
+            End Get
+            Set
+                Me("SAPIRate") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property useJTalk() As Boolean
+            Get
+                Return CType(Me("useJTalk"),Boolean)
+            End Get
+            Set
+                Me("useJTalk") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property useSAPI() As Boolean
+            Get
+                Return CType(Me("useSAPI"),Boolean)
+            End Get
+            Set
+                Me("useSAPI") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("改行と句読点（。、）")>  _
+        Public Property separator() As String
+            Get
+                Return CType(Me("separator"),String)
+            End Get
+            Set
+                Me("separator") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
