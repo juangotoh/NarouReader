@@ -1023,7 +1023,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:なろうReader"
         "ProductCode" = "8:{54898669-A909-47FA-A793-A520A8C51C94}"
-        "PackageCode" = "8:{38F44700-8764-49BE-AA0E-D70A033DDF03}"
+        "PackageCode" = "8:{BFC6273C-C36D-4BCF-8F3A-510F65E11A26}"
         "UpgradeCode" = "8:{405D40A6-347C-41DA-AAD9-AEB043F54CB8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

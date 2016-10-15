@@ -49,16 +49,21 @@ Public Class Form1
         synth = New SpeechSynthesizer()
         Dim vv = synth.GetInstalledVoices(New CultureInfo("ja-JP"))
         SAPIVoice = ""
-        For Each v As InstalledVoice In vv
-            SAPIvoices.Add(v.VoiceInfo.Name)
-            If v.VoiceInfo.Name = My.Settings.SAPIVoice Then
-                SAPIVoice = v.VoiceInfo.Name
+        If vv.Count > 0 Then
+            For Each v As InstalledVoice In vv
+                SAPIvoices.Add(v.VoiceInfo.Name)
+                If v.VoiceInfo.Name = My.Settings.SAPIVoice Then
+                    SAPIVoice = v.VoiceInfo.Name
+                End If
+            Next
+            If SAPIVoice.Length = 0 Then
+                SAPIVoice = SAPIvoices(0)
             End If
-        Next
-        If SAPIVoice.Length = 0 Then
-            SAPIVoice = SAPIvoices(0)
+            synth.SelectVoice(SAPIVoice)
+        Else
+            synth.Dispose()
+            synth = Nothing
         End If
-        synth.SelectVoice(SAPIVoice)
         selectHome(My.Settings.home)
         WriteReadingLabel(readingText)
         myTitle = Me.Text
@@ -825,9 +830,11 @@ Public Class Form1
         End While
     End Sub
     Public Sub SAPITalk(str As String, vol As Integer, rate As Integer)
-        synth.Volume = vol
-        synth.Rate = rate
-        synth.Speak(str)
+        If synth IsNot Nothing Then
+            synth.Volume = vol
+            synth.Rate = rate
+            synth.Speak(str)
+        End If
     End Sub
     Public Sub bouyomi(str As String)
         Dim bMessage As Byte()
