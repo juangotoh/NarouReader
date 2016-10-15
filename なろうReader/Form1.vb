@@ -331,7 +331,8 @@ Public Class Form1
             honbun = title + subtitle + maeText + honbun + atoText
             ' アルファポリス本文中の「しおりを挟む」を削除
             If siori Then
-                honbun = Replace(honbun, "しおりを挟む", "", 1, 2)
+                honbun = Replace(honbun, vbCrLf + "しおりを挟む ", vbCrLf, 1, 2)
+                honbun = Replace(honbun, vbCrLf + "しおり ", vbCrLf, 1, 2)
                 siori = False
             End If
         Else
