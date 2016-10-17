@@ -1104,12 +1104,17 @@ Public Class Form1
         Dim item As ToolStripItem
         Dim num As Integer
         Dim max As Integer
+        Dim start As Integer = 0
+
         item = e.ClickedItem
         num = Integer.Parse(item.Tag)
         max = bList.Count - 1
+        If max > 20 Then
+            start = max - 20
+        End If
         Dim pItem As Array = {}
-        For i = 0 To num
-            pItem = bList.Item(max - i)
+        For i = start To num
+            pItem = bList.Item(max - i + start)
             fList.Add(pItem)
             bList.Remove(pItem)
         Next
@@ -1153,12 +1158,13 @@ Public Class Form1
         Dim item As ToolStripItem
         Dim num As Integer
         Dim max As Integer
+        Dim start As Integer = 0
         item = e.ClickedItem
         num = Integer.Parse(item.Tag)
         max = fList.Count - 1
         Dim pItem As Array = {}
-        For i = 0 To num
-            pItem = fList.Item(max - i)
+        For i = max To num
+            pItem = fList.Item(max - i + start)
             bList.Add(pItem)
             fList.Remove(pItem)
         Next
