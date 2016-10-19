@@ -1162,8 +1162,11 @@ Public Class Form1
         item = e.ClickedItem
         num = Integer.Parse(item.Tag)
         max = fList.Count - 1
+        If max > 20 Then
+            start = max - 20
+        End If
         Dim pItem As Array = {}
-        For i = max To num
+        For i = start To num
             pItem = fList.Item(max - i + start)
             bList.Add(pItem)
             fList.Remove(pItem)
