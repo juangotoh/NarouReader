@@ -395,7 +395,7 @@ Public Class Form1
             ProgressBar1.Hide()
             EnableButton(Button_reload)
             Thread.Yield()
-            If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
+            If Not (WebBrowser1.ReadyState = WebBrowserReadyState.Complete) Then
                 Return
             End If
             Return
@@ -404,11 +404,7 @@ Public Class Form1
             TextBox1.Text = ""
             Thread.Yield()
         End If
-        If Not WebBrowser1.ReadyState = WebBrowserReadyState.Complete Then
-            EnableButton(Button_reload)
-            ProgressBar1.Hide()
-            Return
-        End If
+
         multiLoad = multiLoad + 1
         Debug.WriteLine("multiLoad=" + multiLoad.ToString)
 
