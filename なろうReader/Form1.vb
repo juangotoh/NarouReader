@@ -4,6 +4,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Speech.Synthesis
 Imports System.Globalization
+Imports FNF.Utility
 Public Class Form1
 
 
@@ -227,7 +228,8 @@ Public Class Form1
                     If el.GetAttribute("className") = "widget-episodeBody js-episode-body" Then
                         content = el
                         ' アルファポリス　本文
-                    ElseIf el.GetAttribute("Classname") = "novel_body section target_scroll_navigation" Then
+                        'ElseIf el.GetAttribute("Classname") = "novel_body section target_scroll_navigation" Then
+                    ElseIf el.GetAttribute("Classname") = "text " Then
                         content = el
                         siori = True
                     End If
@@ -240,7 +242,7 @@ Public Class Form1
             Dim hs As HtmlElementCollection = Doc.GetElementsByTagName("H1")
             For Each el As HtmlElement In hs
                 Dim eclass As String = el.GetAttribute("className")
-                If eclass = "novel_title" Then
+                If eclass = "title" Then
                     title = el.InnerText + karagyou
                 End If
             Next
@@ -262,16 +264,23 @@ Public Class Form1
                     title = el.InnerText + karagyou
                 ElseIf eclass = "novel_writername" Then
                     author = el.InnerText
-                    ' アルファポリス　作者
-                ElseIf eclass = "novel_author section" Then
-                    author = "作者 " + el.InnerText
-                    ' アルファポリス　サブタイトル
-                ElseIf eclass = "chapter_title" Then
-                    'subtitle = el.InnerText
+                ElseIf eclass = "chapter-title" Then
+                    'アルファポリス　章タイトル
+                    subtitle = el.InnerText + karagyou
                 End If
-
-
             Next
+            Dim h2s As HtmlElementCollection = Doc.GetElementsByTagName("H2")
+            For Each el As HtmlElement In h2s
+                If el.GetAttribute("className") = "author" Then
+                    'アルファポリス　作者
+                    author = el.InnerText
+                ElseIf el.GetAttribute("className") = "episode-title" Then
+                    'アルファポリス　エピソードタイトル
+                    subtitle = subtitle + el.InnerText + karagyou
+                End If
+            Next
+
+
 
             If nextStory.Length = 0 Then
                 ' カクヨム　次の話リンク
@@ -330,11 +339,11 @@ Public Class Form1
             End If
             honbun = title + subtitle + maeText + honbun + atoText
             ' アルファポリス本文中の「しおりを挟む」を削除
-            If siori Then
-                honbun = Replace(honbun, vbCrLf + "しおりを挟む ", vbCrLf, 1, 2)
-                honbun = Replace(honbun, vbCrLf + "しおり ", vbCrLf, 1, 2)
-                siori = False
-            End If
+            'If siori Then
+            '    honbun = Replace(honbun, vbCrLf + "しおりを挟む ", vbCrLf, 1, 2)
+            '    honbun = Replace(honbun, vbCrLf + "しおり ", vbCrLf, 1, 2)
+            '    siori = False
+            'End If
         Else
             honbun = ""
             NoTalk()
@@ -846,6 +855,7 @@ Public Class Form1
         Dim sHost As String = "127.0.0.1"
         Dim port As Integer = 50001
         Dim tc As TcpClient
+
         Try
             tc = New TcpClient(sHost, port)
             Dim ns As NetworkStream = tc.GetStream()
