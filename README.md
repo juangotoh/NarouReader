@@ -7,7 +7,9 @@
 - OpenJTalk
 - 棒読みちゃん
 のいずれかが利用できます。
+
 棒読みちゃんを使用する場合は以下から入手してください。
+
 http://chi.usamimi.info/Program/Application/BouyomiChan/
 
 Visual Studio 2015, VB.Netで作成
