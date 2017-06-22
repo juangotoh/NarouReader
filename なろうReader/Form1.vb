@@ -255,7 +255,7 @@ Public Class Form1
             For Each el As HtmlElement In divs
                 Dim eclass As String = el.GetAttribute("className")
 
-                If eclass = "novel_bn" Or eclass = "novel_link section" Then
+                If eclass = "novel_bn" Or eclass = "novel_link section" Or eclass = "episode-navigation section" Then
 
                     Dim nextlink As HtmlElementCollection = el.GetElementsByTagName("A")
                     For Each l As HtmlElement In nextlink
@@ -297,11 +297,32 @@ Public Class Form1
             End If
             If title.Length = 0 Then
                 ' カクヨム タイトル
-                Dim titleEl As HtmlElement = Doc.GetElementById("contentMain-header-workTitle")
-                If titleEl IsNot Nothing Then title = titleEl.InnerText
+                Dim spans As HtmlElementCollection = Doc.GetElementsByTagName("SPAN")
+                For Each el As HtmlElement In spans
+                    Dim nn As String = el.GetAttribute("itemprop")
+                    If nn = "name" Then
+                        If title.Length = 0 Then
+                            title = el.InnerText + karagyou
+                        Else
+                            subtitle = subtitle + el.InnerText + karagyou
+                        End If
+                    End If
+                Next
+
                 ' カクヨム　作者
-                Dim authorEl As HtmlElement = Doc.GetElementById("contentMain-header-author")
-                If authorEl IsNot Nothing Then author = Doc.GetElementById("contentMain-header-author").InnerText
+                Dim tt As String = Doc.Title
+                Dim st As Integer = tt.LastIndexOf("（")
+                Dim ed As Integer = tt.LastIndexOf("）")
+                If st >= 0 And ed > st Then
+                    author = tt.Substring(st + 1, ed - st - 1) + karagyou
+                End If
+
+                'Dim reg As Regex = New Regex("（(.*?)） - カクヨム")
+                '    Dim m As Match = reg.Match(tt)
+                '    author = m.Groups(0).Value
+
+                '    'Dim authorEl As HtmlElement = Doc.GetElementById("contentMain-header-author")
+                '    'If authorEl IsNot Nothing Then author = Doc.GetElementById("contentMain-header-author").InnerText
             End If
             Dim ps As HtmlElementCollection = Doc.GetElementsByTagName("P")
             For Each el As HtmlElement In ps
@@ -320,8 +341,8 @@ Public Class Form1
                 ElseIf el.GetAttribute("className") = "chapterTitle level1" Then
                     subtitle = el.InnerText
                     ' カクヨム　章タイトル
-                ElseIf el.GetAttribute("className") = "widget-episodeTitle" Then
-                    subtitle += vbCrLf + el.InnerText + vbCrLf
+                    'ElseIf el.GetAttribute("className") = "widget-episodeTitle" Then
+                    '    subtitle += vbCrLf + el.InnerText + vbCrLf
                 End If
             Next
             If author <> "" Then
