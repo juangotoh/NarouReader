@@ -4,7 +4,6 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Speech.Synthesis
 Imports System.Globalization
-Imports FNF.Utility
 Public Class Form1
 
 
@@ -45,6 +44,12 @@ Public Class Form1
     Dim synth As SpeechSynthesizer
     Public SAPIvoices As New List(Of String)
     Public SAPIVoice As String
+    Const narouURL = "http://syosetu.com/"
+    Const kakuyomuURL = "https://kakuyomu.jp"
+    Const alphapoliceURL = "https://www.alphapolis.co.jp/"
+    Const narouStr = "小説家になろう"
+    Const kakuyomuStr = "カクヨム"
+    Const alphapoliceStr = "アルファポリス"
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NoTalk()
         synth = New SpeechSynthesizer()
@@ -89,15 +94,15 @@ Public Class Form1
     End Sub
     Private Sub Sethome(target As String)
         Select Case target
-            Case "小説家になろう"
-                homeUrl = "http://syosetu.com/"
-                My.Settings.home = "小説家になろう"
-            Case "カクヨム"
-                homeUrl = "https://kakuyomu.jp"
-                My.Settings.home = "カクヨム"
-            Case "アルファポリス"
-                homeUrl = "http://www.alphapolis.co.jp/"
-                My.Settings.home = "アルファポリス"
+            Case narouStr
+                homeUrl = narouURL
+                My.Settings.home = narouStr
+            Case kakuyomuStr
+                homeUrl = kakuyomuURL
+                My.Settings.home = kakuyomuStr
+            Case alphapoliceStr
+                homeUrl = alphapoliceURL
+                My.Settings.home = alphapoliceStr
         End Select
 
     End Sub
@@ -445,6 +450,13 @@ Public Class Form1
         curTitle = WebBrowser1.DocumentTitle
         oldUrl = curURL
         oldTitle = curTitle
+        If curURL.IndexOf(narouURL) >= 0 Then
+            selectHome(narouStr)
+        ElseIf curURL.IndexOf(kakuyomuURL) >= 0 Then
+            selectHome(kakuyomuStr)
+        ElseIf curURL.IndexOf(alphapoliceURL) >= 0 Then
+            selectHome(alphapoliceStr)
+        End If
         loadPlainText()
 
     End Sub
