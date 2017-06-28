@@ -255,7 +255,7 @@ Public Class Form1
             For Each el As HtmlElement In divs
                 Dim eclass As String = el.GetAttribute("className")
 
-                If eclass = "novel_bn" Or eclass = "novel_link section" Or eclass = "episode-navigation section" Then
+                If eclass = "novel_bn" Or eclass = "novel_link section" Or eclass = "episode-navigation section " Then
 
                     Dim nextlink As HtmlElementCollection = el.GetElementsByTagName("A")
                     For Each l As HtmlElement In nextlink
