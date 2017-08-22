@@ -261,7 +261,7 @@ Public Class Form1
                     For Each l As HtmlElement In nextlink
                         Dim ltext As String = l.InnerText
 
-                        If ltext.IndexOf("次の話") >= 0 Then
+                        If ltext.IndexOf("次へ") >= 0 Then
                             nextStory = l.GetAttribute("href")
                         End If
                     Next
