@@ -4,6 +4,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Speech.Synthesis
 Imports System.Globalization
+Imports Microsoft.Win32
 Public Class Form1
 
 
@@ -50,7 +51,24 @@ Public Class Form1
     Const narouStr = "小説家になろう"
     Const kakuyomuStr = "カクヨム"
     Const alphapoliceStr = "アルファポリス"
+    Private mframecount As Integer
+    Private loadedUrl As String = ""
+
+    Private Sub SetBrowserFratureControlKey(feature As String, appName As String, value As Integer)
+        Dim key = Registry.CurrentUser.CreateSubKey(String.Concat("Software\Microsoft\Internet Explorer\Main\FeatureControl\", feature), RegistryKeyPermissionCheck.ReadWriteSubTree)
+        key.SetValue(appName, CType(value, UInt32), RegistryValueKind.DWord)
+    End Sub
+    Private Sub SetBrowserFeatureControl()
+        Dim filename = System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName)
+
+        SetBrowserFratureControlKey("FEATURE_SCRIPTURL_MITIGATION", filename, 1)
+    End Sub
+    Private Sub Navigate(url As String)
+        mframecount = 0
+        WebBrowser1.Navigate(url)
+    End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetBrowserFeatureControl()
         NoTalk()
         synth = New SpeechSynthesizer()
         Dim vv = synth.GetInstalledVoices(New CultureInfo("ja-JP"))
@@ -261,7 +279,7 @@ Public Class Form1
                     For Each l As HtmlElement In nextlink
                         Dim ltext As String = l.InnerText
 
-                        If ltext.IndexOf("次へ") >= 0 Then
+                        If ltext.IndexOf("次へ") >= 0 Or ltext.IndexOf("次の話") >= 0 Then
                             nextStory = l.GetAttribute("href")
                         End If
                     Next
@@ -423,63 +441,53 @@ Public Class Form1
         ProgressBar1.Hide()
     End Sub
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
-
-
-        If oldUrl = WebBrowser1.Url.ToString Then
-
-            ProgressBar1.Hide()
-            EnableButton(Button_reload)
-            Thread.Yield()
-            If Not (WebBrowser1.ReadyState = WebBrowserReadyState.Complete) Then
-                Return
-            End If
-            Return
-
+        mframecount += 1
+        Dim done As Boolean = True
+        If WebBrowser1.Document IsNot Nothing Then
+            Dim win As HtmlWindow = WebBrowser1.Document.Window
+            Debug.WriteLine("Frame Count=" + win.Frames.Count.ToString)
+            Debug.WriteLine("now Frame=" + mframecount.ToString)
+            If win.Frames.Count > mframecount And win.Frames.Count > 0 Then done = False
         Else
-            TextBox1.Text = ""
-            Thread.Yield()
+
         End If
 
-        multiLoad = multiLoad + 1
-        Debug.WriteLine("multiLoad=" + multiLoad.ToString)
+        If done And loadedUrl <> WebBrowser1.Url.ToString Then
 
-        If multiLoad > 1 Then
-            Return
-        End If
-        If oldUrl <> WebBrowser1.Url.ToString Then
-            'StopTalk()
-        End If
-        'StopTalk()
 
-        Thread.Yield()
-        Debug.WriteLine("------Parce HTML-----")
-        If oldUrl.Length > 0 Then
-            If hIndex = 0 Then
-                If bList.Count > 0 Then
-                    Dim bItem As Array = bList.Item(bList.Count - 1)
-                    If bItem(0) = oldUrl Then
-                        bList.RemoveAt(bList.Count - 1)
+            'Thread.Yield()
+            Debug.WriteLine("------Parce HTML-----")
+            If oldUrl.Length > 0 Then
+                If hIndex = 0 Then
+                    If bList.Count > 0 Then
+                        Dim bItem As Array = bList.Item(bList.Count - 1)
+                        If bItem(0) = oldUrl Then
+                            bList.RemoveAt(bList.Count - 1)
+                        End If
+
+                        fList.Clear()
                     End If
-
-                    fList.Clear()
+                    bList.Add({oldUrl, oldTitle})
                 End If
-                bList.Add({oldUrl, oldTitle})
+                hIndex = 0
             End If
-            hIndex = 0
-        End If
-        curURL = WebBrowser1.Url.ToString
-        curTitle = WebBrowser1.DocumentTitle
-        oldUrl = curURL
-        oldTitle = curTitle
-        If curURL.IndexOf(narouURL) >= 0 Then
-            selectHome(narouStr)
-        ElseIf curURL.IndexOf(kakuyomuURL) >= 0 Then
-            selectHome(kakuyomuStr)
-        ElseIf curURL.IndexOf(alphapoliceURL) >= 0 Then
-            selectHome(alphapoliceStr)
-        End If
-        loadPlainText()
+            curURL = WebBrowser1.Url.ToString
+            curTitle = WebBrowser1.DocumentTitle
+            oldUrl = curURL
+            oldTitle = curTitle
+            If curURL.IndexOf(narouURL) >= 0 Then
+                selectHome(narouStr)
+            ElseIf curURL.IndexOf(kakuyomuURL) >= 0 Then
+                selectHome(kakuyomuStr)
+            ElseIf curURL.IndexOf(alphapoliceURL) >= 0 Then
+                selectHome(alphapoliceStr)
+            End If
 
+            loadPlainText()
+            loadedUrl = WebBrowser1.Url.ToString
+        End If
+        ProgressBar1.Hide()
+        EnableButton(Button_reload)
     End Sub
     Public Sub jtalk(text As String, opt As String)
         Dim ps1 As New Diagnostics.ProcessStartInfo
@@ -611,7 +619,7 @@ Public Class Form1
         Dim wb As WebBrowser = sender
         Dim txt As String = wb.StatusText
         If txt <> "" Then
-            WebBrowser1.Navigate(txt)
+            Navigate(txt)
         End If
 
         e.Cancel = True
@@ -987,7 +995,7 @@ Public Class Form1
     End Sub
     Private Sub loadURL(url As String)
         SetURL(url)
-        WebBrowser1.Navigate(url)
+        Navigate(url)
     End Sub
 
     Private Sub TextBox_url_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox_url.KeyPress
@@ -1049,7 +1057,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button_home_Click(sender As Object, e As EventArgs) Handles Button_home.Click
-        WebBrowser1.Navigate(homeUrl)
+        Navigate(homeUrl)
     End Sub
     Private Sub doSetting()
         StopTalk()
