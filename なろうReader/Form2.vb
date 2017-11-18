@@ -30,6 +30,7 @@
         TrackToText(TrackBar_SAPI_Volume, TextBox_SAPI_Volume, 1)
 
         TextBox_bPath.Text = My.Settings.bouyomiPath
+        TextBox_Port.Text = My.Settings.bouyomiPort.ToString
         ComboBox1.Text = My.Settings.jtalk_voice
         For Each v As String In Form1.SAPIvoices
             ComboBox_SAPI_Voice.Items.Add(v)
@@ -123,6 +124,7 @@
         My.Settings.myFont = myFont
         Form1.TextBox1.Font = myFont
         My.Settings.bouyomiPath = TextBox_bPath.Text
+        My.Settings.bouyomiPort = Integer.Parse(TextBox_Port.Text)
         Form1.loadPlainText()
         Me.Close()
     End Sub

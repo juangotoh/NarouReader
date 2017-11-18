@@ -98,5 +98,8 @@
     <Setting Name="separator" Type="System.String" Scope="User">
       <Value Profile="(Default)">改行と句読点（。、）</Value>
     </Setting>
+    <Setting Name="bouyomiPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50001</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

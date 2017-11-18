@@ -83,6 +83,8 @@ Partial Class Form2
         Me.RadioButton_rubyConvert = New System.Windows.Forms.RadioButton()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.TextBox_sample = New System.Windows.Forms.TextBox()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.TextBox_Port = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.TrackBar_SAPI_Volume, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TrackBar_SAPI_Speed, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -255,7 +257,7 @@ Partial Class Form2
         'RadioButton_jtalk
         '
         Me.RadioButton_jtalk.AutoSize = True
-        Me.RadioButton_jtalk.Location = New System.Drawing.Point(15, 89)
+        Me.RadioButton_jtalk.Location = New System.Drawing.Point(15, 120)
         Me.RadioButton_jtalk.Name = "RadioButton_jtalk"
         Me.RadioButton_jtalk.Size = New System.Drawing.Size(82, 16)
         Me.RadioButton_jtalk.TabIndex = 15
@@ -265,6 +267,8 @@ Partial Class Form2
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.TextBox_Port)
+        Me.GroupBox1.Controls.Add(Me.Label13)
         Me.GroupBox1.Controls.Add(Me.TrackBar_SAPI_Volume)
         Me.GroupBox1.Controls.Add(Me.TrackBar_SAPI_Speed)
         Me.GroupBox1.Controls.Add(Me.TextBox_SAPI_Volume)
@@ -310,7 +314,7 @@ Partial Class Form2
         '
         'TrackBar_SAPI_Volume
         '
-        Me.TrackBar_SAPI_Volume.Location = New System.Drawing.Point(130, 398)
+        Me.TrackBar_SAPI_Volume.Location = New System.Drawing.Point(130, 429)
         Me.TrackBar_SAPI_Volume.Maximum = 100
         Me.TrackBar_SAPI_Volume.Name = "TrackBar_SAPI_Volume"
         Me.TrackBar_SAPI_Volume.Size = New System.Drawing.Size(206, 45)
@@ -320,7 +324,7 @@ Partial Class Form2
         '
         'TrackBar_SAPI_Speed
         '
-        Me.TrackBar_SAPI_Speed.Location = New System.Drawing.Point(130, 358)
+        Me.TrackBar_SAPI_Speed.Location = New System.Drawing.Point(130, 389)
         Me.TrackBar_SAPI_Speed.Minimum = -10
         Me.TrackBar_SAPI_Speed.Name = "TrackBar_SAPI_Speed"
         Me.TrackBar_SAPI_Speed.Size = New System.Drawing.Size(206, 45)
@@ -329,7 +333,7 @@ Partial Class Form2
         '
         'TextBox_SAPI_Volume
         '
-        Me.TextBox_SAPI_Volume.Location = New System.Drawing.Point(73, 398)
+        Me.TextBox_SAPI_Volume.Location = New System.Drawing.Point(73, 429)
         Me.TextBox_SAPI_Volume.Name = "TextBox_SAPI_Volume"
         Me.TextBox_SAPI_Volume.ReadOnly = True
         Me.TextBox_SAPI_Volume.Size = New System.Drawing.Size(51, 19)
@@ -337,7 +341,7 @@ Partial Class Form2
         '
         'TextBox_SAPI_Speed
         '
-        Me.TextBox_SAPI_Speed.Location = New System.Drawing.Point(73, 365)
+        Me.TextBox_SAPI_Speed.Location = New System.Drawing.Point(73, 396)
         Me.TextBox_SAPI_Speed.Name = "TextBox_SAPI_Speed"
         Me.TextBox_SAPI_Speed.ReadOnly = True
         Me.TextBox_SAPI_Speed.Size = New System.Drawing.Size(51, 19)
@@ -346,7 +350,7 @@ Partial Class Form2
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(38, 400)
+        Me.Label11.Location = New System.Drawing.Point(38, 431)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(29, 12)
         Me.Label11.TabIndex = 41
@@ -355,7 +359,7 @@ Partial Class Form2
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(38, 368)
+        Me.Label10.Location = New System.Drawing.Point(38, 399)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(29, 12)
         Me.Label10.TabIndex = 40
@@ -365,7 +369,7 @@ Partial Class Form2
         '
         Me.ComboBox_SAPI_Voice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox_SAPI_Voice.FormattingEnabled = True
-        Me.ComboBox_SAPI_Voice.Location = New System.Drawing.Point(73, 332)
+        Me.ComboBox_SAPI_Voice.Location = New System.Drawing.Point(73, 363)
         Me.ComboBox_SAPI_Voice.Name = "ComboBox_SAPI_Voice"
         Me.ComboBox_SAPI_Voice.Size = New System.Drawing.Size(223, 20)
         Me.ComboBox_SAPI_Voice.TabIndex = 39
@@ -373,7 +377,7 @@ Partial Class Form2
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(38, 335)
+        Me.Label9.Location = New System.Drawing.Point(38, 366)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(29, 12)
         Me.Label9.TabIndex = 38
@@ -382,7 +386,7 @@ Partial Class Form2
         'RadioButton_SAPI
         '
         Me.RadioButton_SAPI.AutoSize = True
-        Me.RadioButton_SAPI.Location = New System.Drawing.Point(15, 310)
+        Me.RadioButton_SAPI.Location = New System.Drawing.Point(15, 341)
         Me.RadioButton_SAPI.Name = "RadioButton_SAPI"
         Me.RadioButton_SAPI.Size = New System.Drawing.Size(149, 16)
         Me.RadioButton_SAPI.TabIndex = 37
@@ -393,7 +397,7 @@ Partial Class Form2
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(38, 284)
+        Me.Label8.Location = New System.Drawing.Point(38, 315)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(29, 12)
         Me.Label8.TabIndex = 36
@@ -401,7 +405,7 @@ Partial Class Form2
         '
         'TextBox_g
         '
-        Me.TextBox_g.Location = New System.Drawing.Point(73, 281)
+        Me.TextBox_g.Location = New System.Drawing.Point(73, 312)
         Me.TextBox_g.Name = "TextBox_g"
         Me.TextBox_g.ReadOnly = True
         Me.TextBox_g.Size = New System.Drawing.Size(51, 19)
@@ -409,7 +413,7 @@ Partial Class Form2
         '
         'TrackBar_g
         '
-        Me.TrackBar_g.Location = New System.Drawing.Point(130, 281)
+        Me.TrackBar_g.Location = New System.Drawing.Point(130, 312)
         Me.TrackBar_g.Maximum = 20
         Me.TrackBar_g.Minimum = -20
         Me.TrackBar_g.Name = "TrackBar_g"
@@ -429,7 +433,7 @@ Partial Class Form2
         '
         'TextBox_r
         '
-        Me.TextBox_r.Location = New System.Drawing.Point(73, 252)
+        Me.TextBox_r.Location = New System.Drawing.Point(73, 283)
         Me.TextBox_r.Name = "TextBox_r"
         Me.TextBox_r.ReadOnly = True
         Me.TextBox_r.Size = New System.Drawing.Size(51, 19)
@@ -437,7 +441,7 @@ Partial Class Form2
         '
         'TextBox_jf
         '
-        Me.TextBox_jf.Location = New System.Drawing.Point(73, 219)
+        Me.TextBox_jf.Location = New System.Drawing.Point(73, 250)
         Me.TextBox_jf.Name = "TextBox_jf"
         Me.TextBox_jf.ReadOnly = True
         Me.TextBox_jf.Size = New System.Drawing.Size(51, 19)
@@ -445,7 +449,7 @@ Partial Class Form2
         '
         'TextBox_jm
         '
-        Me.TextBox_jm.Location = New System.Drawing.Point(73, 190)
+        Me.TextBox_jm.Location = New System.Drawing.Point(73, 221)
         Me.TextBox_jm.Name = "TextBox_jm"
         Me.TextBox_jm.ReadOnly = True
         Me.TextBox_jm.Size = New System.Drawing.Size(51, 19)
@@ -453,7 +457,7 @@ Partial Class Form2
         '
         'TextBox_fm
         '
-        Me.TextBox_fm.Location = New System.Drawing.Point(73, 163)
+        Me.TextBox_fm.Location = New System.Drawing.Point(73, 194)
         Me.TextBox_fm.Name = "TextBox_fm"
         Me.TextBox_fm.ReadOnly = True
         Me.TextBox_fm.Size = New System.Drawing.Size(51, 19)
@@ -461,7 +465,7 @@ Partial Class Form2
         '
         'TextBox_a
         '
-        Me.TextBox_a.Location = New System.Drawing.Point(73, 136)
+        Me.TextBox_a.Location = New System.Drawing.Point(73, 167)
         Me.TextBox_a.Name = "TextBox_a"
         Me.TextBox_a.ReadOnly = True
         Me.TextBox_a.Size = New System.Drawing.Size(51, 19)
@@ -470,7 +474,7 @@ Partial Class Form2
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(38, 193)
+        Me.Label7.Location = New System.Drawing.Point(38, 224)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(29, 12)
         Me.Label7.TabIndex = 27
@@ -478,7 +482,7 @@ Partial Class Form2
         '
         'TrackBar_r
         '
-        Me.TrackBar_r.Location = New System.Drawing.Point(130, 252)
+        Me.TrackBar_r.Location = New System.Drawing.Point(130, 283)
         Me.TrackBar_r.Maximum = 40
         Me.TrackBar_r.Minimum = 1
         Me.TrackBar_r.Name = "TrackBar_r"
@@ -489,7 +493,7 @@ Partial Class Form2
         '
         'TrackBar_jf
         '
-        Me.TrackBar_jf.Location = New System.Drawing.Point(130, 219)
+        Me.TrackBar_jf.Location = New System.Drawing.Point(130, 250)
         Me.TrackBar_jf.Maximum = 100
         Me.TrackBar_jf.Name = "TrackBar_jf"
         Me.TrackBar_jf.Size = New System.Drawing.Size(211, 45)
@@ -498,7 +502,7 @@ Partial Class Form2
         '
         'TrackBar_jm
         '
-        Me.TrackBar_jm.Location = New System.Drawing.Point(129, 190)
+        Me.TrackBar_jm.Location = New System.Drawing.Point(129, 221)
         Me.TrackBar_jm.Maximum = 100
         Me.TrackBar_jm.Name = "TrackBar_jm"
         Me.TrackBar_jm.Size = New System.Drawing.Size(211, 45)
@@ -508,7 +512,7 @@ Partial Class Form2
         '
         'TrackBar_fm
         '
-        Me.TrackBar_fm.Location = New System.Drawing.Point(129, 163)
+        Me.TrackBar_fm.Location = New System.Drawing.Point(129, 194)
         Me.TrackBar_fm.Maximum = 240
         Me.TrackBar_fm.Minimum = -240
         Me.TrackBar_fm.Name = "TrackBar_fm"
@@ -519,7 +523,7 @@ Partial Class Form2
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(38, 255)
+        Me.Label6.Location = New System.Drawing.Point(38, 286)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(29, 12)
         Me.Label6.TabIndex = 22
@@ -528,7 +532,7 @@ Partial Class Form2
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(38, 222)
+        Me.Label5.Location = New System.Drawing.Point(38, 253)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(29, 12)
         Me.Label5.TabIndex = 21
@@ -537,7 +541,7 @@ Partial Class Form2
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(38, 166)
+        Me.Label4.Location = New System.Drawing.Point(38, 197)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(25, 12)
         Me.Label4.TabIndex = 20
@@ -546,7 +550,7 @@ Partial Class Form2
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(38, 139)
+        Me.Label3.Location = New System.Drawing.Point(38, 170)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(29, 12)
         Me.Label3.TabIndex = 19
@@ -555,7 +559,7 @@ Partial Class Form2
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(38, 113)
+        Me.Label2.Location = New System.Drawing.Point(38, 144)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(29, 12)
         Me.Label2.TabIndex = 18
@@ -566,14 +570,14 @@ Partial Class Form2
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"mei_angry", "mei_bashful", "mei_happy", "mei_normal", "mei_sad", "nitech_jp_atr503_m001"})
-        Me.ComboBox1.Location = New System.Drawing.Point(82, 110)
+        Me.ComboBox1.Location = New System.Drawing.Point(82, 141)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(210, 20)
         Me.ComboBox1.TabIndex = 17
         '
         'TrackBar_a
         '
-        Me.TrackBar_a.Location = New System.Drawing.Point(130, 136)
+        Me.TrackBar_a.Location = New System.Drawing.Point(130, 167)
         Me.TrackBar_a.Maximum = 100
         Me.TrackBar_a.Name = "TrackBar_a"
         Me.TrackBar_a.Size = New System.Drawing.Size(211, 45)
@@ -690,11 +694,27 @@ Partial Class Form2
         Me.TextBox_sample.TabIndex = 4
         Me.TextBox_sample.Text = "テキスト表示サンプルです。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "あいうえおABCDabc123456"
         '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(38, 92)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(35, 12)
+        Me.Label13.TabIndex = 46
+        Me.Label13.Text = "ポート:"
+        '
+        'TextBox_Port
+        '
+        Me.TextBox_Port.Location = New System.Drawing.Point(82, 86)
+        Me.TextBox_Port.Name = "TextBox_Port"
+        Me.TextBox_Port.Size = New System.Drawing.Size(135, 19)
+        Me.TextBox_Port.TabIndex = 47
+        '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(784, 475)
+        Me.ClientSize = New System.Drawing.Size(784, 482)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -791,4 +811,6 @@ Partial Class Form2
     Friend WithEvents RadioButton_SAPI As RadioButton
     Friend WithEvents ComboBox_Separator As ComboBox
     Friend WithEvents Label12 As Label
+    Friend WithEvents TextBox_Port As TextBox
+    Friend WithEvents Label13 As Label
 End Class

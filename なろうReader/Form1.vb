@@ -576,7 +576,7 @@ Public Class Form1
         Dim iCommand As Int16 = 288
         Dim iResult As Byte = 0
         Dim sHost As String = "127.0.0.1"
-        Dim port As Integer = 50001
+        Dim port As Integer = My.Settings.bouyomiPort
         Dim tc As TcpClient
         Try
             tc = New TcpClient(sHost, port)
