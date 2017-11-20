@@ -53,6 +53,8 @@ Public Class Form1
     Const alphapoliceStr = "アルファポリス"
     Private mframecount As Integer
     Private loadedUrl As String = ""
+    Private Shared WithEvents textTimer As New System.Windows.Forms.Timer()
+
 
     Private Sub SetBrowserFratureControlKey(feature As String, appName As String, value As Integer)
         Dim key = Registry.CurrentUser.CreateSubKey(String.Concat("Software\Microsoft\Internet Explorer\Main\FeatureControl\", feature), RegistryKeyPermissionCheck.ReadWriteSubTree)
@@ -226,6 +228,7 @@ Public Class Form1
 
         stopbouyomi()
         'Try
+        WebBrowser1.Select()
         Dim Doc As HtmlDocument = WebBrowser1.Document
         pageTitle = Doc.Title
         Me.Text = myTitle + " - " + pageTitle
@@ -382,12 +385,7 @@ Public Class Form1
                 subtitle = ""
             End If
             honbun = title + subtitle + maeText + honbun + atoText
-            ' アルファポリス本文中の「しおりを挟む」を削除
-            'If siori Then
-            '    honbun = Replace(honbun, vbCrLf + "しおりを挟む ", vbCrLf, 1, 2)
-            '    honbun = Replace(honbun, vbCrLf + "しおり ", vbCrLf, 1, 2)
-            '    siori = False
-            'End If
+
         Else
             honbun = ""
             NoTalk()
@@ -453,41 +451,48 @@ Public Class Form1
         End If
 
         If done And loadedUrl <> WebBrowser1.Url.ToString Then
+            WebBrowser1.Select()
+            textTimer.Interval = 1000
+            textTimer.Start()
 
-
-            'Thread.Yield()
-            Debug.WriteLine("------Parce HTML-----")
-            If oldUrl.Length > 0 Then
-                If hIndex = 0 Then
-                    If bList.Count > 0 Then
-                        Dim bItem As Array = bList.Item(bList.Count - 1)
-                        If bItem(0) = oldUrl Then
-                            bList.RemoveAt(bList.Count - 1)
-                        End If
-
-                        fList.Clear()
-                    End If
-                    bList.Add({oldUrl, oldTitle})
-                End If
-                hIndex = 0
-            End If
-            curURL = WebBrowser1.Url.ToString
-            curTitle = WebBrowser1.DocumentTitle
-            oldUrl = curURL
-            oldTitle = curTitle
-            If curURL.IndexOf(narouURL) >= 0 Then
-                selectHome(narouStr)
-            ElseIf curURL.IndexOf(kakuyomuURL) >= 0 Then
-                selectHome(kakuyomuStr)
-            ElseIf curURL.IndexOf(alphapoliceURL) >= 0 Then
-                selectHome(alphapoliceStr)
-            End If
-
-            loadPlainText()
-            loadedUrl = WebBrowser1.Url.ToString
         End If
         ProgressBar1.Hide()
         EnableButton(Button_reload)
+        WebBrowser1.Select()
+    End Sub
+    Private Shared Sub readTextTimer(myObject As Object, ByVal myEventArgs As EventArgs) Handles textTimer.Tick
+        textTimer.Stop()
+        Debug.WriteLine("------Parce HTML-----")
+        If Form1.oldUrl.Length > 0 Then
+            If Form1.hIndex = 0 Then
+                If Form1.bList.Count > 0 Then
+                    Dim bItem As Array = Form1.bList.Item(Form1.bList.Count - 1)
+                    If bItem(0) = Form1.oldUrl Then
+                        Form1.bList.RemoveAt(Form1.bList.Count - 1)
+                    End If
+
+                    Form1.fList.Clear()
+                End If
+                Form1.bList.Add({Form1.oldUrl, Form1.oldTitle})
+            End If
+            Form1.hIndex = 0
+        End If
+        Form1.curURL = Form1.WebBrowser1.Url.ToString
+        Form1.curTitle = Form1.WebBrowser1.DocumentTitle
+        Form1.oldUrl = Form1.curURL
+        Form1.oldTitle = Form1.curTitle
+        If Form1.curURL.IndexOf(narouURL) >= 0 Then
+            Form1.selectHome(narouStr)
+        ElseIf Form1.curURL.IndexOf(kakuyomuURL) >= 0 Then
+            Form1.selectHome(kakuyomuStr)
+        ElseIf Form1.curURL.IndexOf(alphapoliceURL) >= 0 Then
+            Form1.selectHome(alphapoliceStr)
+        End If
+
+        Form1.loadPlainText()
+        Form1.loadedUrl = Form1.WebBrowser1.Url.ToString
+        Form1.ProgressBar1.Hide()
+        Form1.EnableButton(Form1.Button_reload)
     End Sub
     Public Sub jtalk(text As String, opt As String)
         Dim ps1 As New Diagnostics.ProcessStartInfo
@@ -555,7 +560,7 @@ Public Class Form1
         Dim iCommand As Int16 = 64
 
         Dim sHost As String = "127.0.0.1"
-        Dim port As Integer = 50001
+        Dim port As Integer = My.Settings.bouyomiPort
         Dim tc As TcpClient
         Try
             tc = New TcpClient(sHost, port)
@@ -894,7 +899,7 @@ Public Class Form1
         Dim iVoice As Int16 = 0
         Dim bCode As Byte = 0
         Dim sHost As String = "127.0.0.1"
-        Dim port As Integer = 50001
+        Dim port As Integer = My.Settings.bouyomiPort
         Dim tc As TcpClient
 
         Try
