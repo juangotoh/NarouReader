@@ -306,7 +306,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:v4.5"
+                "FrameworkVersion" = "8:v4.5 "
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=395269"
                 }
@@ -601,11 +601,6 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_98A253A823C682C548D67332E4DF8C67"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -1022,15 +1017,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:なろうReader"
-        "ProductCode" = "8:{54898669-A909-47FA-A793-A520A8C51C94}"
-        "PackageCode" = "8:{848E965F-15DA-4AA8-B4FD-0392B62DB584}"
+        "ProductCode" = "8:{23C0F875-D377-4735-A68F-ABC0D7C044C8}"
+        "PackageCode" = "8:{5E28B8E5-428C-4AC2-9208-3F9637B710B5}"
         "UpgradeCode" = "8:{405D40A6-347C-41DA-AAD9-AEB043F54CB8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.1.16"
         "Manufacturer" = "8:JuanGotoh"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

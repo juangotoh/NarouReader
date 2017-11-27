@@ -449,7 +449,7 @@ Public Class Form1
         Else
 
         End If
-
+        WebBrowser1.Select()
         If done And loadedUrl <> WebBrowser1.Url.ToString Then
             WebBrowser1.Select()
             textTimer.Interval = 1000
@@ -462,6 +462,7 @@ Public Class Form1
     End Sub
     Private Shared Sub readTextTimer(myObject As Object, ByVal myEventArgs As EventArgs) Handles textTimer.Tick
         textTimer.Stop()
+        Form1.WebBrowser1.Select()
         Debug.WriteLine("------Parce HTML-----")
         If Form1.oldUrl.Length > 0 Then
             If Form1.hIndex = 0 Then
@@ -607,6 +608,7 @@ Public Class Form1
         tThread.Abort()
     End Sub
     Private Sub playStopButton_Click(sender As Object, e As EventArgs) Handles playStopButton.Click
+        WebBrowser1.Select()
         If playStopButton.ImageIndex = 0 Then
             start = TextBox1.SelectionStart
             reading = True
@@ -755,7 +757,14 @@ Public Class Form1
         Debug.WriteLine("Result=" + start.ToString)
         Return start
     End Function
-
+    Delegate Sub ClearTextDelegate()
+    Sub ClearText()
+        If InvokeRequired Then
+            Invoke(New ClearTextDelegate(AddressOf ClearText))
+            Return
+        End If
+        TextBox1.Text = ""
+    End Sub
     Private Sub Talk()
         ' テキスト読み上げ処理：Threadで実行される
         Dim lStart As Integer = start
@@ -842,6 +851,7 @@ Public Class Form1
                     DoSelect(textLength, 0)
                     Dim nexturl As String = nextStory
                     If nextStory.Length > 0 And My.Settings.autoNext Then
+                        ClearText()
                         loadURL(nextStory)
                         start = 0
                         length = 0
@@ -1011,6 +1021,7 @@ Public Class Form1
     End Sub
 
     Private Sub WebBrowser1_Navigating(sender As Object, e As WebBrowserNavigatingEventArgs) Handles WebBrowser1.Navigating
+        WebBrowser1.Select()
         If e.Url.ToString.Contains("about:blank") Then
             'WebBrowser1.Stop()
             'WebBrowser1.AllowNavigation = False
@@ -1029,10 +1040,12 @@ Public Class Form1
         Button_reload.Enabled = True
         multiLoad = 0
         Debug.WriteLine("Navigated:" + e.Url.ToString)
+        WebBrowser1.Select()
     End Sub
 
     Private Sub Button_Back_Click(sender As Object, e As EventArgs) Handles Button_Back.Click
         Dim num As Integer = bList.Count - 1
+        WebBrowser1.Select()
         If num >= 0 Then
             Dim item As Array = bList.Item(num)
             Dim curItem As Array = {oldUrl, oldTitle}
@@ -1046,6 +1059,7 @@ Public Class Form1
 
     Private Sub Button_Forward_Click(sender As Object, e As EventArgs) Handles Button_Forward.Click
         Dim num As Integer = fList.Count - 1
+        WebBrowser1.Select()
         If num >= 0 Then
             Dim item As Array = fList.Item(num)
             Dim curItem As Array = {oldUrl, oldTitle}
