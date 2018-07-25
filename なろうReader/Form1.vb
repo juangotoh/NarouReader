@@ -19,9 +19,9 @@ Public Class Form1
     Dim nextStory As String = ""
     Dim startpage As String = ""
     Dim karagyou As String = vbCrLf + vbCrLf
-    Dim start As Int32
-    Dim length As Int32
-    Dim oldStart As Int32
+    Dim start As Int32 = 0
+    Dim length As Int32 = 0
+    Dim oldStart As Int32 = 0
     Dim bouyomiError As Boolean = False
     Dim homeUrl As String = "http://syosetu.com/"
     Dim myDialogOK As Boolean = False
@@ -795,11 +795,14 @@ Public Class Form1
                 End If
                 llength = lineend - lStart + 1
                 If llength >= 0 Then
-                    Try
-                        src = src.Substring(lStart, llength)
-                    Catch
-                        src = src.Substring(lStart, 0)
-                    End Try
+                    If textLength >= lStart Then
+                        Try
+                            src = src.Substring(lStart, llength)
+                        Catch
+                            src = src.Substring(lStart, 0)
+                        End Try
+                    End If
+
                 End If
                 src = src.Trim
                 DoSelect(lStart, llength)
@@ -931,7 +934,8 @@ Public Class Form1
                 MessageBox.Show("棒読みちゃんが起動していないため、読み上げ機能が使えません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 bouyomicheck()
                 StopTalk()
-
+            Else
+                bouyomi(str)
             End If
 
         End Try
